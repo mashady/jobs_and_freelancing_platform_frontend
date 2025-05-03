@@ -1,8 +1,18 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import JobList from './components/JobList.vue'
+import JobDetails from './components/JobDetails.vue'
+
+const selectedJob = ref(null)
 </script>
 
 <template>
+
+<div>
+    <JobList v-if="!selectedJob" @view-job="selectedJob = $event" />
+    <JobDetails v-else :job="selectedJob" @back="selectedJob = null" />
+  </div>
+
   <div>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
