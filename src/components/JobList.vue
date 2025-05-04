@@ -8,6 +8,8 @@
         </button>
       </li>
     </ul>
+    <!-- Add the new button to navigate to FreelancerProfile.vue -->
+    <button @click="goToFreelancerProfile">Go to Freelancer Profile</button>
   </div>
 </template>
 
@@ -33,4 +35,9 @@ const jobs = [
     ],
   }
 ]
+
+const goToFreelancerProfile = () => {
+  // Navigate to the FreelancerProfile.vue page
+  window.location.href = '/FreelancerProfile'; // Update with the correct path
+}
 </script>
