@@ -1,14 +1,13 @@
 <template>
-    <div class="home">
-      <h1>Welcome to freelancer dashboard Vue.js App</h1>
-    </div>
-  </template>
-    
-    <script>
+<div class="home">
+  <dashboard/>
+</div>
+</template>
 
-    </script>
-    
-    <style scoped>
-   
-    </style>
-    
+<script setup>
+  import dashboard from '../../components/freelancer/dashboard.vue';
+</script>
+
+<style scoped>
+
+</style>
