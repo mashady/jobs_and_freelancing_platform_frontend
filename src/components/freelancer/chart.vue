@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 400px; height: 100px; background-color: white">
+    <div class="p-2 rounded-2" style="background-color: white">
       <Line
         id="chartId"
         :options="chartOptions"

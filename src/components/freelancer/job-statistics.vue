@@ -1,7 +1,7 @@
 <template>
     <div class="row gap-5">
         <!-- Posted Services Card -->
-        <div class="card p-2" style="width: 18rem;">
+        <div class="card p-2" style="width: 16rem;">
           <div class="card-body text-start">
             <div class="service-card">
               <div class="card-content">
@@ -14,7 +14,7 @@
             </div>
           </div>
         </div>
-        <div class="card p-2" style="width: 18rem;">
+        <div class="card p-2" style="width: 16rem;">
           <div class="card-body text-start">
             <div class="service-card">
               <div class="card-content">
@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div class="card p-2" style="width: 18rem;">
+        <div class="card p-2" style="width: 16rem;">
           <div class="card-body text-start">
             <div class="service-card">
               <div class="card-content">
@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <div class="card col-lg-2 p-2" style="width: 18rem;">
+        <div class="card col-lg-2 p-2" style="width: 16rem;">
           <div class="card-body text-start">
             <div class="service-card">
               <div class="card-content">
