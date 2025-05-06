@@ -4,10 +4,14 @@ import Navbar from '@/shared/Navbar.vue';
 </script>
 
 <template>
-  <Navbar />
-  <RouterView />
+  <div>
+    <Navbar />
+    <RouterView />
+
+  </div>
 </template>
 
 <style scoped>
 
 </style>
+
