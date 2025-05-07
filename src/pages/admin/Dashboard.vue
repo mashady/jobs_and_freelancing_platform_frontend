@@ -1,14 +1,14 @@
 <template>
-    <div class="home">
-      <h1 class="">Welcome to admin dash Vue.js App</h1>
-    </div>
-  </template>
+  <div class="home">
     
-    <script>
+  </div>
+</template>
+  
+<script setup>
+  
+</script>
 
-    </script>
-    
-    <style scoped>
-   
-    </style>
-    
+<style scoped>
+
+</style>
+  

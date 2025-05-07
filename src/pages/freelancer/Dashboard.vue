@@ -1,11 +1,12 @@
 <template>
 <div class="home">
-  <dashboard/>
+  <freelancerDashboard/>
 </div>
 </template>
 
 <script setup>
-  import dashboard from '../../components/freelancer/dashboard.vue';
+  import freelancerDashboard from "../../components/freelancer/freelancer-dashboard.vue";
+
 </script>
 
 <style scoped>
