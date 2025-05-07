@@ -45,7 +45,7 @@
                   <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                   <input 
                     type="email" 
-                    class="form-control bg-light" 
+                    class="form-control" 
                     id="email" 
                     v-model="email" 
                     placeholder="Email" 
@@ -58,7 +58,7 @@
                   <div class="input-group">
                     <input 
                       :type="showPassword ? 'text' : 'password'" 
-                      class="form-control bg-light" 
+                      class="form-control" 
                       id="password" 
                       v-model="password" 
                       placeholder="Password" 
