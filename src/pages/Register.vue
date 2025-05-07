@@ -122,6 +122,7 @@
   <script setup>
   import { ref, computed } from 'vue'
   
+  
   const userType = ref('freelancer')
   const email = ref('')
   const password = ref('')
