@@ -5,6 +5,7 @@ import Home from '../pages/Home.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
+  { path: '/register', name: 'Register', component: () => import('@/pages/Register.vue') },
   {
     path: '/admin',
     component: DashboardLayout,
