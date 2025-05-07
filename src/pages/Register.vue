@@ -122,7 +122,7 @@
   <script setup>
   import { ref, computed } from 'vue'
   
-  // Form data
+  
   const userType = ref('freelancer')
   const email = ref('')
   const password = ref('')
