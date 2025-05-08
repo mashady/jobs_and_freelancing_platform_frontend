@@ -1,11 +1,11 @@
 <template>
     <div class="home">
-      <h1>Welcome to freelancer proposals Vue.js App</h1>
+      <proposal/>
     </div>
   </template>
     
-    <script>
-
+    <script setup>
+      import Proposal from '../../components/freelancer/proposal.vue';
     </script>
     
     <style scoped>
