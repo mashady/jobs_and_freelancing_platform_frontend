@@ -1,62 +1,71 @@
 <template>
-  <div class="container my-5">
-      <h1 class="mb-4">My Proposals</h1>
-      
-      <div class="row mb-4 align-items-center">
-          <div class="col-md-6">
-              <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search..." v-model="searchQuery">
-                  <button class="btn btn-outline-secondary" @click="searchProposals">
-                      <i class="bi bi-search"></i>
-                  </button>
-              </div>
-          </div>
-          <div class="col-md-6 text-end">
-              <label class="me-2">Sort by:</label>
-              <select class="form-select d-inline w-auto" v-model="sortOption">
-                  <option value="default">Default</option>
-                  <option value="newest">Newest</option>
-                  <option value="oldest">Oldest</option>              
-              </select>
-          </div>
-      </div>
-      
-      <div class="row fw-bold border-bottom py-2">
-          <div class="col-6">Title</div>
-          <div class="col-2">Cost/Time</div>
-          <div class="col-2">Status</div>
-          <div class="col-2">Actions</div>
-      </div>
-      
-      <div v-for="proposal in filteredProposals" :key="proposal.id" class="row py-3 border-bottom align-items-center">
-            <div class="col-6">
-                <h5 class="mb-1">{{ proposal.title }}</h5>
-                <small class="text-muted">
-                    <i class="bi bi-geo-alt me-1"></i>{{ proposal.location }} &nbsp;
-                    <i class="bi bi-calendar-event me-1"></i>{{ proposal.date }}
-                </small>
+    <div class="container my-5">
+        <h1 class="mb-4">My Proposals</h1>
+        
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search..." v-model="searchQuery">
+                    <button class="btn btn-outline-secondary" @click="searchProposals">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col-2">
-                <span>{{ proposal.cost.split(' in ')[0] }}</span><br>
-                <small class="text-muted">in {{ proposal.cost.split(' in ')[1] }}</small>
-            </div>
-            <div class="col-2">
-                <span :class="['badge', proposal.status.toLowerCase()]">{{ proposal.status }}</span>
-            </div>
-            <div class="col-2 text-end">
-                <button class="btn btn-light me-2">
-                    <i class="bi bi-envelope"></i>
-                </button>
-                <button class="btn btn-light me-2">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-light">
-                    <i class="bi bi-trash"></i>
-                </button>
+            <div class="col-md-6 text-end">
+                <label class="me-2">Sort by:</label>
+                <select class="form-select d-inline w-auto" v-model="sortOption">
+                    <option value="default">Default</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>              
+                </select>
             </div>
         </div>
-  </div>
-</template>
+        
+        <div class="row fw-bold border-bottom py-2">
+            <div class="col-6">Title</div>
+            <div class="col-2">Cost/Time</div>
+            <div class="col-2">Status</div>
+            <div class="col-2">Actions</div>
+        </div>
+        
+        <div v-for="proposal in filteredProposals" :key="proposal.id" class="border-bottom py-3">
+            <div class="d-flex align-items-center mb-2">
+            <img src="/img/upwork-logo.png" alt="Upwork Logo" class="me-3" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;">
+            <h5 class="mb-0">Upwork</h5>
+        </div>
+
+          <div class="row align-items-center">
+            <div class="col-6">
+              <p class="mb-1">{{ proposal.title }}</p>
+              <p class="text-muted mb-0 small">
+                <i class="bi bi-geo-alt me-1"></i>{{ proposal.location }}   
+                <i class="bi bi-calendar me-1"></i>{{ proposal.date }}
+              </p>
+            </div>
+            <div class="col-2">
+              <div class="fw-bold">{{ proposal.cost.split(' in ')[0] }}</div>
+              <small class="text-muted">in {{ proposal.cost.split(' in ')[1] }}</small>
+            </div>
+            <div class="col-2">
+              <span :class="['badge', proposal.status.toLowerCase()]">{{ proposal.status }}</span>
+            </div>
+            <div class="col-2">
+              <div class="d-flex">
+                <button class="btn btn-outline-primary btn-sm me-2">
+                  <i class="bi bi-envelope"></i>
+                </button>
+                <button class="btn btn-outline-success btn-sm me-2">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </template>
 
 <script>
 export default {
