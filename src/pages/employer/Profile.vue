@@ -1,14 +1,14 @@
 <template>
     <div class="home">
-      <h1>Welcome to employeer profile Vue.js App</h1>
-    </div>
-  </template>
-    
-    <script>
+    <freelancerProfile/>
+  </div>
+</template>
+  
+<script setup> 
+  import freelancerProfile from '../../components/freelancer/profile/freelancer-profile.vue';
+</script>
 
-    </script>
-    
-    <style scoped>
-   
-    </style>
+<style scoped>
+
+</style>
     

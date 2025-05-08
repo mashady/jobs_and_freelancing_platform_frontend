@@ -1,14 +1,14 @@
 <template>
-    <div class="home">
-      <h1>Welcome to employeer Vue.js App</h1>
-    </div>
-  </template>
-    
-    <script>
- 
-    </script>
-    
-    <style scoped>
-   
-    </style>
-    
+  <div class="home">
+    <employerDashboard/>
+  </div>
+</template>
+  
+<script setup>
+  import employerDashboard from '../../components/employer/employer-dashboard.vue';
+</script>
+
+<style scoped>
+
+</style>
+  
