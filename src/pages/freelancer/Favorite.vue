@@ -1,11 +1,11 @@
 <template>
     <div class="home">
-      <h1>Welcome to freelancer fav Vue.js App</h1>
+      <favorite/>
     </div>
   </template>
     
-    <script>
-
+    <script setup>
+      import Favorite from '../../components/freelancer/favorite.vue';
     </script>
     
     <style scoped>
