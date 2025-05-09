@@ -49,7 +49,7 @@
                     id="email" 
                     v-model="email" 
                     placeholder="Email" 
-                    required
+                    
                   >
                 </div>
                 
@@ -62,7 +62,7 @@
                       id="password" 
                       v-model="password" 
                       placeholder="Password" 
-                      required
+                      
                     >
                     <button 
                       class="btn bg-light border-0" 
@@ -83,7 +83,7 @@
                       id="confirmPassword" 
                       v-model="confirmPassword" 
                       placeholder="Confirm Password" 
-                      required
+                      
                     >
                     <button 
                       class="btn bg-white border" 
