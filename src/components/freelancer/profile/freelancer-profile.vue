@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-4">
+  <div class="container px-4 mb-3">
     <myProfile/>
     <media/>
     <education/>
@@ -18,8 +18,6 @@
   * {
     font-family: sans-serif;
   }
-  body{
-    background-color: aqua;
-  }
+
 
 </style>
