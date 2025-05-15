@@ -4,9 +4,9 @@
         <hr>
         <div class="row">
             <div class="col-7">
-                <p class="mb-4">Resume Attachment</p>
+                <p class="mb-4">Additional Attachment</p>
                 <div class="mb-4">
-                    <label for="resume" id="resume-label" class="btn">Resume</label>
+                    <label for="resume" id="resume-label" class="btn">Upload</label>
                     <input type="file" name="resume" id="resume" class="form-control d-none" multiple @change="handleResumeUpload">
                     <p class="text-muted text-sm my-2">Upload file .pdf, .doc, .docx</p>
                 </div>
@@ -27,12 +27,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div class="my-3">
-                    <label for="introVidUrl" class="form-label">Introduction Video URL</label>
-                    <input type="text" name="introVid" id="introVidUrl" class="form-control">
                 </div>
             </div>
         </div>
