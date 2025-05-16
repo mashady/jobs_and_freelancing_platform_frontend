@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardLayout from '@/components/Layout/DashboardLayout.vue'
+import { useAuthStore } from '@/stores/authStore'
+
 
 
 const routes = [
@@ -49,5 +51,15 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login')
+  } else if (to.meta.guestOnly && authStore.isAuthenticated) {
+    next('/freelancer')
+  } else {
+    next()
+  }
+})
 export default router
