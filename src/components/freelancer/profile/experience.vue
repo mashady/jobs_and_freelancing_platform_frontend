@@ -1,57 +1,57 @@
 <template>
     <div class="bg-white rounded rounded-2 p-4 mb-4">
-        <!-- Education Sections Row -->
+        <!-- Experience Sections Row -->
         <div class="row g-3">
-            <p class="mb-0">Education</p>
+            <p class="mb-0">Experience</p>
             <hr>
-            <div class="accordion" id="educationAccordion">
+            <div class="accordion" id="experienceAccordion">
                 <div class="accordion-item col-12" 
-                    v-for="(edu, index) in education" 
-                    :key="edu.id"
+                    v-for="(exp, index) in experience" 
+                    :key="exp.id"
                 >
                     <h2 class="accordion-header">
                         <button 
                             class="accordion-button" 
                             type="button" 
-                            :data-bs-target="'#collapse-' + edu.id"
+                            :data-bs-target="'#collapse-' + exp.id"
                             aria-expanded="true" 
-                            :aria-controls="'collapse-' + edu.id"
-                            @click="toggleAccordion(edu.id)"
+                            :aria-controls="'collapse-' + exp.id"
+                            @click="toggleAccordion(exp.id)"
                         >
                         <button 
                             type="button" 
                             class="text-danger btn btn-sm me-3"
                             
-                            @click="removeEducation(index)"
+                            @click="removeExperience(index)"
                         >
                             x
                         </button>
-                            {{ edu.institution || 'New Education' }} - {{ edu.degree || 'No degree specified' }}
+                            {{ exp.company || 'New Experience' }} - {{ exp.title || 'No degree specified' }}
                         </button>
                     </h2>
                     <div 
-                        :id="'collapse-' + edu.id" 
+                        :id="'collapse-' + exp.id" 
                         class="accordion-collapse collapse"
-                        :class="{ show: edu.isEditing }"
-                        :data-bs-parent="'#educationAccordion'"
+                        :class="{ show: exp.isEditing }"
+                        :data-bs-parent="'#experienceAccordion'"
                     >
                         <div class="accordion-body">
-                            <form @submit.prevent="saveEducation(index)">
+                            <form @submit.prevent="saveExperience(index)">
                                 <div class="mb-3">
-                                    <label class="form-label">Degree</label>
+                                    <label class="form-label">Title</label>
                                     <input 
                                         type="text" 
                                         class="form-control" 
-                                        v-model="edu.degree"
+                                        v-model="exp.title"
                                         required
                                     >
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Institution</label>
+                                    <label class="form-label">Company</label>
                                     <input 
                                         type="text" 
                                         class="form-control" 
-                                        v-model="edu.institution"
+                                        v-model="exp.company"
                                         required
                                     >
                                 </div>
@@ -61,7 +61,7 @@
                                         <input 
                                             type="month" 
                                             class="form-control" 
-                                            v-model="edu.start_date"
+                                            v-model="exp.start_date"
                                         >
                                     </div>
                                     <div class="col-md-6">
@@ -69,7 +69,16 @@
                                         <input 
                                             type="month" 
                                             class="form-control" 
-                                            v-model="edu.end_date"
+                                            v-model="exp.end_date"
+                                        >
+                                    </div>
+                                    <div class="mb-3">
+                                    <label class="form-label">Description</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            v-model="exp.description"
+                                            required
                                         >
                                     </div>
                                 </div>
@@ -78,7 +87,7 @@
                                          
                                         type="button" 
                                         class="btn btn-danger btn-sm redBtn"
-                                        @click="removeEducation(index)"
+                                        @click="removeExperience(index)"
                                     >
                                         Remove
                                     </button>
@@ -97,10 +106,10 @@
         <div class="row mt-3">
             <div class="col-12">
                 <button 
-                    @click="addEducation" 
+                    @click="addExperience" 
                     class="btn btn-success btn-sm greenbtn"
                 >
-                    <i class="bi bi-plus-circle"></i> Add Education
+                    <i class="bi bi-plus-circle"></i> Add Experience
                 </button>
             </div>
         </div>
@@ -110,35 +119,36 @@
 <script setup>
 import { ref } from 'vue';
 
-const education = ref([]);
+const experience = ref([]);
 
-const addEducation = () => {
+const addExperience = () => {
     const newId = Date.now();
-    education.value.push({
+    experience.value.push({
         id: newId,
-        degree: '',
-        institution: '',
+        title: '',
+        company: '',
         start_date: new Date().toISOString().slice(0, 7),
         end_date: '',
+        description:'',
         isEditing: true
     });
 };
 
 const toggleAccordion = (id) => {
-    education.value = education.value.map(edu => {
-        if (edu.id === id) {
-            return { ...edu, isEditing: !edu.isEditing };
+    experience.value = experience.value.map(exp => {
+        if (exp.id === id) {
+            return { ...exp, isEditing: !exp.isEditing };
         }
-        return { ...edu, isEditing: false };
+        return { ...exp, isEditing: false };
     });
 };
 
-const saveEducation = (index) => {
-    education.value[index].isEditing = false;
+const saveExperience = (index) => {
+    experience.value[index].isEditing = false;
 };
 
-const removeEducation = (index) => {
-    education.value.splice(index, 1);
+const removeExperience = (index) => {
+    experience.value.splice(index, 1);
 };
 </script>
 
