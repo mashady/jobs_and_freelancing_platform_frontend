@@ -246,7 +246,13 @@ const handleRegister = async () => {
     const { success, error } = await authStore.register(formData);
 
     if (success) {
-      router.push(userType.value === 'freelancer' ? '/freelancer/dashboard' : '/employer/dashboard');
+      if (userType.value === 'admin') {
+        router.push('/admin');
+      } else if (userType.value === 'freelancer') {
+        router.push('/freelancer');
+      } else {
+        router.push('/employer');
+      }
     } else {
       serverError.value = error || 'Registration failed';
     }
@@ -260,7 +266,7 @@ const handleRegister = async () => {
 
 <style scoped>
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: var(--talent-section) !important;
 }
 
 .card {

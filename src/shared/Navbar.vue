@@ -50,17 +50,17 @@
 
             <template v-if="isLoggedIn">
               <div class="user-profile d-flex align-items-center">
-                <div class="notification-badge me-3 position-relative">
+                <!-- <div class="notification-badge me-3 position-relative">
                   <i class="bi bi-bell" :class="textColorClass" style="font-size: 1.3rem; cursor: pointer;"></i>
                   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     3
                   </span>
-                </div>
+                </div> -->
 
                 <div class="position-relative" ref="userDropdownRef">
                   <div class="d-flex align-items-center cursor-pointer" @click="toggleUserDropdown">
-                    <img :src="userData?.profile_image || profileImage" alt="Profile" class="rounded-circle me-2"
-                      width="40" height="40" />
+                    <img :src="'http://localhost:8000/storage/' + userData?.profile_image || profileImage" alt="Profile"
+                      class="rounded-circle me-2" width="40" height="40" />
                     <div class="user-info" :class="textColorClass">
                       <div style="font-size: 0.9rem; font-weight: 500;">{{ userData?.name || 'User' }}</div>
                       <div style="font-size: 0.75rem;">{{ userData?.role || 'Member' }}</div>
@@ -173,13 +173,42 @@ const userDropdownRef = ref(null)
 const isLoggedIn = ref(false)
 const userData = ref(null)
 
-const menuItems = [
-  { icon: "bi-speedometer2", text: "Dashboard", path: "/dashboard" },
-  { icon: "bi-file-earmark-text", text: "Proposals", path: "/proposals" },
-  { icon: "bi-briefcase-fill", text: "Jobs Applied", path: "/jobs" },
-  { icon: "bi-heart", text: "Favorite", path: "/favorites" },
-  { icon: "bi-chat-left-text", text: "Messages", path: "/messages" },
-]
+const menuItems = computed(() => {
+  if (!userData.value || !userData.value.role) return []
+  switch (userData.value.role) {
+    case 'admin':
+      return [
+        { icon: "bi-speedometer2", text: "Admin Dashboard", path: "/admin" },
+        { icon: "bi-people", text: "Manage Users", path: "/admin/users" },
+        { icon: "bi-briefcase-fill", text: "Manage Jobs", path: "/admin/jobs" },
+        { icon: "bi-gear", text: "Settings", path: "/admin/settings" },
+      ]
+    case 'freelancer':
+      return [
+        { icon: "bi-speedometer2", text: "Profile", path: "/profile/freelancer" },
+        { icon: "bi-speedometer2", text: "Dashboard", path: "/freelancer" },
+        { icon: "bi-file-earmark-text", text: "Proposals", path: "/freelancer/proposals" },
+        { icon: "bi-briefcase-fill", text: "My Jobs", path: "/freelancer/jobs" },
+        { icon: "bi-heart", text: "Favorite", path: "/freelancer/favorites" },
+        { icon: "bi-chat-left-text", text: "Messages", path: "/freelancer/messages" },
+      ]
+    case 'employer':
+      return [
+        { icon: "bi-speedometer2", text: "Profile", path: "/profile/employer" },
+        { icon: "bi-speedometer2", text: "Dashboard", path: "/employer" },
+        { icon: "bi-plus-circle", text: "Post Job", path: "/employer/post-job" },
+        { icon: "bi-briefcase-fill", text: "My Jobs", path: "/employer/jobs" },
+      ]
+    default:
+      return [
+        { icon: "bi-speedometer2", text: "Dashboard", path: "/dashboard" },
+        { icon: "bi-file-earmark-text", text: "Proposals", path: "/proposals" },
+        { icon: "bi-briefcase-fill", text: "Jobs Applied", path: "/jobs" },
+        { icon: "bi-heart", text: "Favorite", path: "/favorites" },
+        { icon: "bi-chat-left-text", text: "Messages", path: "/messages" },
+      ]
+  }
+})
 
 const checkAuthStatus = () => {
   const token = localStorage.getItem('authToken')
@@ -328,12 +357,17 @@ onUnmounted(() => {
   box-shadow: none;
 }
 
+.dark-navbar {
+  background-color: #1A1A1A;
+  /* #222 */
+}
+
 .navbar-white {
   background-color: white !important;
 }
 
 .navbar-black {
-  background-color: black !important;
+  background-color: #222 !important;
 }
 
 .text-white {

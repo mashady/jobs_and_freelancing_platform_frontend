@@ -125,7 +125,7 @@ const handleLogin = async () => {
 
 <style scoped>
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: var(--talent-section) !important;
 }
 
 .card {

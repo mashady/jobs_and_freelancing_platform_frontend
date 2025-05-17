@@ -9,6 +9,8 @@ const routes = [
   { path: '/register', name: 'Register', component: () => import('@/pages/Register.vue') },
   { path: '/login', name: 'Login', component: () => import('@/pages/Login.vue') },
   { path: '/job-details', name: 'Job Details', component: () => import('@/pages/JobDetails.vue') },
+  { path: '/profile/freelancer', name: 'Freelancer Profile', component: () => import('@/pages/profiles/freelancer.vue') },
+  { path: '/profile/employer', name: 'Employer Profile', component: () => import('@/pages/profiles/employer.vue') },
   {
     path: '/admin',
     component: DashboardLayout,
