@@ -88,7 +88,7 @@ export const useAuthStore = defineStore('auth', () => {
   const getToken = computed(() => token.value)
   const isAuth = computed(() => isAuthenticated.value)
 
-  /* const setupAxiosInterceptors = (axiosInstance) => {
+/*   const setupAxiosInterceptors = (axiosInstance) => {
   axiosInstance.interceptors.request.use(config => {
     if (token.value) {
       config.headers.Authorization = `Bearer ${token.value}`
