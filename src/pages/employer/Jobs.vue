@@ -1,10 +1,11 @@
 <template>
     <div class="home">
-      <h1>Welcome to employeer jobs Vue.js App</h1>
+        <jobs />
     </div>
   </template>
     
     <script>
+        import Jobs from '../components/Jobs.vue';
 
     </script>
     
