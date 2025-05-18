@@ -37,30 +37,12 @@
           </div>
 
           <div class="mb-4">
-            <label for="birthDate" class="form-label">Birth Date</label>
-            <input class="form-control" type="date" name="birthDate" id="birthDate">
-          </div>
-
-          <div class="mb-4">
-            <label for="minRate" class="form-label">Minimum per hour rate </label>
-            <input class="form-control" type="text" name="minRate" id="minRate">
-          </div>
-
-          <div class="mb-4">
             <label for="category">Category</label>
             <select class="form-select" id="category" name="category" aria-label="Default select example">
               <option selected>Open this select menu</option>
               <option value="{{ category.id }}" v-for="category in categories" :key="category.id" >{{category.name}}</option>
             </select>
 
-          </div>
-
-          <div class="mb-4">
-            <label for="category">Type</label>
-            <select class="form-select" id="freelancerType" name="freelancerType" aria-label="Default select example">
-              <option selected disabled>Select Type</option>
-              <option value="{{ freelancerType }}" v-for="freelancerType in freelancerTypes" :key="index" >{{freelancerType}}</option>
-            </select>
           </div>
         </div>
 
@@ -75,48 +57,29 @@
             <label for="email" class="form-label">Email</label>
             <input class="form-control" type="text" name="email" id="email">
           </div>
-
+          
           <div class="mb-4">
-            <label for="gender" class="form-label">Gender</label>
-            <input class="form-control" type="text" name="gender" id="gender">
+            <label for="email" class="form-label">Employees</label>
+            <input class="form-control" type="text" name="employees" id="employees">
+          </div>
+          
+          <div class="mb-4">
+            <label for="foundedAt" class="form-label">Founded At</label>
+            <input class="form-control" type="date" name="foundedAt" id="foundedAt">
           </div>
 
-          <div class="mb-4">
-            <label for="jobTitle" class="form-label">Job Title</label>
-            <input class="form-control" type="text" name="jobTitle" id="jobTitle">
-          </div>
-
-          <div class="mb-4">
-            <label for="name" class="form-label">Maximum per hour rate</label>
-            <input class="form-control" type="text" name="maxRate" id="maxRate">
-          </div>
-
-          <div class="mb-4">
-            <label for="level">English Level</label>
-            <select class="form-select" id="level" name="level" aria-label="Default select example">
-              <option selected>Open this select menu</option>
-              <option value="{{ level.id }}" v-for="level in englishLevels" :key="level.id" >{{level.name}}</option>
-            </select>
-
-          </div>
         </div>
         <div class="form-floating">
           <textarea class="form-control" name="description" placeholder="Leave a comment here" id="description" style="height: 200px"></textarea>
           <label class="ms-2" for="description">Description</label>
         </div>
-        <div class="row">
-          <div class="col w-50">
-            <div class="my-4">
-              <label for="level">Show My Profile</label>
-              <select class="form-select" id="level" name="level" aria-label="Default select example">
-                <option selected value=1>Show</option>
-                <option value=0>Hide</option>
-
-              </select>
-
-            </div>
-          </div>
-          <div class="col"></div>
+        <div class="form-floating my-4">
+          <textarea class="form-control" name="description" placeholder="Leave a comment here" id="description" style="height: 200px"></textarea>
+          <label class="ms-2" for="description">Who We Are</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" name="description" placeholder="Leave a comment here" id="description" style="height: 200px"></textarea>
+          <label class="ms-2" for="description">What We Do</label>
         </div>
       </div>
     </div>
@@ -125,7 +88,7 @@
 <script setup>
   import { ref,reactive } from 'vue';
 
-  const images = ref([]);
+  const images = ref([]); 
   const categories = [
     { id: 1, name: "Web Development" },
     { id: 2, name: "Mobile Development" },
