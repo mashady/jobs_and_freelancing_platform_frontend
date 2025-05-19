@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container py-4">
     <nav aria-label="breadcrumb">
       <ul class="breadcrumb">
@@ -416,6 +416,297 @@ h2 {
   box-shadow: 0 6px 15px 0 rgba(64, 79, 104, 0.05);
   border-radius: 8px;
   border: 1px solid #E9E9E9;
+}
+
+.btn-success {
+  background-color: var(--theme-color);
+  border-color: var(--theme-color);
+  max-width: 300px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.btn-success:hover {
+  background-color: #FFF;
+  border-color: var(--theme-color);
+  color: var(--theme-color);
+  max-width: 300px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.btn-outline-success {
+  background-color: #FFF;
+  border-color: var(--theme-color);
+  max-width: 300px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--theme-color);
+  border-color: var(--theme-color);
+  max-width: 300px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 992px) {
+  .position-sticky {
+    position: sticky;
+    top: 20px;
+  }
+}
+</style> -->
+<template>
+  <div class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ul class="breadcrumb">
+        <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+        <li class="breadcrumb-item"><router-link to="/jobs">Jobs</router-link></li>
+        <li class="breadcrumb-item active">{{ job.position_name }}</li>
+      </ul>
+    </nav>
+
+    <div v-if="isLoading" class="text-center py-5">
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div v-else-if="error" class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+
+    <div v-else class="row">
+      <div class="col-lg-8">
+        <div class="card mb-4" style="
+            background-image: url('https://demoapus1.com/freeio/wp-content/uploads/2024/04/project-detail1.jpg');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 0.5rem;
+            height: 250px;
+            border:0;
+          ">
+          <div class="card-body p-4" style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            ">
+            <h1 class="card-title mb-4">{{ job.position_name }}</h1>
+
+            <div class="d-flex align-items-center mb-4">
+              <div class="d-flex align-items-center me-4">
+                <i class="bi bi-geo-alt me-2"></i>
+                <span>{{ job.location }}</span>
+              </div>
+              <div class="d-flex align-items-center me-4">
+                <i class="bi bi-calendar me-2"></i>
+                <span>{{ formatDate(job.created_at) }}</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <i class="bi bi-eye me-2"></i>
+                <span>3340 Views</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-4 mb-3 mx-auto">
+            <div class="d-flex align-items-center">
+              <div class="p-3 me-3">
+                <i class="bi bi-geo-alt job-icons" style="font-size: 2rem;color: var(--second-color)"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">Location Type</h6>
+                <p class="mb-0">{{ job.type === 'remote' ? 'Remote' : 'On-site' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-center">
+              <div class="p-3 me-3">
+                <i class="bi bi-currency-dollar" style="font-size: 2rem;color: var(--second-color)"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">Salary</h6>
+                <p class="mb-0">${{ formatSalary(job.offered_salary) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-center">
+              <div class="p-3 me-3" style="font-size: 2rem;color: var(--second-color)">
+                <i class="bi bi-clock"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">Experience</h6>
+                <p class="mb-0">{{ job.experience_years }} years</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h2 class="mb-3">Job Description</h2>
+          <p class="text-muted" v-html="job.job_description"></p>
+        </div>
+
+        <div class="mb-4" v-if="job.job_responsibility">
+          <h2 class="mb-3">Job Responsibilities</h2>
+          <p class="text-muted" v-html="job.job_responsibility"></p>
+        </div>
+
+        <div class="mb-4" v-if="job.skills && job.skills.length > 0">
+          <h2 class="mb-4">Skills Required</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <span v-for="(skill, index) in job.skills" :key="index" class="badge rounded-pill text-dark"
+              style="background-color: #f8e8e8; padding: 10px 15px;">
+              {{ skill.name }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-4">
+        <div class="position-sticky" style="top: 20px;max-width: 350px;">
+          <div class="card mb-4" style="
+              box-shadow: 0 6px 15px 0 rgba(64, 79, 104, 0.05);
+              border-radius: 8px;
+              border: 1px solid #E9E9E9;">
+            <div class="card-body p-4">
+              <h2 class="mb-2 fw-bold" style="font-size: 1.8rem;">${{ formatSalary(job.offered_salary) }}</h2>
+              <p class="mb-4">Annual salary</p>
+              <button class="btn btn-success w-100 d-flex align-items-center justify-content-center">
+                <span>Apply Now</span>
+                <i class="bi bi-arrow-up-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="card" style="
+              box-shadow: 0 6px 15px 0 rgba(64, 79, 104, 0.05);
+              border-radius: 8px;
+              border: 1px solid #E9E9E9;">
+            <div class="card-body p-4">
+              <h5 class="mb-4">About Employer</h5>
+
+              <div class="d-flex align-items-center mb-3">
+                <div class="me-3">
+                  <div class="bg-light text-center p-3 rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="bi bi-building" style="font-size: 1.5rem; color: var(--theme-color);"></i>
+                  </div>
+                </div>
+                <div>
+                  <h6 class="mb-1">{{ job.employer.company_name }}</h6>
+                  <p class="mb-0 small">{{ job.employer.employees_count }} employees</p>
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-star-fill text-warning me-1"></i>
+                    <span>3.5</span>
+                    <span class="ms-1 text-muted small">2 Reviews</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-12 mb-2">
+                  <div class="fw-bold small">Location</div>
+                  <div>{{ job.employer.location }}</div>
+                </div>
+                <div class="col-12 mb-2">
+                  <div class="fw-bold small">Employees</div>
+                  <div>{{ job.employer.employees_count }}</div>
+                </div>
+                <div class="col-12">
+                  <div class="fw-bold small">Founded</div>
+                  <div>{{ formatDate(job.employer.founded_date) }}</div>
+                </div>
+              </div>
+
+              <button class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center">
+                <span>Contact Employer</span>
+                <i class="bi bi-arrow-up-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+
+const route = useRoute();
+const job = ref({});
+const isLoading = ref(true);
+const error = ref(null);
+
+const fetchJobDetails = async () => {
+  try {
+    isLoading.value = true;
+    const token = localStorage.getItem('authToken');
+    const response = await axios.get(`http://127.0.0.1:8000/api/jobs/${route.params.id}`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : ''
+      }
+    });
+
+    job.value = response.data.data;
+    isLoading.value = false;
+  } catch (err) {
+    error.value = 'Failed to load job details. Please try again.';
+    isLoading.value = false;
+    console.error('Error fetching job details:', err);
+  }
+};
+
+const formatSalary = (salary) => {
+  if (!salary) return 'Not specified';
+  return parseFloat(salary).toLocaleString('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'Not specified';
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('en-US', options);
+};
+
+onMounted(() => {
+  fetchJobDetails();
+});
+</script>
+
+<style scoped>
+.breadcrumb {
+  padding: 0.75rem 0;
+}
+
+.breadcrumb-item a {
+  color: #222;
+}
+
+.job-icons {
+  color: var(--second-color);
+}
+
+h2 {
+  font-size: 20px;
 }
 
 .btn-success {
