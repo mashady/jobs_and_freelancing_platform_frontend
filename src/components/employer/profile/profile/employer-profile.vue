@@ -44,7 +44,7 @@
               id="category"
               required
             >
-              <option value="">Select a category</option>
+              <option disabled value="">Select a category</option>
               <option 
                 v-for="category in fetchedCategories" 
                 :key="category.id" 
@@ -62,10 +62,9 @@
             <input 
               v-model="formData.employees_count" 
               class="form-control" 
-              type="number" 
+              type="text" 
               name="employees_count" 
               id="employees_count"
-              min="0"
             >
           </div>
           
@@ -106,7 +105,7 @@
     </div>
 
     <button 
-      @click="getUser" 
+      @click="submitForm" 
       class="btn greenbtn mt-4" 
       style="height: 50px; width:175px"
       :disabled="isLoading"
@@ -123,6 +122,8 @@ const fetchedCategories = ref([]);
 const submitError = ref(null);
 const submitSuccess = ref(false);
 const isLoading = ref(false);
+const user_id = JSON.parse(localStorage.getItem('user')).id;
+const isUpdate = ref(false); // Flag to track if it's an update
 
 const formData = ref({
   company_name: '',
@@ -154,18 +155,13 @@ const validateForm = () => {
     submitError.value = 'Category is required';
     return false;
   }
-  if (!formData.value.location.trim()) {
-    submitError.value = 'Location is required';
-    return false;
-  }
   return true;
 };
 
 const getUser = async () => {
   try {
     const token = localStorage.getItem('authToken');
-    const user_id = JSON.parse(localStorage.getItem('user')).id;
-    
+
     const response = await fetch(`http://127.0.0.1:8000/api/employer-profiles/${user_id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -174,32 +170,32 @@ const getUser = async () => {
       }
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (response.ok) {
+      const profileData = await response.json();
+      console.log('Fetched Employer Profile:', profileData.data);
+      isUpdate.value = profileData.data;
+      // Bind existing data to the form
+      formData.value = { ...formData.value, ...profileData.data };
+      if (profileData.data.founded_date) {
+        formData.value.founded_date = profileData.data.founded_date.split('T')[0];
+      }
+      return true;
+    } else if (response.status === 404) {
+      isUpdate.value = false;
+      return false; // Profile not found, so it's a create operation
+    } else {
+      console.error('Error fetching employer profile:', response.status);
+      return false;
     }
-
-    const profileData = await response.json();
-    console.log('Fetched Employer Profile:', profileData);
-    
-    // If you want to see the raw response for debugging:
-    console.log('Raw Response:', response);
-    
-    return profileData;
-
   } catch (error) {
     console.error('Error fetching employer profile:', error);
-    // For more detailed error debugging:
-    if (error.response) {
-      console.error('Error response:', await error.response.json());
-    }
-    return null;
+    return false;
   }
 };
 
-
 const submitForm = async () => {
   if (!validateForm()) return;
-  
+
   submitError.value = null;
   submitSuccess.value = false;
   isLoading.value = true;
@@ -209,34 +205,45 @@ const submitForm = async () => {
     const payload = {
       company_name: formData.value.company_name,
       category_id: formData.value.category_id,
-      location: formData.value.location,
+      location: formData.value.location || null,
       employees_count: formData.value.employees_count || null,
-      founded_date: formData.value.founded_date 
+      founded_date: formData.value.founded_date
         ? new Date(formData.value.founded_date).toISOString().split('T')[0]
         : null,
-      company_description: formData.value.company_description || '',
-      about: formData.value.about || ''
+      company_description: formData.value.company_description || null,
+      about: formData.value.about || null
     };
 
-    const response = await fetch('http://127.0.0.1:8000/api/employer-profiles', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      },
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    };
+
+    let url = 'http://127.0.0.1:8000/api/employer-profiles';
+    let method = 'POST';
+
+    if (isUpdate.value) {
+      method = 'PUT';
+      url = `http://127.0.0.1:8000/api/employer-profiles/${isUpdate.value.id}`;
+    }
+
+    const response = await fetch(url, {
+      method: method,
+      headers: headers,
       body: JSON.stringify(payload)
     });
 
     const data = await response.json();
-    console.log(data)
+    console.log(data);
+
     if (!response.ok) {
-      throw new Error(data.message || 'Failed to create profile');
+      throw new Error(data.message || `Failed to ${isUpdate.value ? 'update' : 'create'} profile`);
     }
 
     submitSuccess.value = true;
-    console.log('Profile created:', data);
-    
+    console.log(`Profile ${isUpdate.value ? 'updated' : 'created'}:`, data);
+
   } catch (error) {
     console.error('Submission error:', error);
     submitError.value = error.message;
@@ -245,40 +252,42 @@ const submitForm = async () => {
   }
 };
 
-onMounted('success',fetchCategories);
+onMounted(fetchCategories);
 onMounted(getUser);
 </script>
 
-<style scoped>
-.greenbtn {
-  border: 1px solid transparent;
-  background-color: #5bbb7b;
-  color: white;
-  transition: all 0.3s ease;
-}
-.greenbtn:hover {
-  border: 1px #5bbb7b solid;
-  background-color: white;
-  color: #5bbb7b;
-}
-.greenbtn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
 
-.alert {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 0.25rem;
-}
-.alert-danger {
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
-}
-.alert-success {
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-  color: #155724;
-}
+
+<style scoped>
+  .greenbtn {
+    border: 1px solid transparent;
+    background-color: #5bbb7b;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  .greenbtn:hover {
+    border: 1px #5bbb7b solid;
+    background-color: white;
+    color: #5bbb7b;
+  }
+  .greenbtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+  }
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }
+  .alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+  }
 </style>

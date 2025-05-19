@@ -2,14 +2,14 @@
     <div class="home">
         <jobs />
     </div>
-  </template>
-    
-    <script>
-        import Jobs from '../components/Jobs.vue';
+</template>
 
-    </script>
-    
-    <style scoped>
-   
-    </style>
+<script setup>
+    import Jobs from '../../components/employer/jobs.vue';
+
+</script>
+
+<style scoped>
+
+</style>
     
