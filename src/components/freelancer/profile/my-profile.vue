@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 bg-white mb-5 rounded rounded-2">
+  <div class="p-4 bg-white mb-4 rounded rounded-2">
     <h2 class="fw-bold">Edit Profile</h2>
 
       <div class="row">

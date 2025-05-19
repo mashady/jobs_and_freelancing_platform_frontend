@@ -36,7 +36,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* height: 200vh; */
+  min-height: 200vh;
   transition: padding-left 0.3s ease;
 }
 .fade-enter-active,

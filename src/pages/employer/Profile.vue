@@ -1,11 +1,11 @@
 <template>
     <div class="home">
-    <freelancerProfile/>
+    <employerProfile/>
   </div>
 </template>
   
 <script setup> 
-  import freelancerProfile from '../../components/freelancer/profile/freelancer-profile.vue';
+  import employerProfile from "../../components/employer/profile/profile/employer-profile.vue"
 </script>
 
 <style scoped>

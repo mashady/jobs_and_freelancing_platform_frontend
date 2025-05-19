@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 bg-white rounded rounded-2 mb-5">
+  <div class="p-4 bg-white rounded rounded-2 mb-4">
         <p>Media</p>
         <hr>
         <div class="row">
