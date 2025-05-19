@@ -31,7 +31,7 @@ const routes = [
     component: DashboardLayout,
     children: [
       { path: '', component: () => import('@/pages/employer/Dashboard.vue') },
-      { path: 'favorite', component: () => import('@/pages/employer/Favorite.vue') },
+      /* { path: 'favorite', component: () => import('@/pages/employer/Favorite.vue') }, */
       { path: 'settings', component: () => import('@/pages/employer/Settings.vue') },
       { path: 'profile', component: () => import('@/pages/employer/Profile.vue') },
       { path: 'messages', component: () => import('@/pages/employer/Messages.vue') },
@@ -48,7 +48,7 @@ const routes = [
       { path: 'profile', component: () => import('@/pages/freelancer/Profile.vue') },
       { path: 'messages', component: () => import('@/pages/freelancer/Messages.vue') },
       { path: 'password', component: () => import('@/pages/freelancer/ChangePassword.vue') },
-      { path: 'favorite', component: () => import('@/pages/freelancer/Favorite.vue') },
+      /* { path: 'favorite', component: () => import('@/pages/freelancer/Favorite.vue') }, */
       { path: 'propposal', component: () => import('@/pages/freelancer/Propposal.vue') },
     ]
   }
