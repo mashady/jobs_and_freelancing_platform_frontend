@@ -2,14 +2,17 @@
     <div class="home">
         <jobs />
     </div>
-  </template>
-    
-    <script>
-        import Jobs from '../components/Jobs.vue';
+</template>
 
-    </script>
-    
-    <style scoped>
-   
-    </style>
-    
+<script>
+import jobs from '../../components/employer/Jobs.vue';
+
+export default {
+    components: {
+        jobs
+    }
+};
+</script>
+
+<style scoped>
+</style>

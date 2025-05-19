@@ -5,7 +5,13 @@
   </template>
     
     <script>
-        import Favorite from '../../components/employer/Favorite.vue';
+    import favorite from '../../components/employer/Favorite.vue';
+    
+    export default {
+      components: {
+        favorite
+      }
+    }
     </script>
     
     <style scoped>
