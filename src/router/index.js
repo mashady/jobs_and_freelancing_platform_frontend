@@ -31,8 +31,8 @@ const routes = [
     component: DashboardLayout,
     children: [
       { path: '', component: () => import('@/pages/employer/Dashboard.vue') },
-      { path: 'favorite', component: () => import('@/pages/employer/Favorite.vue') },
       { path: 'addJob/:id', component: () => import('@/pages/employer/AddJob.vue') },
+      { path: 'addJob', component: () => import('@/pages/employer/AddJob.vue') },
       { path: 'profile', component: () => import('@/pages/employer/Profile.vue') },
       { path: 'messages', component: () => import('@/pages/employer/Messages.vue') },
       { path: 'password', component: () => import('@/pages/employer/ChangePassword.vue') },
