@@ -4,7 +4,7 @@
 
     <div class="border rounded p-4">
       <div class="row mb-4 align-items-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search..." v-model="searchQuery">
             <button class="btn btn-outline-secondary" @click="searchJobs">
@@ -12,13 +12,20 @@
             </button>
           </div>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-6 text-start">
           <label class="me-2">Sort by:</label>
           <select class="form-select d-inline w-auto" v-model="sortOption">
             <option value="default">Default</option>
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
           </select>
+        </div>
+        <div class="col-md-2">
+          <router-link to="/employer/addJob">
+            <button class="btn btn-outline-secondary" @click="searchJobs">
+              Add Job
+            </button>
+          </router-link>
         </div>
       </div>
 
