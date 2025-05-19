@@ -1,13 +1,10 @@
 <template>
   <div>
-    <button 
-      class="sidebar-toggle d-lg-none" 
-      @click="toggleSidebar" 
-      :class="{ 'open': sidebarVisible }"
+    <button class="sidebar-toggle d-lg-none" @click="toggleSidebar" :class="{ 'open': sidebarVisible }"
       aria-label="Toggle sidebar">
       <i class="bi" :class="sidebarVisible ? 'bi-x' : 'bi-list'"></i>
     </button>
-    
+
     <div class="sidebar text-white" :class="{ 'show': sidebarVisible }">
       <div class="sidebar-header d-flex justify-content-center align-items-center">
         <div class="user-profile text-center py-4 d-flex justify-content-center align-items-center">
@@ -23,31 +20,19 @@
 
       <div class="sidebar-menu">
         <ul class="nav flex-column">
-          
-          <li 
-            v-for="(link, index) in sidebarLinks" 
-            :key="index" 
-            class="nav-item"
-          >
-            <router-link 
-              :to="link.to" 
-              class="nav-link" 
-              exact-active-class="active"
-            >
+
+          <li v-for="(link, index) in sidebarLinks" :key="index" class="nav-item">
+            <router-link :to="link.to" class="nav-link" exact-active-class="active">
               <i class="bi" :class="link.icon"></i> {{ link.label }}
             </router-link>
           </li>
 
-          
+
         </ul>
       </div>
     </div>
-    
-    <div 
-      class="sidebar-overlay" 
-      v-if="sidebarVisible" 
-      @click="closeSidebar"
-    ></div>
+
+    <div class="sidebar-overlay" v-if="sidebarVisible" @click="closeSidebar"></div>
   </div>
 </template>
 
@@ -59,29 +44,29 @@ const route = useRoute()
 const adminLinks = [
   { label: 'Dashboard', to: '/admin', icon: 'bi-house-door' },
   { label: 'Jobs', to: '/admin/jobs', icon: 'bi-briefcase' },
-  { label: 'Change Password', to: '/admin/password', icon: 'bi bi-lock' },
+  /* { label: 'Change Password', to: '/admin/password', icon: 'bi bi-lock' }, */
   { label: 'Logout', to: '/', icon: 'bi bi-box-arrow-right' },
 ]
 const freelancerLinks = [
   { label: 'Dashboard', to: '/freelancer', icon: 'bi-house-door' },
   { label: 'Propposal', to: '/freelancer/propposal', icon: 'bi-briefcase' },
-  { label: 'Favorite', to: '/freelancer/favorite', icon: 'bi-heart' },
+  /* { label: 'Favorite', to: '/freelancer/favorite', icon: 'bi-heart' }, */
   { label: 'Profile', to: '/freelancer/profile', icon: 'bi-file-earmark-text' },
-  { label: 'Messages', to: '/freelancer/messages', icon: 'bi-chat-square-text' },
-  { label: 'Settings', to: '/freelancer/settings', icon: 'bi-gear' },
-  { label: 'Change Password', to: '/freelancer/password', icon: 'bi bi-lock' },
+  /* { label: 'Messages', to: '/freelancer/messages', icon: 'bi-chat-square-text' }, */
+  /* { label: 'Settings', to: '/freelancer/settings', icon: 'bi-gear' }, */
+  /* { label: 'Change Password', to: '/freelancer/password', icon: 'bi bi-lock' }, */
   { label: 'Logout', to: '/freelancer/logout', icon: 'bi bi-box-arrow-right' },
-  
+
 ]
 
 const employerLinks = [
   { label: 'Dashboard', to: '/employer', icon: 'bi-house-door' },
   { label: 'Jobs', to: '/employer/jobs', icon: 'bi-briefcase' },
-  { label: 'Favorite', to: '/employer/favorite', icon: 'bi-heart' },
+  /* { label: 'Favorite', to: '/employer/favorite', icon: 'bi-heart' }, */
   { label: 'Profile', to: '/employer/profile', icon: 'bi-file-earmark-text' },
-  { label: 'Messages', to: '/employer/messages', icon: 'bi-chat-square-text' },
-  { label: 'Settings', to: '/employer/settings', icon: 'bi-gear' },
-  { label: 'Change Password', to: '/employer/password', icon: 'bi bi-lock' },
+  /* { label: 'Messages', to: '/employer/messages', icon: 'bi-chat-square-text' }, */
+  /* { label: 'Settings', to: '/employer/settings', icon: 'bi-gear' }, */
+  /* { label: 'Change Password', to: '/employer/password', icon: 'bi bi-lock' }, */
   { label: 'Logout', to: '/employer/logout', icon: 'bi bi-box-arrow-right' },
 ]
 
@@ -89,7 +74,7 @@ const sidebarLinks = computed(() => {
   console.log(route.path)
   console.log(route.path.startsWith('/admin'))
 
-  
+
   if (route.path.startsWith('/admin')) return adminLinks
   if (route.path.startsWith('/freelancer')) return freelancerLinks
   if (route.path.startsWith('/employer')) return employerLinks
@@ -138,8 +123,7 @@ h5 {
   color: black;
 }
 
-.user-profile {
-}
+.user-profile {}
 
 .profile-image {
   width: 90px;
@@ -162,10 +146,12 @@ h5 {
   padding: 10px 20px;
   transition: all 0.3s;
 }
+
 .nav-link:hover {
   color: var(--theme-color);
-  
+
 }
+
 .active {
   background-color: var(--link-color);
   color: white;
@@ -173,9 +159,11 @@ h5 {
   border-bottom-right-radius: 5px;
   margin-right: 20px;
 }
+
 .nav-link.active:focus {
   color: #FFF;
 }
+
 .nav-link i {
   margin-right: 10px;
   font-size: 1.1rem;
@@ -184,7 +172,7 @@ h5 {
 .sidebar-toggle {
   position: fixed;
   left: 15px;
-  top: 92px; 
+  top: 92px;
   z-index: 99;
   background-color: var(--link-color, #fff);
   color: white;
@@ -201,7 +189,8 @@ h5 {
 }
 
 .sidebar-toggle.open {
-  background-color: var(--link-color, #FFF);;
+  background-color: var(--link-color, #FFF);
+  ;
 }
 
 .sidebar-toggle:focus {
@@ -220,8 +209,13 @@ h5 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 
@@ -230,11 +224,11 @@ h5 {
     transform: translateX(-100%);
     width: 240px;
   }
- 
+
   .sidebar.show {
     transform: translateX(0);
   }
-  
+
   :global(body.sidebar-open) {
     overflow: hidden;
   }

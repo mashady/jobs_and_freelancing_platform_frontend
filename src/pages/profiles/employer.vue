@@ -132,10 +132,15 @@ const company = ref({
     category: {}
 })
 
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
 const fetchCompanyData = async () => {
     try {
         const token = localStorage.getItem('authToken')
-        const response = await axios.get('http://127.0.0.1:8000/api/employer-profiles/1', {
+        const companyId = route.params.id
+        const response = await axios.get(`http://127.0.0.1:8000/api/employer-profiles/${companyId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

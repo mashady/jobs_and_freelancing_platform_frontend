@@ -1,14 +1,14 @@
 <template>
-    <div class="home">
-      <h1 class="">Welcome to admin jobs Vue.js App</h1>
-    </div>
-  </template>
-    
-    <script>
+  <div class="home">
+    <jobs/>
+  </div>
+</template>
+  
+<script setup>
+  import jobs from '../../components/admin/jobs.vue';
+</script>
 
-    </script>
-    
-    <style scoped>
-   
-    </style>
-    
+<style scoped>
+
+</style>
+  

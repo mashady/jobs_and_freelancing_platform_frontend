@@ -1,15 +1,9 @@
 <template>
-    <div class="home">
-        <jobs />
-    </div>
+    <Jobs />
 </template>
-
 <script setup>
-    import Jobs from '../../components/employer/jobs.vue';
+import Jobs from '../../components/employer/jobs.vue';
 
 </script>
 
-<style scoped>
-
-</style>
-    
+<style scoped></style>
