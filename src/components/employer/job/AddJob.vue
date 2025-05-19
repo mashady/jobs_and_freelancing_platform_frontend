@@ -170,6 +170,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router'; // Import for accessing route parameters
+import { watch } from 'vue'; // Import watch
 
 const route = useRoute();
 const fetchedCategories = ref([]);
@@ -177,7 +178,7 @@ const fieldErrors = ref({});
 const submitSuccess = ref(false);
 const isLoading = ref(false);
 const user_id = JSON.parse(localStorage.getItem('user')).id;
-const jobId = ref(route.params.id || null); // Get job ID from route params
+const jobId = ref(route.params.id); // Get job ID from route params
 const isUpdate = ref(false);
 const employerProfileId = ref(null); // To store the employer profile ID
 
@@ -220,7 +221,9 @@ const fetchEmployerProfileId = async () => {
       const data = await response.json();
       employerProfileId.value = data.data.id;
       jobData.value.employer_id = data.data.id; // Set employer ID in job data
-      if (jobId.value) {
+      // Check for jobId after fetching employer profile
+      if (route.params.id) {
+        jobId.value = route.params.id;
         isUpdate.value = true;
         fetchJobDetails(); // Fetch job details for editing
       }
@@ -246,9 +249,17 @@ const fetchJobDetails = async () => {
     if (response.ok) {
       const data = await response.json();
       jobData.value = { ...jobData.value, ...data.data };
-      if (data.data.skills) {
-        jobData.value.skillsInput = data.data.skills.join(', ');
-        jobData.value.skills = [...data.data.skills]; // Ensure skills array is also populated
+      if (data.data.skills && Array.isArray(data.data.skills)) {
+        // Assuming each skill is an object with a 'name' property
+        jobData.value.skills = data.data.skills.map(skill => skill.name ? skill.name : skill);
+        jobData.value.skillsInput = jobData.value.skills.join(', ');
+      } else if (typeof data.data.skills === 'string') {
+        // Handle the case where skills might be a comma-separated string
+        jobData.value.skillsInput = data.data.skills;
+        jobData.value.skills = data.data.skills.split(',').map(skill => skill.trim()).filter(skill => skill);
+      } else {
+        jobData.value.skills = [];
+        jobData.value.skillsInput = '';
       }
     } else {
       console.error('Failed to fetch job details');
@@ -259,7 +270,6 @@ const fetchJobDetails = async () => {
     isLoading.value = false;
   }
 };
-
 const handleSkillsInput = () => {
   jobData.value.skills = jobData.value.skillsInput.split(',').map(skill => skill.trim()).filter(skill => skill);
 };
@@ -267,7 +277,6 @@ const handleSkillsInput = () => {
 const validateJobForm = () => {
   fieldErrors.value = {};
   let isValid = true;
-
 
   if (!jobData.value.position_name.trim()) {
     fieldErrors.value.position_name = 'Position name is required';
