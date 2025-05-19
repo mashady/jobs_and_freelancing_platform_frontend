@@ -27,8 +27,8 @@
                 Browse Jobs
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Projects</a></li>
-                <li><a class="dropdown-item" href="#">Jobs</a></li>
+                <li><a class="dropdown-item" href="/projects">Projects</a></li>
+                <li><a class="dropdown-item" href="/jobs">Jobs</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -37,8 +37,8 @@
                 Users
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Freelancers</a></li>
-                <li><a class="dropdown-item" href="#">Employers</a></li>
+                <li><a class="dropdown-item" href="/list-freelancers">Freelancers</a></li>
+                <li><a class="dropdown-item" href="/list-employers">Employers</a></li>
               </ul>
             </li>
           </ul>
@@ -111,7 +111,7 @@
             <a class="nav-link py-3 px-4" href="/">Home</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link py-3 px-4 d-flex justify-content-between align-items-center" href="#">
+            <a class="nav-link py-3 px-4 d-flex justify-content-between align-items-center" href="/jobs">
               Browse Jobs
               <i class="bi bi-chevron-right"></i>
             </a>

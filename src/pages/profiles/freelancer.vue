@@ -27,10 +27,10 @@
                                 <h3 class="mb-1">{{ freelancerData.user?.name }}</h3>
                                 <p class="text-muted mb-2">{{ freelancerData.job_title }}</p>
                                 <div class="d-flex align-items-center mb-2">
-                                    <div class="me-3">
+                                    <!-- <div class="me-3">
                                         <i class="bi bi-star-fill star-color"></i>
                                         <span class="ms-1">5.0 (1 Review)</span>
-                                    </div>
+                                    </div> -->
                                     <div class="me-3">
                                         <i class="bi bi-geo-alt"></i>
                                         <span class="ms-1">{{ freelancerData.city }}, {{ freelancerData.address
@@ -141,7 +141,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-4">
+                    <!-- <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="card border h-100">
                                 <div class="card-body">
@@ -167,7 +167,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="mb-4">
                         <h4>1 Review</h4>
@@ -279,10 +279,15 @@ const freelancerData = ref({
     category: {}
 })
 
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
 const fetchFreelancerData = async () => {
     try {
         const token = localStorage.getItem('authToken')
-        const response = await axios.get('http://127.0.0.1:8000/api/freelancer-profiles/60', {
+        const id = route.params.id
+        const response = await axios.get(`http://127.0.0.1:8000/api/freelancer-profiles/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

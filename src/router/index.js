@@ -6,11 +6,16 @@ import { useAuthStore } from '@/stores/authStore'
 
 const routes = [
   { path: '/', name: 'Home', component: () => import('@/pages/Home.vue') },
+  { path: '/jobs', name: 'Jobs', component: () => import('@/pages/JobsList.vue') },
+  { path: '/projects', name: 'Projects', component: () => import('@/pages/Projects.vue') },
+  { path: '/list-freelancers', name: 'Freelancers', component: () => import('@/pages/Freelancers.vue') },
+  { path: '/list-employers', name: 'Employers', component: () => import('@/pages/Employers.vue') },
   { path: '/register', name: 'Register', component: () => import('@/pages/Register.vue') },
   { path: '/login', name: 'Login', component: () => import('@/pages/Login.vue') },
-  { path: '/job-details', name: 'Job Details', component: () => import('@/pages/JobDetails.vue') },
-  { path: '/profile/freelancer', name: 'Freelancer Profile', component: () => import('@/pages/profiles/freelancer.vue') },
-  { path: '/profile/employer', name: 'Employer Profile', component: () => import('@/pages/profiles/employer.vue') },
+  { path: '/job-details/:id', name: 'Job Details', component: () => import('@/pages/JobDetails.vue') },
+  { path: '/project-details/:id', name: 'Project Details', component: () => import('@/pages/ProjectDetails.vue') },
+  { path: '/profile/freelancer/:id', name: 'Freelancer Profile', component: () => import('@/pages/profiles/freelancer.vue') },
+  { path: '/profile/employer/:id', name: 'Employer Profile', component: () => import('@/pages/profiles/employer.vue') },
   {
     path: '/admin',
     component: DashboardLayout,
