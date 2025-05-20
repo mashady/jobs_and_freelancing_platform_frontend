@@ -62,7 +62,8 @@
                     <img :src="'http://localhost:8000/storage/' + userData?.profile_image || profileImage" alt="Profile"
                       class="rounded-circle me-2" width="40" height="40" />
                     <div class="user-info" :class="textColorClass">
-                      <div style="font-size: 0.9rem; font-weight: 500;">{{ userData?.name || 'User' }}</div>
+                      <div style="font-size: 0.9rem; font-weight: 500;">{{ userData?.name.slice(0, 15) || 'User' }}
+                      </div>
                       <div style="font-size: 0.75rem;">{{ userData?.role || 'Member' }}</div>
                     </div>
                   </div>
