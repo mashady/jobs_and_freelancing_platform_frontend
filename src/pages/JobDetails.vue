@@ -642,12 +642,51 @@ h2 {
       </div>
     </div>
   </div>
+  <div class="mb-4">
+  <h2 class="mb-4">Leave a Comment</h2>
+  <textarea v-model="commentText" class="form-control mb-3" rows="4" placeholder="Write your comment here..."></textarea>
+  <button @click="submitComment" class="btn btn-success">Submit Comment</button>
+  <p v-if="submitStatus" class="mt-3">{{ submitStatus }}</p>
+</div>
+
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+
+
+const commentText = ref('');
+const submitStatus = ref('');
+
+async function submitComment() {
+  if (!commentText.value.trim()) {
+    submitStatus.value = 'Please enter a comment before submitting.';
+    return;
+  }
+
+  try {
+    // استبدل URL ده بالرابط اللي هيرسل له البيانات في الباك إند
+    const token = localStorage.getItem("authToken")
+    const response = await fetch('http://localhost:8000/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': token
+      },
+      body: JSON.stringify({ comment: commentText.value }),
+    });
+
+    if (!response.ok) throw new Error('Failed to submit comment');
+
+    submitStatus.value = 'Comment submitted successfully!';
+    commentText.value = ''; // امسح نص التعليق بعد الإرسال
+  } catch (error) {
+    submitStatus.value = 'Error submitting comment. Please try again later.';
+    console.error(error);
+  }
+}
 
 const route = useRoute();
 const job = ref({});
