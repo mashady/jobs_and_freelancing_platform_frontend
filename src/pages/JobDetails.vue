@@ -124,7 +124,7 @@
             <div class="card-body p-4">
               <h2 class="mb-2 fw-bold" style="font-size: 1.8rem;">${{ formatSalary(job.offered_salary) }}</h2>
               <p class="mb-4">Annual salary</p>
-              <button @click="openApplyModal"
+              <button v-if="job.user_role === 'freelancer'" @click="openApplyModal"
                 class="btn btn-success w-100 d-flex align-items-center justify-content-center">
                 <span>Apply Now</span>
                 <i class="bi bi-arrow-up-right ms-2"></i>
