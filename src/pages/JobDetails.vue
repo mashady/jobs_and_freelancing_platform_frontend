@@ -113,6 +113,15 @@
           </div>
         </div>
 
+        <!-- Moved comment section inside the main content column -->
+        <div class="mb-4">
+          <h2 class="mb-4">Leave a Comment</h2>
+          <textarea v-model="commentText" class="form-control mb-3" rows="4"
+            placeholder="Write your comment here..."></textarea>
+          <button @click="submitComment" class="btn btn-success">Submit Comment</button>
+          <p v-if="submitStatus" class="mt-3">{{ submitStatus }}</p>
+        </div>
+
       </div>
 
       <div class="col-lg-4">
@@ -287,13 +296,6 @@
       </div>
     </div>
   </div>
-  <div class="mb-4">
-  <h2 class="mb-4">Leave a Comment</h2>
-  <textarea v-model="commentText" class="form-control mb-3" rows="4" placeholder="Write your comment here..."></textarea>
-  <button @click="submitComment" class="btn btn-success">Submit Comment</button>
-  <p v-if="submitStatus" class="mt-3">{{ submitStatus }}</p>
-</div>
-
 </template>
 
 <script setup>
@@ -312,21 +314,23 @@ async function submitComment() {
   }
 
   try {
-    // استبدل URL ده بالرابط اللي هيرسل له البيانات في الباك إند
-    const token = localStorage.getItem("authToken")
+    const token = localStorage.getItem("authToken");
     const response = await fetch('http://localhost:8000/api/comments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'token': token
+        'Authorization': token ? `Bearer ${token}` : ''
       },
-      body: JSON.stringify({ comment: commentText.value }),
+      body: JSON.stringify({
+        content: commentText.value,
+        job_id: job.value.id
+      }),
     });
 
     if (!response.ok) throw new Error('Failed to submit comment');
 
     submitStatus.value = 'Comment submitted successfully!';
-    commentText.value = ''; // امسح نص التعليق بعد الإرسال
+    commentText.value = '';
   } catch (error) {
     submitStatus.value = 'Error submitting comment. Please try again later.';
     console.error(error);
