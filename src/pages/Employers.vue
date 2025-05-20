@@ -79,14 +79,15 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="employer-logo" :style="{ backgroundColor: getRandomLogoBackground() }">
-                                        <img v-if="employer.profile_image" :src="employer.profile_image" alt="Logo"
+                                        <img v-if="employer.profile_image"
+                                            :src="'http://localhost:8000/storage/' + employer.profile_image" alt="Logo"
                                             class="img-fluid rounded-circle">
                                         <span v-else class="employer-initial">{{
                                             getCompanyInitial(employer.company_name) }}</span>
                                     </div>
-                                    <button class="btn btn-favorite" @click.stop="toggleFavorite(employer.id)">
+                                    <!-- <button class="btn btn-favorite" @click.stop="toggleFavorite(employer.id)">
                                         <i class="bi" :class="employer.isFavorite ? 'bi-heart-fill' : 'bi-heart'"></i>
-                                    </button>
+                                    </button> -->
                                 </div>
 
                                 <div class="employer-name text-success mb-2">{{ employer.company_name }}</div>
@@ -151,7 +152,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const goToEmployerDetails = (employer) => {
-    // Changed to use user_id instead of employer id
     router.push({
         name: 'Employer Profile',
         params: { id: employer.user_id }
@@ -194,7 +194,7 @@ const fetchEmployers = async () => {
                 limit: itemsPerPage.value,
                 search: searchQuery.value,
                 location: locationFilter.value,
-                include: 'user_id' // Ensure API includes user_id in response
+                include: 'user_id'
             },
             headers: {
                 Authorization: token ? `Bearer ${token}` : ''
@@ -204,7 +204,7 @@ const fetchEmployers = async () => {
         if (response.data && response.data.data) {
             employers.value = response.data.data.map(employer => ({
                 ...employer,
-                user_id: employer.user_id, // Make sure user_id is included
+                user_id: employer.user_id,
                 isFavorite: false
             }));
             totalResults.value = response.data.total || response.data.data.length;
@@ -267,7 +267,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Your existing styles remain unchanged */
 .employer-hero-section {
     background-color: #fff1ec;
     position: relative;
@@ -381,6 +380,7 @@ onMounted(() => {
 .pagination .page-item.active .page-link {
     background-color: #0d5c46;
     border-color: #0d5c46;
+    color: #fff
 }
 
 .pagination .page-link {

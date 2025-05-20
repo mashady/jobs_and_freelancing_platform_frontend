@@ -21,20 +21,20 @@
                   <div class="input-group">
                     <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password"
                       v-model="password" :class="{ 'is-invalid': passwordError }">
-                    <button class="btn btn-outline-secondary" type="button" @click="togglePassword">
+                    <!-- <button class="btn btn-outline-secondary" type="button" @click="togglePassword">
                       <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                    </button>
+                    </button> -->
                   </div>
                   <div class="invalid-feedback">{{ passwordError }}</div>
                 </div>
 
-                <div class="d-flex justify-content-between mb-4">
+                <!-- <div class="d-flex justify-content-between mb-4">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember" v-model="keepSignedIn">
                     <label class="form-check-label" for="remember">Remember me</label>
                   </div>
                   <router-link to="/forgot-password" class="text-decoration-none">Forgot password?</router-link>
-                </div>
+                </div> -->
 
                 <div v-if="serverError" class="alert alert-danger">{{ serverError }}</div>
 

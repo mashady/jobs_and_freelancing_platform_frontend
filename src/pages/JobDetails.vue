@@ -1,467 +1,3 @@
-<!-- <template>
-  <div class="container py-4">
-    <nav aria-label="breadcrumb">
-      <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Projects</a></li>
-        <li class="breadcrumb-item active">Developer for ACG iOS apps and Website</li>
-      </ul>
-    </nav>
-
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="card mb-4 " style="
-            background-image: url('https://demoapus1.com/freeio/wp-content/uploads/2024/04/project-detail1.jpg');
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            border-radius: 0.5rem;
-            height: 250px;
-            border:0;
-            
-          ">
-
-          <div class="card-body p-4" style="
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            ">
-            <h1 class="card-title mb-4">Developer for ACG iOS apps and Website</h1>
-
-            <div class="d-flex align-items-center mb-4">
-              <div class="d-flex align-items-center me-4">
-                <i class="bi bi-geo-alt me-2"></i>
-                <span>Miami</span>
-              </div>
-              <div class="d-flex align-items-center me-4">
-                <i class="bi bi-calendar me-2"></i>
-                <span>November 10, 2022</span>
-              </div>
-              <div class="d-flex align-items-center ">
-                <i class="bi bi-eye me-2"></i>
-                <span>3340 Views</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-4">
-          <div class="col-md-4 mb-3 mx-auto">
-            <div class="d-flex align-items-center">
-              <div class=" p-3 me-3">
-                <i class="bi bi-geo-alt job-icons" style="font-size: 2rem;color: var(--second-color)"></i>
-              </div>
-              <div>
-                <h6 class="mb-1">Project location type</h6>
-                <p class="mb-0">Remote</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="d-flex align-items-center">
-              <div class=" p-3 me-3">
-                <i class="bi bi-currency-dollar " style="font-size: 2rem;color: var(--second-color)"></i>
-              </div>
-              <div>
-                <h6 class="mb-1">Project Type</h6>
-                <p class="mb-0">hourly</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="d-flex align-items-center">
-              <div class=" p-3 me-3" style="font-size: 2rem;color: var(--second-color)">
-                <i class="bi bi-clock "></i>
-              </div>
-              <div>
-                <h6 class="mb-1">Duration</h6>
-                <p class="mb-0">2-3 Hours</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="d-flex align-items-center">
-              <div class=" p-3 me-3" style="font-size: 2rem;color: var(--second-color)">
-                <i class="bi bi-hand-thumbs-up "></i>
-              </div>
-              <div>
-                <h6 class="mb-1">Level</h6>
-                <p class="mb-0">Fluent</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="d-flex align-items-center">
-              <div class=" p-3 me-3" style="font-size: 2rem;color: var(--second-color)">
-                <i class="bi bi-translate "></i>
-              </div>
-              <div>
-                <h6 class="mb-1">Language</h6>
-                <p class="mb-0">Italian</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="d-flex align-items-center">
-              <div class=" p-3 me-3 " style="font-size: 2rem;color: var(--second-color)">
-                <i class="bi bi-bar-chart "></i>
-              </div>
-              <div>
-                <h6 class="mb-1">English Level</h6>
-                <p class="mb-0">Professional</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h2 class="mb-3">Project Description</h2>
-          <p class="text-muted">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
-          </p>
-          <p class="text-muted">
-            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
-            numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
-            veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-            consequatur?
-          </p>
-        </div>
-
-        <div class="mb-4">
-          <h2 class="mb-4">Attachments</h2>
-          <div class="row">
-            <div class="col-md-6 col-lg-4 mb-3">
-              <div class="card " style="
-                    background-color: var(--theme-color-010);
-                    border: 0;
-                ">
-                <div class="card-body d-flex align-items-center">
-                  <div class="flex-grow-1">
-                    <h6 class="mb-1">Project</h6>
-                    <p class="mb-0 text-muted">PDF</p>
-                  </div>
-                  <div class="ms-3">
-                    <i class="bi bi-file-earmark-text fs-3 " style="color: var(--theme-color);"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 mb-3">
-              <div class="card " style="
-                    background-color: var(--theme-color-010);
-                    border: 0;
-                ">
-                <div class="card-body d-flex align-items-center">
-                  <div class="flex-grow-1">
-                    <h6 class="mb-1">Information</h6>
-                    <p class="mb-0 text-muted">PDF</p>
-                  </div>
-                  <div class="ms-3">
-                    <i class="bi bi-file-earmark-text fs-3" style="color: var(--theme-color);"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h2 class="mb-4">Skills Required</h2>
-          <div class="d-flex flex-wrap gap-2">
-            <span class="badge rounded-pill text-dark"
-              style="background-color: #f8e8e8; padding: 10px 15px;">Artist</span>
-            <span class="badge rounded-pill text-dark"
-              style="background-color: #f8e8e8; padding: 10px 15px;">Computer</span>
-            <span class="badge rounded-pill text-dark" style="background-color: #f8e8e8; padding: 10px 15px;">Front end
-              Developer</span>
-            <span class="badge rounded-pill text-dark" style="background-color: #f8e8e8; padding: 10px 15px;">iOS
-              Developer</span>
-            <span class="badge rounded-pill text-dark" style="background-color: #f8e8e8; padding: 10px 15px;">Support
-              Agent</span>
-            <span class="badge rounded-pill text-dark"
-              style="background-color: #f8e8e8; padding: 10px 15px;">Writer</span>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h2 class="mb-4">Your Proposals (3)</h2>
-
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-md-2 mb-3 mb-md-0">
-                  <div class="bg-light text-center p-3">
-                    <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
-                  </div>
-                </div>
-                <div class="col-md-7 mb-3 mb-md-0">
-                  <h5 class="mb-2">Employer</h5>
-                  <div class="d-flex align-items-center mb-2">
-                    <div class="d-flex align-items-center me-3">
-                      <i class="bi bi-star-fill text-warning me-1"></i>
-                      <span>0.0</span>
-                      <span class="ms-1 fw-bold">(0 Reviews)</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-calendar me-1"></i>
-                      <span>5 months ago</span>
-                    </div>
-                  </div>
-                  <p class="mb-0">test</p>
-                </div>
-                <div class="col-md-3 text-md-end">
-                  <h5 class="text-dark mb-1">$6</h5>
-                  <p class="mb-0 text-muted">in 2 hours</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-md-2 mb-3 mb-md-0">
-                  <img
-                    src="https://demoapus1.com/freeio/wp-content/uploads/wp-freeio-uploads/_employer_featured_image/2023/06/h36-150x150.png"
-                    alt="Freelancer" class="rounded-circle img-fluid" style="max-width: 100px;">
-                </div>
-                <div class="col-md-7 mb-3 mb-md-0">
-                  <h5 class="mb-2">Freelancer</h5>
-                  <div class="d-flex align-items-center mb-2">
-                    <div class="d-flex align-items-center me-3">
-                      <i class="bi bi-star-fill text-warning me-1"></i>
-                      <span>5.0</span>
-                      <span class="ms-1 text-muted">(1 Review)</span>
-                    </div>
-                    <div class="d-flex align-items-center me-3">
-                      <i class="bi bi-geo-alt me-1"></i>
-                      <span>Los Angeles</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-calendar me-1"></i>
-                      <span>6 months ago</span>
-                    </div>
-                  </div>
-                  <p class="mb-0">sfas</p>
-                </div>
-                <div class="col-md-3 text-md-end">
-                  <h5 class="text-dark mb-1">$240</h5>
-                  <p class="mb-0 text-muted">in 4 hours</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-md-2 mb-3 mb-md-0">
-                  <div class="bg-light text-center p-3">
-                    <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
-                  </div>
-                </div>
-                <div class="col-md-7 mb-3 mb-md-0">
-                  <h5 class="mb-2">Developer for ACG iOS apps and Website (Employer)</h5>
-                  <div class="d-flex align-items-center mb-2">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-calendar me-1"></i>
-                      <span>10 months ago</span>
-                    </div>
-                  </div>
-                  <p class="mb-0">I think I would do a good job Here you go</p>
-                </div>
-                <div class="col-md-3 text-md-end">
-                  <h5 class="text-dark mb-1">$200</h5>
-                  <p class="mb-0 text-muted">in 4 hours</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h2 class="mb-4">Send Your Proposal</h2>
-
-          <div class="row mb-4">
-            <div class="col-md-6 mb-3">
-              <label for="hourlyPrice" class="form-label">Your Hourly Price</label>
-              <input type="text" class="form-control" id="hourlyPrice" placeholder="Price">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="estimatedHours" class="form-label">Estimated Hours</label>
-              <input type="text" class="form-control" id="estimatedHours" value="4">
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="coverLetter" class="form-label">Cover Letter</label>
-            <textarea class="form-control" id="coverLetter" rows="6"></textarea>
-          </div>
-
-          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button class="btn btn-success d-flex justify-content-center align-items-center" type="button">
-              <span>Submit a Proposal</span>
-              <i class="bi bi-arrow-up-right ms-2"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="position-sticky" style="top: 20px;max-width: 350px;">
-          <div class="card mb-4  " style="
-              box-shadow: 0 6px 15px 0 rgba(64, 79, 104, 0.05);
-                border-radius: 8px;
-                border: 1px solid #E9E9E9;">
-            <div class="card-body p-4">
-              <h2 class="mb-2 fw-bold" style="font-size: 1.8rem;">$79 - $89</h2>
-              <p class=" mb-4">Hourly rate</p>
-              <button class="btn btn-success w-100 d-flex align-items-center justify-content-center">
-                <span>Submit a Proposal</span>
-                <i class="bi bi-arrow-up-right ms-2"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="card " style="
-              box-shadow: 0 6px 15px 0 rgba(64, 79, 104, 0.05);
-                border-radius: 8px;
-                border: 1px solid #E9E9E9;">
-            <div class="card-body p-4">
-              <h5 class="mb-4">About Seller</h5>
-
-              <div class="d-flex align-items-center mb-3">
-                <div class="me-3">
-                  <img
-                    src="https://demoapus1.com/freeio/wp-content/uploads/wp-freeio-uploads/_employer_featured_image/2023/06/h36-150x150.png"
-                    alt="Seller" class="rounded-circle" width="60" height="60">
-                </div>
-                <div>
-                  <h6 class="mb-1">APIter</h6>
-                  <p class="mb-0 small">Open Project - 1</p>
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-star-fill text-warning me-1"></i>
-                    <span>3.5</span>
-                    <span class="ms-1 text-muted small">2 Reviews</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row mb-4">
-                <div class="col-4">
-                  <div class="fw-bold small">Location</div>
-                  <div>New York</div>
-                </div>
-                <div class="col-4">
-                  <div class="fw-bold small">Employees</div>
-                  <div>70-90</div>
-                </div>
-                <div class="col-4">
-                  <div class="fw-bold small">Categories</div>
-                  <div>Designer</div>
-                </div>
-              </div>
-
-              <button class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center">
-                <span>Contact Me</span>
-                <i class="bi bi-arrow-up-right ms-2"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup>
-import { onMounted } from 'vue';
-
-onMounted(() => {
-});
-</script>
-
-<style scoped>
-.breadcrumb {
-  padding: 0.75rem 0;
-}
-
-.breadcrumb-item a {
-  color: #222;
-}
-
-job-icons {
-  color: var(--second-color);
-}
-
-h2 {
-  font-size: 20px;
-}
-
-.title-header {
-  background-image: url(https://demoapus1.com/freeio/wp-content/uploads/2024/04/project-detail1.jpg);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.card-style {
-  box-shadow: 0 6px 15px 0 rgba(64, 79, 104, 0.05);
-  border-radius: 8px;
-  border: 1px solid #E9E9E9;
-}
-
-.btn-success {
-  background-color: var(--theme-color);
-  border-color: var(--theme-color);
-  max-width: 300px;
-  height: 60px;
-  font-weight: 700;
-  font-size: 0.9375rem;
-}
-
-.btn-success:hover {
-  background-color: #FFF;
-  border-color: var(--theme-color);
-  color: var(--theme-color);
-  max-width: 300px;
-  height: 60px;
-  font-weight: 700;
-  font-size: 0.9375rem;
-}
-
-.btn-outline-success {
-  background-color: #FFF;
-  border-color: var(--theme-color);
-  max-width: 300px;
-  height: 60px;
-  font-weight: 700;
-  font-size: 0.9375rem;
-}
-
-.btn-outline-success:hover {
-  background-color: var(--theme-color);
-  border-color: var(--theme-color);
-  max-width: 300px;
-  height: 60px;
-  font-weight: 700;
-  font-size: 0.9375rem;
-}
-
-@media (min-width: 992px) {
-  .position-sticky {
-    position: sticky;
-    top: 20px;
-  }
-}
-</style> -->
 <template>
   <div class="container py-4">
     <nav aria-label="breadcrumb">
@@ -477,7 +13,9 @@ h2 {
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-
+    <!-- <div v-else-if="applicationDn" class="alert alert-danger" role="alert">
+      {{ applicationDn }}
+    </div> -->
     <div v-else-if="error" class="alert alert-danger" role="alert">
       {{ error }}
     </div>
@@ -586,7 +124,8 @@ h2 {
             <div class="card-body p-4">
               <h2 class="mb-2 fw-bold" style="font-size: 1.8rem;">${{ formatSalary(job.offered_salary) }}</h2>
               <p class="mb-4">Annual salary</p>
-              <button class="btn btn-success w-100 d-flex align-items-center justify-content-center">
+              <button @click="openApplyModal"
+                class="btn btn-success w-100 d-flex align-items-center justify-content-center">
                 <span>Apply Now</span>
                 <i class="bi bi-arrow-up-right ms-2"></i>
               </button>
@@ -609,11 +148,7 @@ h2 {
                 <div>
                   <h6 class="mb-1">{{ job.employer.company_name }}</h6>
                   <p class="mb-0 small">{{ job.employer.employees_count }} employees</p>
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-star-fill text-warning me-1"></i>
-                    <span>3.5</span>
-                    <span class="ms-1 text-muted small">2 Reviews</span>
-                  </div>
+
                 </div>
               </div>
 
@@ -637,6 +172,116 @@ h2 {
                 <i class="bi bi-arrow-up-right ms-2"></i>
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showApplyModal" class="modal-backdrop fade show"></div>
+
+    <div class="modal fade" :class="{ 'show d-block': showApplyModal }" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Apply for {{ job.position_name }}</h5>
+            <button type="button" class="btn-close" @click="closeModal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="submitApplication">
+              <div class="mb-3">
+                <label for="coverLetter" class="form-label">Cover Letter</label>
+                <textarea class="form-control" id="coverLetter" rows="5" v-model="application.cover_letter"
+                  placeholder="Explain why you're a good fit for this position..." required></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Upload CV (doc, docx, pdf)</label>
+                <input type="file" class="form-control" accept=".doc,.docx,.pdf" @change="handleFileUpload"
+                  ref="fileInput" required>
+                <div class="form-text">Max file size: 5MB</div>
+              </div>
+
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="termsCheck" v-model="application.accepted_terms"
+                  required>
+                <label class="form-check-label" for="termsCheck">
+                  I accept the <a href="#" @click.prevent="openTermsModal">Terms and Conditions</a> and <a href="#"
+                    @click.prevent="openPrivacyModal">Privacy Policy</a>
+                </label>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success" :disabled="isSubmitting">
+                  <span v-if="!isSubmitting">Submit Application</span>
+                  <span v-else>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Submitting...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showTermsModal" class="modal-backdrop fade show"></div>
+
+    <div class="modal fade" :class="{ 'show d-block': showTermsModal }" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Terms and Conditions</h5>
+            <button type="button" class="btn-close" @click="showTermsModal = false" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="terms-content">
+              <h4>1. General Terms</h4>
+              <p>By applying for this position, you agree to the following terms and conditions...</p>
+
+              <h4>2. Application Process</h4>
+              <p>All applications will be reviewed by our HR team. We may contact you for additional information...</p>
+
+              <h4>3. Data Collection</h4>
+              <p>We collect your personal data for recruitment purposes only. Your data will be stored securely...</p>
+
+              <h4>4. Confidentiality</h4>
+              <p>All application materials will be treated as confidential...</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="showTermsModal = false">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showPrivacyModal" class="modal-backdrop fade show"></div>
+
+    <div class="modal fade" :class="{ 'show d-block': showPrivacyModal }" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Privacy Policy</h5>
+            <button type="button" class="btn-close" @click="showPrivacyModal = false" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="privacy-content">
+              <h4>1. Information We Collect</h4>
+              <p>During the application process, we collect your personal information including...</p>
+
+              <h4>2. How We Use Your Information</h4>
+              <p>Your information will be used solely for recruitment purposes...</p>
+
+              <h4>3. Data Protection</h4>
+              <p>We implement appropriate security measures to protect your personal data...</p>
+
+              <h4>4. Your Rights</h4>
+              <p>You have the right to access, correct, or delete your personal information...</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="showPrivacyModal = false">Close</button>
           </div>
         </div>
       </div>
@@ -692,6 +337,21 @@ const route = useRoute();
 const job = ref({});
 const isLoading = ref(true);
 const error = ref(null);
+const applicationDn = ref(null);
+
+
+const showApplyModal = ref(false);
+const showTermsModal = ref(false);
+const showPrivacyModal = ref(false);
+const isSubmitting = ref(false);
+const fileInput = ref(null);
+
+const application = ref({
+  job_id: null,
+  cover_letter: '',
+  resume_path: null,
+  accepted_terms: false
+});
 
 const fetchJobDetails = async () => {
   try {
@@ -704,11 +364,103 @@ const fetchJobDetails = async () => {
     });
 
     job.value = response.data.data;
+    application.value.job_id = job.value.id;
     isLoading.value = false;
   } catch (err) {
     error.value = 'Failed to load job details. Please try again.';
     isLoading.value = false;
     console.error('Error fetching job details:', err);
+  }
+};
+
+const openApplyModal = () => {
+  showApplyModal.value = true;
+};
+
+const openTermsModal = () => {
+  showTermsModal.value = true;
+};
+
+const openPrivacyModal = () => {
+  showPrivacyModal.value = true;
+};
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size exceeds 5MB limit. Please choose a smaller file.');
+      event.target.value = '';
+      return;
+    }
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!validTypes.includes(file.type)) {
+      alert('Please upload a document file (PDF, DOC, or DOCX).');
+      event.target.value = '';
+      return;
+    }
+    application.value.resume_path = file;
+  }
+};
+
+const closeModal = () => {
+  showApplyModal.value = false;
+  application.value.cover_letter = '';
+  application.value.resume_path = null;
+  application.value.accepted_terms = false;
+  if (fileInput.value) {
+    fileInput.value.value = '';
+  }
+};
+
+const submitApplication = async () => {
+  if (!application.value.accepted_terms) {
+    alert('Please accept the Terms and Conditions and Privacy Policy');
+    return;
+  }
+
+  if (!application.value.resume_path) {
+    alert('Please upload your CV');
+    return;
+  }
+
+  isSubmitting.value = true;
+
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('You need to be logged in to apply for jobs');
+    }
+
+    const formData = new FormData();
+
+    formData.append('job_id', application.value.job_id);
+    formData.append('cover_letter', application.value.cover_letter);
+    formData.append('resume_path', application.value.resume_path);
+
+    const response = await axios.post('http://127.0.0.1:8000/api/job-applications', formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+
+    alert('Application submitted successfully!');
+    closeModal();
+  } catch (error) {
+    console.error('Error submitting application:', error);
+    let errorMessage = 'Failed to submit application. Please try again.';
+    if (error.response) {
+      if (error.response.status === 401) {
+        errorMessage = 'You need to be logged in to apply for jobs';
+      } else if (error.response.data.message) {
+        errorMessage = error.response.data.message;
+      }
+    }
+    alert(errorMessage);
+  } finally {
+    isSubmitting.value = false;
   }
 };
 
@@ -738,6 +490,11 @@ onMounted(() => {
 
 .breadcrumb-item a {
   color: #222;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
 }
 
 .job-icons {
@@ -785,10 +542,137 @@ h2 {
   font-size: 0.9375rem;
 }
 
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 0.5rem;
+  pointer-events: none;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+}
+
+.modal-title {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: calc(0.3rem - 1px);
+  border-bottom-left-radius: calc(0.3rem - 1px);
+}
+
+.terms-content h4,
+.privacy-content h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--theme-color);
+}
+
+.terms-content p,
+.privacy-content p {
+  margin-bottom: 1rem;
+  color: #495057;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+
+  .modal-lg {
+    max-width: 800px;
+  }
+}
+
 @media (min-width: 992px) {
   .position-sticky {
     position: sticky;
     top: 20px;
   }
+}
+
+.alert {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.alert-success {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border-color: #badbcc;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #842029;
+  border-color: #f5c2c7;
+}
+
+.btn-close {
+  padding: 0.5rem 0.5rem;
 }
 </style>
