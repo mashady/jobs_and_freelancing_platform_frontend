@@ -1,82 +1,109 @@
 <template>
   <div class="p-4 bg-white rounded rounded-2 mb-4">
-        <p>Media</p>
-        <hr>
-        <div class="row">
-            <div class="col-7">
-                <p class="mb-4">Resume Attachment</p>
-                <div class="mb-4">
-                    <label for="resume" id="resume-label" class="btn">Resume</label>
-                    <input type="file" name="resume" id="resume" class="form-control d-none" multiple @change="handleResumeUpload">
-                    <p class="text-muted text-sm my-2">Upload file .pdf, .doc, .docx</p>
-                </div>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div v-for="(file, index) in files" :key="file.name" class="col">
-                        <div class="rounded rounded-3 bg-success-subtle p-3 h-100 d-flex flex-column">
-                            <!-- Your existing file name display -->
-                            <p v-if="index>0" class="d-flex gap-5 justify-content-between align-items-center mb-3">
-                                {{file.name}} <i class="bi bi-file-earmark-text fs-3"></i>
-                            </p>
-                            <p v-else class="d-flex gap-5 justify-content-between align-items-center mb-3">
-                                {{file.name}} <i class="bi bi-file-earmark-text fs-3"></i>
-                            </p>
-                            
-                            <!-- Fixed position button at card bottom -->
-                            <div class="mt-auto">
-                                <button class="btn btn-danger btn-sm w-100" @click="removeFile(index)">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="my-3">
-                    <label for="introVidUrl" class="form-label">Introduction Video URL</label>
-                    <input type="text" name="introVid" id="introVidUrl" class="form-control">
-                </div>
-            </div>
+    <p>Media</p>
+    <hr>
+    <div class="row">
+      <div class="col-7">
+        <p class="mb-4">Resume URL</p>
+        <div class="mb-4">
+          <label for="resumeUrl" class="form-label">Resume Link (PDF, DOCX, etc.)</label>
+          <input
+            type="url"
+            name="resumeUrl"
+            id="resumeUrl"
+            class="form-control"
+            :class="{ 'is-invalid': errors.resume }"
+            :value="modelValue.resume"
+            @input="updateResumeAndValidate($event.target.value)"
+            @blur="validateField('resume')"
+            placeholder="e.g., https://example.com/your-resume.pdf"
+          >
+          <div v-if="errors.resume" class="invalid-feedback">
+            {{ errors.resume }}
+          </div>
+          <p class="text-muted text-sm my-2">Provide a direct link to your resume (PDF, DOC, DOCX).</p>
         </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-const files = ref([]);
+import { ref, defineProps, defineEmits, watch, defineExpose } from 'vue';
 
-    function handleResumeUpload(event){
-        const input = event.target;
-        const filesAsArray = Array.from(input?.files || []);
-        files.value = files.value.concat(filesAsArray);
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    default: () => ({
+      resume: '',
+    }),
+  },
+});
 
-        console.log(files.value);
+const emit = defineEmits(['update:modelValue', 'validation-change']);
+
+const errors = ref({}); // Stores errors for this component
+
+const updateResumeAndValidate = (value) => {
+  emit('update:modelValue', { ...props.modelValue, resume: value });
+  validateField('resume'); // Validate immediately on input
+};
+
+const validateField = (field) => {
+  const value = props.modelValue[field];
+  let errorMessage = '';
+
+  errors.value[field] = ''; // Clear previous error
+
+  if (field === 'resume') {
+    if (value && !isValidUrl(value)) { // 'nullable' means not required if empty, but if present, must be URL
+      errorMessage = 'The resume must be a valid URL.';
+    } else if (value && value.length > 2048) { // Assuming length check for URL string
+        errorMessage = 'The resume URL must not be greater than 2048 characters.';
     }
+  }
 
-    function removeFile(index) {
-        files.value.splice(index, 1);
-    }
+  if (errorMessage) {
+    errors.value[field] = errorMessage;
+    return false;
+  }
+  return true;
+};
+
+const isValidUrl = (string) => {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
+
+const validateAll = () => {
+  let isValid = true;
+  errors.value = {}; // Clear all previous errors
+
+  if (!validateField('resume')) {
+    isValid = false;
+  }
+
+  emit('validation-change', { component: 'media', isValid: isValid });
+  return isValid;
+};
+
+defineExpose({
+  validateAll,
+});
+
+// Watch for external changes to modelValue (e.g., parent loading data)
+watch(() => props.modelValue.resume, () => {
+    validateAll();
+});
 </script>
 
 <style scoped>
-  * {
-    font-family: sans-serif;
-  }
-  img{
-    width: 150px;
-    height: 150px;
-    
-  }
-  .form-control:focus {
-    border-width: 2px; 
-    box-shadow: none;  
-  }
-  #resume-label{
-    border: 1px black dashed; 
-    background-color: #ffede8;
-  }
-  .bi-file-earmark-text{
-    color:#d8efe0
-  }
-  .bi-file-earmark-text:hover{
-    color:#7dc996;
-  }
+.form-control:focus {
+  border-width: 2px;
+  box-shadow: none;
+}
 </style>
