@@ -2,12 +2,12 @@
   <div class="home-view">
     <header class="hero-section">
       <div class="gradient-overlay"></div>
-      
+
       <div class="hero-content">
         <h1 class="hero-title">Hire the best freelancers for<br>any job, online.</h1>
         <p class="hero-subtitle">Millions of people use freeio.com to turn their ideas into reality.</p>
-        
-        <div class="search-container">
+
+        <!-- <div class="search-container">
           <div class="search-input-wrapper">
             <i class="search-icon bi bi-search"></i>
             <input type="text" class="search-input" placeholder="What are you looking for?">
@@ -27,17 +27,17 @@
           <a href="#">PHP</a>,
           <a href="#">Senior</a>,
           <a href="#">Engineer</a>
-        </div>
+        </div> -->
       </div>
     </header>
     <ServicesSection />
-    <TrendingServicesSection/>
-    <FreelancerServicesSection/>
+    <TrendingServicesSection />
+    <FreelancerServicesSection />
     <MarketPlace />
-    <FindTalentSection/>
+    <FindTalentSection />
     <Footer />
-    </div>
-  
+  </div>
+
 </template>
 
 <script setup>
@@ -75,13 +75,11 @@ import MarketPlace from '../components/home/MarketPlace.vue';
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.7) 0px,     
-    rgba(0, 0, 0, 0.55) 90px,      
-    rgba(0, 0, 0, 0.4) 180px,       
-    rgba(0, 0, 0, 0.3) 100%         
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.7) 0px,
+      rgba(0, 0, 0, 0.55) 90px,
+      rgba(0, 0, 0, 0.4) 180px,
+      rgba(0, 0, 0, 0.3) 100%);
 }
 
 .hero-content {
@@ -214,22 +212,22 @@ import MarketPlace from '../components/home/MarketPlace.vue';
   .hero-title {
     font-size: 2.8rem;
   }
-  
+
   .search-container {
     flex-direction: column;
     height: auto;
   }
-  
+
   .search-input-wrapper,
   .categories-dropdown {
     height: 50px;
   }
-  
+
   .categories-dropdown {
     border-left: none;
     border-top: 1px solid #eee;
   }
-  
+
   .search-button {
     height: 50px;
   }
@@ -239,19 +237,17 @@ import MarketPlace from '../components/home/MarketPlace.vue';
   .hero-title {
     font-size: 2.2rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .gradient-overlay {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.7) 0px,
-      rgba(0, 0, 0, 0.55) 70px,
-      rgba(0, 0, 0, 0.4) 140px,
-      rgba(0, 0, 0, 0.3) 100%
-    );
+    background: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0.7) 0px,
+        rgba(0, 0, 0, 0.55) 70px,
+        rgba(0, 0, 0, 0.4) 140px,
+        rgba(0, 0, 0, 0.3) 100%);
   }
 }
 </style>

@@ -80,14 +80,15 @@
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="freelancer-avatar"
                                         :style="{ backgroundColor: getRandomLogoBackground() }">
-                                        <img v-if="freelancer.user.profile_image" :src="freelancer.user.profile_image"
+                                        <img v-if="freelancer.user.profile_image"
+                                            :src="'http://localhost:8000/storage/' + freelancer.user.profile_image"
                                             alt="Profile" class="img-fluid rounded-circle">
                                         <span v-else class="freelancer-initial">{{ getUserInitial(freelancer.user.name)
                                             }}</span>
                                     </div>
-                                    <button class="btn btn-favorite" @click.stop="toggleFavorite(freelancer.id)">
+                                    <!--  <button class="btn btn-favorite" @click.stop="toggleFavorite(freelancer.id)">
                                         <i class="bi" :class="freelancer.isFavorite ? 'bi-heart-fill' : 'bi-heart'"></i>
-                                    </button>
+                                    </button> -->
                                 </div>
 
                                 <div class="freelancer-name text-success mb-2">{{ freelancer.user.name }}</div>
@@ -375,6 +376,7 @@ onMounted(() => {
 .pagination .page-item.active .page-link {
     background-color: #0d5c46;
     border-color: #0d5c46;
+    color: #FFF
 }
 
 .pagination .page-link {
