@@ -71,9 +71,9 @@
                     <div class="input-group">
                       <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password"
                         v-model="password" :class="{ 'is-invalid': passwordError }">
-                      <button class="btn btn-outline-secondary" type="button" @click="togglePassword">
+                      <!-- <button class="btn btn-outline-secondary" type="button" @click="togglePassword">
                         <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                      </button>
+                      </button> -->
                     </div>
                     <div class="invalid-feedback">{{ passwordError }}</div>
                   </div>
@@ -82,9 +82,9 @@
                     <div class="input-group">
                       <input :type="showConfirmPassword ? 'text' : 'password'" class="form-control" id="confirmPassword"
                         v-model="confirmPassword" :class="{ 'is-invalid': confirmPasswordError }">
-                      <button class="btn btn-outline-secondary" type="button" @click="toggleConfirmPassword">
+                      <!-- <button class="btn btn-outline-secondary" type="button" @click="toggleConfirmPassword">
                         <i :class="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                      </button>
+                      </button> -->
                     </div>
                     <div class="invalid-feedback">{{ confirmPasswordError }}</div>
                   </div>
@@ -249,9 +249,9 @@ const handleRegister = async () => {
       if (userType.value === 'admin') {
         router.push('/admin');
       } else if (userType.value === 'freelancer') {
-        router.push('/freelancer');
+        router.push('/freelancer/profile');
       } else {
-        router.push('/employer');
+        router.push('/employer/profile');
       }
     } else {
       serverError.value = error || 'Registration failed';
@@ -277,6 +277,10 @@ const handleRegister = async () => {
 .btn-primary {
   background-color: #0d6efd;
   border-color: #0d6efd;
+}
+
+.form-check-input[type="radio"] {
+  visibility: hidden;
 }
 
 .form-check-input[type="radio"]:checked+label>div {

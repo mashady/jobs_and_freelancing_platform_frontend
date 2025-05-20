@@ -6,9 +6,9 @@
           <a class="navbar-brand d-flex align-items-center" href="/" style="margin-right: 0px;">
             <span class="fw-bold" :class="textColorClass">Freeio.</span>
           </a>
-          <button class="btn ms-3 d-none d-lg-block" :class="textColorClass">
+          <!-- <button class="btn ms-3 d-none d-lg-block" :class="textColorClass">
             <i class="bi bi-grid" :class="textColorClass"></i> Categories
-          </button>
+          </button> -->
         </div>
 
         <button class="navbar-toggler border-0" type="button" @click="toggleSidebar" aria-label="Toggle navigation">
@@ -44,9 +44,9 @@
           </ul>
 
           <div class="ms-auto d-none d-lg-flex align-items-center">
-            <div class="search-box me-3">
+            <!-- <div class="search-box me-3">
               <i class="bi bi-search" :class="textColorClass" style="font-size: 1.3rem; cursor: pointer;"></i>
-            </div>
+            </div> -->
 
             <template v-if="isLoggedIn">
               <div class="user-profile d-flex align-items-center">
@@ -62,7 +62,8 @@
                     <img :src="'http://localhost:8000/storage/' + userData?.profile_image || profileImage" alt="Profile"
                       class="rounded-circle me-2" width="40" height="40" />
                     <div class="user-info" :class="textColorClass">
-                      <div style="font-size: 0.9rem; font-weight: 500;">{{ userData?.name || 'User' }}</div>
+                      <div style="font-size: 0.9rem; font-weight: 500;">{{ userData?.name.slice(0, 15) || 'User' }}
+                      </div>
                       <div style="font-size: 0.75rem;">{{ userData?.role || 'Member' }}</div>
                     </div>
                   </div>
@@ -179,33 +180,41 @@ const menuItems = computed(() => {
     case 'admin':
       return [
         { icon: "bi-speedometer2", text: "Admin Dashboard", path: "/admin" },
-        { icon: "bi-people", text: "Manage Users", path: "/admin/users" },
+        /* { icon: "bi-people", text: "Manage Users", path: "/admin/users" },
         { icon: "bi-briefcase-fill", text: "Manage Jobs", path: "/admin/jobs" },
-        { icon: "bi-gear", text: "Settings", path: "/admin/settings" },
+        { icon: "bi-gear", text: "Settings", path: "/admin/settings" }, */
       ]
     case 'freelancer':
       return [
-        { icon: "bi-speedometer2", text: "Profile", path: "/profile/freelancer" },
+        {
+          icon: "bi-speedometer2",
+          text: "Profile",
+          path: userData.value && userData.value.id ? `/profile/freelancer/${userData.value.id}` : "/profile/freelancer"
+        },
         { icon: "bi-speedometer2", text: "Dashboard", path: "/freelancer" },
-        { icon: "bi-file-earmark-text", text: "Proposals", path: "/freelancer/proposals" },
+        /*{ icon: "bi-file-earmark-text", text: "Proposals", path: "/freelancer/proposals" },
         { icon: "bi-briefcase-fill", text: "My Jobs", path: "/freelancer/jobs" },
         { icon: "bi-heart", text: "Favorite", path: "/freelancer/favorites" },
-        { icon: "bi-chat-left-text", text: "Messages", path: "/freelancer/messages" },
+        { icon: "bi-chat-left-text", text: "Messages", path: "/freelancer/messages" }, */
       ]
     case 'employer':
       return [
-        { icon: "bi-speedometer2", text: "Profile", path: "/profile/employer" },
+        {
+          icon: "bi-speedometer2",
+          text: "Profile",
+          path: userData.value && userData.value.id ? `/profile/employer/${userData.value.id}` : "/profile/employer"
+        },
         { icon: "bi-speedometer2", text: "Dashboard", path: "/employer" },
-        { icon: "bi-plus-circle", text: "Post Job", path: "/employer/post-job" },
-        { icon: "bi-briefcase-fill", text: "My Jobs", path: "/employer/jobs" },
+        /* { icon: "bi-plus-circle", text: "Post Job", path: "/employer/post-job" },
+        { icon: "bi-briefcase-fill", text: "My Jobs", path: "/employer/jobs" }, */
       ]
     default:
       return [
         { icon: "bi-speedometer2", text: "Dashboard", path: "/dashboard" },
-        { icon: "bi-file-earmark-text", text: "Proposals", path: "/proposals" },
+        /*{ icon: "bi-file-earmark-text", text: "Proposals", path: "/proposals" },
         { icon: "bi-briefcase-fill", text: "Jobs Applied", path: "/jobs" },
         { icon: "bi-heart", text: "Favorite", path: "/favorites" },
-        { icon: "bi-chat-left-text", text: "Messages", path: "/messages" },
+        { icon: "bi-chat-left-text", text: "Messages", path: "/messages" }, */
       ]
   }
 })
@@ -241,7 +250,7 @@ const logout = () => {
   isLoggedIn.value = false
   isUserDropdownOpen.value = false
   userData.value = null
-  router.push('/')
+  window.location.href = '/'
 }
 
 const isDashboard = computed(() => {
@@ -314,7 +323,6 @@ watch(() => route.path, () => {
   updateBodyDataAttribute()
 })
 
-// Initialize on mount
 onMounted(() => {
   checkAuthStatus()
   updateBodyDataAttribute()

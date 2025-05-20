@@ -80,9 +80,9 @@
                   <div class="company-logo" :style="{ backgroundColor: getRandomLogoBackground() }">
                     <span class="company-initial">{{ getCompanyInitial(job.employer_id) }}</span>
                   </div>
-                  <button class="btn btn-favorite" @click.stop="toggleFavorite(job.id)">
+                  <!-- <button class="btn btn-favorite" @click.stop="toggleFavorite(job.id)">
                     <i class="bi" :class="job.isFavorite ? 'bi-heart-fill' : 'bi-heart'"></i>
-                  </button>
+                  </button> -->
                 </div>
 
                 <div class="company-name text-success mb-2"> {{ job.employer.company_name }}</div>
@@ -246,13 +246,9 @@ const goToPage = (page) => {
 const toggleFavorite = (jobId) => {
   const jobIndex = jobs.value.findIndex(job => job.id === jobId);
   if (jobIndex !== -1) {
-    // Toggle favorite status
     jobs.value[jobIndex].isFavorite = !jobs.value[jobIndex].isFavorite;
 
-    // In a real app, you might want to send this to your API
-    // axios.post(`/api/jobs/${jobId}/favorite`, {
-    //   isFavorite: jobs.value[jobIndex].isFavorite
-    // });
+
   }
 };
 
@@ -368,6 +364,8 @@ onMounted(() => {
 .pagination .page-item.active .page-link {
   background-color: #0d5c46;
   border-color: #0d5c46;
+  color: #fff;
+
 }
 
 .pagination .page-link {
