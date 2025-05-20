@@ -6,7 +6,7 @@
     </button>
 
     <div class="sidebar text-white" :class="{ 'show': sidebarVisible }">
-      <div class="sidebar-header d-flex justify-content-center align-items-center">
+      <!-- <div class="sidebar-header d-flex justify-content-center align-items-center">
         <div class="user-profile text-center py-4 d-flex justify-content-center align-items-center">
           <img :src="profileImage" alt="Profile Image" class="profile-image rounded-circle mb-2" />
           <div>
@@ -16,7 +16,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="sidebar-menu">
         <ul class="nav flex-column">
@@ -42,7 +42,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const adminLinks = [
-  { label: 'Dashboard', to: '/admin', icon: 'bi-house-door' },
+  /* { label: 'Dashboard', to: '/admin', icon: 'bi-house-door' }, */
   { label: 'Jobs', to: '/admin/jobs', icon: 'bi-briefcase' },
   /* { label: 'Change Password', to: '/admin/password', icon: 'bi bi-lock' }, */
   { label: 'Logout', to: '/', icon: 'bi bi-box-arrow-right' },
@@ -62,6 +62,7 @@ const freelancerLinks = [
 const employerLinks = [
   { label: 'Dashboard', to: '/employer', icon: 'bi-house-door' },
   { label: 'Jobs', to: '/employer/jobs', icon: 'bi-briefcase' },
+  { label: 'Applications', to: '/employer/applications', icon: 'bi-briefcase' },
   /* { label: 'Favorite', to: '/employer/favorite', icon: 'bi-heart' }, */
   { label: 'Profile', to: '/employer/profile', icon: 'bi-file-earmark-text' },
   /* { label: 'Messages', to: '/employer/messages', icon: 'bi-chat-square-text' }, */

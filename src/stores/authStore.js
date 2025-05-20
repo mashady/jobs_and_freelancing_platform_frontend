@@ -74,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = null
     localStorage.removeItem('user')
     localStorage.removeItem('authToken')
-    router.push('/login')
+    window.location.href = '/'
   }
 
   const setAuth = (data) => {
