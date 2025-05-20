@@ -10,7 +10,7 @@
 
     <div v-else class="border rounded p-4">
       <div class="row mb-4 align-items-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search jobs..." v-model="searchQuery"
               @input="filterJobs">
@@ -19,97 +19,28 @@
             </button>
           </div>
         </div>
-        <div class="col-md-6 text-end">
-          <!-- <button class="btn btn-primary me-2" @click="showCreateModal = true">
-            <i class="bi bi-plus-lg me-1"></i> Post New Job
-          </button> -->
-          <label class="me-2">Filter:</label>
-          <select class="form-select d-inline w-auto" v-model="statusFilter" @change="filterJobs">
-            <option value="all">All Statuses</option>
-            <option value="open">Open</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
+        <div class="col-md-6 text-start">
+          <label class="me-2">Sort by:</label>
+          <select class="form-select d-inline w-auto" v-model="sortOption">
+            <option value="default">Default</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
           </select>
+        </div>
+        <div class="col-md-2">
+          <router-link to="/employer/addJob">
+            <button class="btn btn-outline-secondary" @click="searchJobs">
+              Add Job
+            </button>
+          </router-link>
         </div>
       </div>
 
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th>Location</th>
-              <th>Salary</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Active</th>
-              <th>Applications</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="job in filteredJobs" :key="job.id">
-              <td>
-                <router-link :to="`/employer/jobs/${job.id}`" class="text-decoration-none">
-                  <strong>{{ job.position_name }}</strong>
-                </router-link>
-                <div class="text-muted small mt-1">
-                  <span v-for="(skill, index) in job.skills" :key="skill.id">
-                    {{ skill.name }}<span v-if="index < job.skills.length - 1">, </span>
-                  </span>
-                </div>
-              </td>
-              <td>{{ job.location }}</td>
-              <td>${{ job.offered_salary }}</td>
-              <td>
-                <span class="badge bg-secondary text-capitalize">
-                  {{ job.type }}
-                </span>
-              </td>
-              <td>
-                <span :class="['badge', statusClass(job.status)]">
-                  {{ formatStatus(job.status) }}
-                </span>
-              </td>
-              <td>
-                <span :class="['badge', job.is_active ? 'bg-success' : 'bg-warning']">
-                  {{ job.is_active ? 'Active' : 'Inactive' }}
-                </span>
-              </td>
-              <td>
-                <router-link :to="`/employer/jobs/${job.id}/applications`" class="text-decoration-none">
-                  <span class="badge bg-primary">
-                    {{ job.job_applications_count || 0 }} applications
-                  </span>
-                </router-link>
-              </td>
-              <td>
-                <div class="btn-group" role="group">
-                  <button class="btn btn-sm btn-outline-primary" @click="editJob(job)" title="Edit">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" @click="confirmDelete(job)" title="Delete">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <button v-if="!job.is_active" class="btn btn-sm btn-outline-success" @click="activateJob(job.id)"
-                    title="Activate">
-                    <i class="bi bi-check-circle"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div v-if="filteredJobs.length === 0" class="text-center py-5">
-        <h4 class="text-muted">No jobs found</h4>
-        <p v-if="statusFilter !== 'all' || searchQuery">
-          Try adjusting your search or filter criteria
-        </p>
-        <!-- <button class="btn btn-primary mt-3" @click="showCreateModal = true">
-          <i class="bi bi-plus-lg me-1"></i> Create Your First Job
-        </button> -->
+      <div class="row fw-bold border-bottom py-2">
+        <div class="col-6">Title</div>
+        <div class="col-2">Cost/Time</div>
+        <div class="col-2">Status</div>
+        <div class="col-2">Actions</div>
       </div>
 
       <nav v-if="totalPages > 1" aria-label="Page navigation">

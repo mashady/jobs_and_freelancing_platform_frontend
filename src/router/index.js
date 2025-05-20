@@ -34,6 +34,8 @@ const routes = [
     meta: { requiresAuth: true, allowedRoles: ['employer'] },
     children: [
       { path: '', component: () => import('@/pages/employer/Dashboard.vue') },
+      { path: 'addJob/:id', component: () => import('@/pages/employer/AddJob.vue') },
+      { path: 'addJob', component: () => import('@/pages/employer/AddJob.vue') },
       { path: 'applications', component: () => import('../components/employer/Applications.vue') },
       { path: 'profile', component: () => import('@/pages/employer/Profile.vue') },
       { path: 'messages', component: () => import('@/pages/employer/Messages.vue') },
