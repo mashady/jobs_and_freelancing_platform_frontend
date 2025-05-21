@@ -174,12 +174,12 @@ export default {
             this.error = null;
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await axios.get('http://127.0.0.1:8000/api/job-applications', {
+                const response = await axios.get('http://127.0.0.1:8000/api/employer-applications', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                this.applications = Array.isArray(response.data.data.data) ? response.data.data.data : [];
+                this.applications = Array.isArray(response.data.employer_applications) ? response.data.employer_applications : [];
             } catch (error) {
                 console.error('Error fetching applications:', error);
                 this.error = error.response?.data?.message || 'Failed to load applications';

@@ -1,20 +1,36 @@
 <template>
   <div class="container px-4 mb-3">
-    <myProfile ref="myProfileRef" v-model="freelancerProfile" :categories="categories" />
-    <media ref="mediaRef" v-model="freelancerProfile" @upload-resume="handleResumeUpload" />
-    <education ref="educationRef" v-model="freelancerProfile.educations" />
-    <experience ref="experienceRef" v-model="freelancerProfile.work_experiences" />
-    <skills ref="skillsRef" v-model="freelancerProfile.skills" />
-
-    <div v-if="overallFormInvalid" class="alert alert-danger mt-3">
-      Please fix the errors in the highlighted sections before saving.
+    <!-- Loading spinner (same style as job applications page) -->
+    <div v-if="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
 
-    <div v-if="notification.message" :class="['alert', notification.type === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']" role="alert">
-      {{ notification.message }}
-    </div>
+    <template v-else>
+      <myProfile ref="myProfileRef" v-model="freelancerProfile" :categories="categories" />
+      <media ref="mediaRef" v-model="freelancerProfile" @upload-resume="handleResumeUpload" />
+      <education ref="educationRef" v-model="freelancerProfile.educations" />
+      <experience ref="experienceRef" v-model="freelancerProfile.work_experiences" />
+      <skills ref="skillsRef" v-model="freelancerProfile.skills" />
 
-    <button @click="postProfile" class="btn greenbtn mt-4" style="height: 50px; width:175px">Save Information</button>
+      <div v-if="overallFormInvalid" class="alert alert-danger mt-3">
+        Please fix the errors in the highlighted sections before saving.
+      </div>
+
+      <div v-if="notification.message"
+        :class="['alert', notification.type === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']" role="alert">
+        {{ notification.message }}
+      </div>
+
+      <button @click="postProfile" class="btn greenbtn mt-4" style="height: 50px; width:175px" :disabled="isSaving">
+        <span v-if="!isSaving">Save Information</span>
+        <span v-else>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Saving...
+        </span>
+      </button>
+    </template>
   </div>
 </template>
 
@@ -35,7 +51,7 @@ const experienceRef = ref(null);
 const skillsRef = ref(null);
 
 const freelancerProfile = ref({
-  id: null, 
+  id: null,
   user_id: user_id,
   category_id: null,
   city: '',
@@ -72,17 +88,18 @@ const overallFormInvalid = computed(() => {
 });
 
 const isEditMode = ref(false);
+const isLoading = ref(true);
+const isSaving = ref(false);
 
 const notification = ref({
   message: '',
   type: ''
 });
-let notificationTimeoutId = null; 
+let notificationTimeoutId = null;
 
 const showNotification = (message, type, duration = 3000) => {
   notification.value.message = message;
   notification.value.type = type;
-
 
   if (notificationTimeoutId) {
     clearTimeout(notificationTimeoutId);
@@ -94,7 +111,6 @@ const showNotification = (message, type, duration = 3000) => {
     notificationTimeoutId = null;
   }, duration);
 };
-
 
 const handleResumeUpload = (file) => {
   console.log("Uploading resume (placeholder):", file);
@@ -136,7 +152,7 @@ const fetchFreelancerProfile = async () => {
     if (!response.ok) {
       if (response.status === 404) {
         console.warn("Freelancer profile not found for user_id:", user_id, ", initializing empty form.");
-        isEditMode.value = false; 
+        isEditMode.value = false;
         return;
       }
       throw new Error(`Failed to fetch profile: ${response.statusText}`);
@@ -152,8 +168,8 @@ const fetchFreelancerProfile = async () => {
 
         user: profileData.user ? { name: profileData.user.name } : { name: '' },
 
-        work_experiences: (profileData.work_experiences || []).map(exp => ({...exp, id: exp.id || Date.now() + Math.random()})),
-        educations: (profileData.educations || []).map(edu => ({...edu, id: edu.id || Date.now() + Math.random()})),
+        work_experiences: (profileData.work_experiences || []).map(exp => ({ ...exp, id: exp.id || Date.now() + Math.random() })),
+        educations: (profileData.educations || []).map(edu => ({ ...edu, id: edu.id || Date.now() + Math.random() })),
 
         skills: profileData.skills ? profileData.skills.map(s => s.name) : [],
       };
@@ -163,12 +179,21 @@ const fetchFreelancerProfile = async () => {
   } catch (error) {
     console.error("Error fetching freelancer profile:", error);
     showNotification("Error fetching profile data.", "error");
+  } finally {
+    isLoading.value = false;
   }
 };
 
 onMounted(async () => {
-  await fetchCategories();
-  await fetchFreelancerProfile();
+  try {
+    isLoading.value = true;
+    await Promise.all([fetchCategories(), fetchFreelancerProfile()]);
+  } catch (error) {
+    console.error("Error during initialization:", error);
+    showNotification("Error loading data. Please refresh the page.", "error");
+  } finally {
+    isLoading.value = false;
+  }
 });
 
 const postProfile = async () => {
@@ -181,12 +206,13 @@ const postProfile = async () => {
   }
 
   try {
+    isSaving.value = true;
     const token = localStorage.getItem('authToken');
     const payload = {
       ...freelancerProfile.value,
       name: freelancerProfile.value.user.name,
-      work_experiences: freelancerProfile.value.work_experiences, 
-      educations: freelancerProfile.value.educations,             
+      work_experiences: freelancerProfile.value.work_experiences,
+      educations: freelancerProfile.value.educations,
     };
 
     delete payload.user;
@@ -194,7 +220,6 @@ const postProfile = async () => {
     let url = 'http://127.0.0.1:8000/api/freelancer-profiles';
     let method = 'POST';
     let successMessage = 'Profile created successfully!';
-
 
     if (isEditMode.value && freelancerProfile.value.id) {
       url = `http://127.0.0.1:8000/api/freelancer-profiles/${user_id}`;
@@ -232,14 +257,16 @@ const postProfile = async () => {
 
     console.log("Response:", data);
     showNotification(successMessage, 'success');
-    await fetchFreelancerProfile(); 
+    await fetchFreelancerProfile();
   } catch (error) {
     console.error("Error saving information:", error);
     showNotification('An error occurred while saving information: ' + error.message, 'error');
+  } finally {
+    isSaving.value = false;
   }
 };
-const displayBackendErrors = (backendErrors) => {
 
+const displayBackendErrors = (backendErrors) => {
   if (myProfileRef.value) myProfileRef.value.errors = {};
   if (mediaRef.value) mediaRef.value.errors = {};
   if (educationRef.value) {
@@ -256,97 +283,102 @@ const displayBackendErrors = (backendErrors) => {
   }
 
   for (const key in backendErrors) {
-    const errorMessage = backendErrors[key][0]; 
+    const errorMessage = backendErrors[key][0];
 
-    
     if (key === 'name' && myProfileRef.value) {
-        myProfileRef.value.errors['user.name'] = errorMessage;
+      myProfileRef.value.errors['user.name'] = errorMessage;
     } else if (myProfileRef.value && myProfileRef.value.errors.hasOwnProperty(key)) {
-        myProfileRef.value.errors[key] = errorMessage;
+      myProfileRef.value.errors[key] = errorMessage;
     }
-
     else if (key === 'resume' && mediaRef.value) {
-        mediaRef.value.errors.resume = errorMessage;
+      mediaRef.value.errors.resume = errorMessage;
     }
-
     else if (key.startsWith('educations.') && educationRef.value) {
-        const parts = key.split('.');
-        const index = parseInt(parts[1]);
-        const field = parts[2];
+      const parts = key.split('.');
+      const index = parseInt(parts[1]);
+      const field = parts[2];
 
-        const educationItem = freelancerProfile.value.educations[index];
-        if (educationItem) {
-            if (!educationRef.value.errors[educationItem.id]) {
-                educationRef.value.errors[educationItem.id] = {};
-            }
-            educationRef.value.errors[educationItem.id][field] = errorMessage;
-            educationRef.value.editingEducationId = educationItem.id;
-        } else if (key === 'educations' && educationRef.value) {
-            educationRef.value.noEducationError = errorMessage;
+      const educationItem = freelancerProfile.value.educations[index];
+      if (educationItem) {
+        if (!educationRef.value.errors[educationItem.id]) {
+          educationRef.value.errors[educationItem.id] = {};
         }
+        educationRef.value.errors[educationItem.id][field] = errorMessage;
+        educationRef.value.editingEducationId = educationItem.id;
+      } else if (key === 'educations' && educationRef.value) {
+        educationRef.value.noEducationError = errorMessage;
+      }
     }
-
     else if (key.startsWith('work_experiences.') && experienceRef.value) {
-        const parts = key.split('.');
-        const index = parseInt(parts[1]);
-        const field = parts[2];
+      const parts = key.split('.');
+      const index = parseInt(parts[1]);
+      const field = parts[2];
 
-        const experienceItem = freelancerProfile.value.work_experiences[index];
-        if (experienceItem) {
-            if (!experienceRef.value.errors[experienceItem.id]) {
-                experienceRef.value.errors[experienceItem.id] = {};
-            }
-            experienceRef.value.errors[experienceItem.id][field] = errorMessage;
-            experienceRef.value.editingExperienceId = experienceItem.id;
-        } else if (key === 'work_experiences' && experienceRef.value) { 
-            experienceRef.value.noExperienceError = errorMessage;
+      const experienceItem = freelancerProfile.value.work_experiences[index];
+      if (experienceItem) {
+        if (!experienceRef.value.errors[experienceItem.id]) {
+          experienceRef.value.errors[experienceItem.id] = {};
         }
+        experienceRef.value.errors[experienceItem.id][field] = errorMessage;
+        experienceRef.value.editingExperienceId = experienceItem.id;
+      } else if (key === 'work_experiences' && experienceRef.value) {
+        experienceRef.value.noExperienceError = errorMessage;
+      }
     }
-
     else if (key === 'skills' && skillsRef.value) {
-        skillsRef.value.skillsArrayError = errorMessage;
+      skillsRef.value.skillsArrayError = errorMessage;
     } else if (key.startsWith('skills.') && skillsRef.value) {
-        skillsRef.value.newSkillError = errorMessage;
+      skillsRef.value.newSkillError = errorMessage;
     }
   }
 };
 </script>
 
 <style scoped>
+* {
+  font-family: sans-serif;
+}
 
-  * {
-    font-family: sans-serif;
-  }
+.greenbtn {
+  border: 1px solid transparent;
+  background-color: #5bbb7b;
+  color: white;
+}
 
-  .greenbtn {
-    border: 1px solid transparent;
-    background-color: #5bbb7b;
-    color: white;
-  }
+.greenbtn:hover {
+  border: 1px #5bbb7b solid;
+  background-color: white;
+  color: #5bbb7b;
+}
 
-  .greenbtn:hover {
-    border: 1px #5bbb7b solid;
-    background-color: white;
-    color: #5bbb7b;
-  }
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
 
+.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
 
-  .alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-  }
+.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
 
-  .alert-success {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
-  }
+/* Loading spinner styles (same as job applications page) */
+.text-center.py-5 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
 
-  .alert-danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
-  }
+.spinner-border.text-primary {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
+}
 </style>
