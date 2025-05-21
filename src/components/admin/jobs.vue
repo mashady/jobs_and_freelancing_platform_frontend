@@ -74,6 +74,44 @@
                 </div>
             </div>
         </div>
+
+        <!-- Success Modal -->
+        <div v-if="showSuccessModal" class="modal fade show" tabindex="-1"
+            style="display: block; background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Success</h5>
+                        <button type="button" class="btn-close" @click="closeSuccessModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ successMessage }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" @click="closeSuccessModal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div v-if="showErrorModal" class="modal fade show" tabindex="-1"
+            style="display: block; background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close" @click="closeErrorModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ errorMessage }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" @click="closeErrorModal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -85,7 +123,11 @@ export default {
         return {
             jobs: [],
             loading: true,
-            error: null
+            error: null,
+            showSuccessModal: false,
+            successMessage: '',
+            showErrorModal: false,
+            errorMessage: ''
         };
     },
     created() {
@@ -102,7 +144,8 @@ export default {
                 });
                 this.jobs = response.data.data;
             } catch (error) {
-                this.error = 'Failed to fetch jobs. Please try again later.';
+                this.errorMessage = 'Failed to fetch jobs. Please try again later.';
+                this.showErrorModal = true;
                 console.error('Error fetching jobs:', error);
             } finally {
                 this.loading = false;
@@ -122,35 +165,12 @@ export default {
                 );
 
                 this.jobs = this.jobs.filter(job => job.id !== id);
-
-                const modal = document.createElement('div');
-                modal.className = 'modal fade';
-                modal.tabIndex = -1;
-                modal.innerHTML = `
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Success</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Job accepted successfully!</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-                const bsModal = new window.bootstrap.Modal(modal);
-                bsModal.show();
-                modal.addEventListener('hidden.bs.modal', () => {
-                    document.body.removeChild(modal);
-                });
+                this.successMessage = 'Job accepted successfully!';
+                this.showSuccessModal = true;
             } catch (error) {
                 console.error('Error accepting job:', error);
-                alert('Failed to accept job. Please try again.');
+                this.errorMessage = 'Failed to accept job. Please try again.';
+                this.showErrorModal = true;
             }
         },
         async rejectJob(id) {
@@ -166,12 +186,21 @@ export default {
                 );
 
                 this.jobs = this.jobs.filter(job => job.id !== id);
-
-                alert('Job rejected successfully!');
+                this.successMessage = 'Job rejected successfully!';
+                this.showSuccessModal = true;
             } catch (error) {
                 console.error('Error rejecting job:', error);
-                alert('Failed to reject job. Please try again.');
+                this.errorMessage = 'Failed to reject job. Please try again.';
+                this.showErrorModal = true;
             }
+        },
+        closeSuccessModal() {
+            this.showSuccessModal = false;
+            this.successMessage = '';
+        },
+        closeErrorModal() {
+            this.showErrorModal = false;
+            this.errorMessage = '';
         }
     }
 };
@@ -249,5 +278,10 @@ export default {
 
 .reject-btn:hover {
     background-color: #d43c3c;
+}
+
+/* Modal backdrop styling */
+.modal-backdrop {
+    opacity: 0.5;
 }
 </style>
