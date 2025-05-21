@@ -1,5 +1,24 @@
 <template>
   <div class="container py-4">
+    <!-- Alert Modal -->
+    <div v-if="showAlertModal" class="modal-backdrop fade show"></div>
+    <div class="modal fade" :class="{ 'show d-block': showAlertModal }" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Notification</h5>
+            <button type="button" class="btn-close" @click="showAlertModal = false" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{ alertMessage }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" @click="showAlertModal = false">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav aria-label="breadcrumb">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
@@ -112,12 +131,6 @@
           <div class="card mb-3" v-for="comment in comments" :key="comment.id">
             <div class="card-body">
               <div class="d-flex align-items-center mb-3">
-                <!-- <img v-if="comment.user.profile_image"
-                  :src="`http://localhost:8000/storage/${comment.user.profile_image}`" class="rounded-circle me-3"
-                  width="50" height="50" alt="User profile">
-                <div class="bg-light text-center p-3 rounded-circle me-3" v-else>
-                  <i class="bi bi-person" style="font-size: 1.5rem;"></i>
-                </div> -->
                 <div>
                   <h6 class="mb-0">{{ comment.user.name }}</h6>
                   <small class="text-muted">{{ formatDate(comment.created_at) }}</small>
@@ -336,6 +349,8 @@ const loggedUser = ref('');
 const showApplyModal = ref(false);
 const showTermsModal = ref(false);
 const showPrivacyModal = ref(false);
+const showAlertModal = ref(false);
+const alertMessage = ref('');
 const isSubmitting = ref(false);
 const fileInput = ref(null);
 
@@ -345,6 +360,11 @@ const application = ref({
   resume_path: null,
   accepted_terms: false
 });
+
+const showAlert = (message) => {
+  alertMessage.value = message;
+  showAlertModal.value = true;
+};
 
 const fetchJobDetails = async () => {
   try {
@@ -427,13 +447,13 @@ const handleFileUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
     if (file.size > 5 * 1024 * 1024) {
-      alert('File size exceeds 5MB limit. Please choose a smaller file.');
+      showAlert('File size exceeds 5MB limit. Please choose a smaller file.');
       event.target.value = '';
       return;
     }
     const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!validTypes.includes(file.type)) {
-      alert('Please upload a document file (PDF, DOC, or DOCX).');
+      showAlert('Please upload a document file (PDF, DOC, or DOCX).');
       event.target.value = '';
       return;
     }
@@ -453,12 +473,12 @@ const closeModal = () => {
 
 const submitApplication = async () => {
   if (!application.value.accepted_terms) {
-    alert('Please accept the Terms and Conditions and Privacy Policy');
+    showAlert('Please accept the Terms and Conditions and Privacy Policy');
     return;
   }
 
   if (!application.value.resume_path) {
-    alert('Please upload your CV');
+    showAlert('Please upload your CV');
     return;
   }
 
@@ -483,7 +503,7 @@ const submitApplication = async () => {
       }
     });
 
-    alert('Application submitted successfully!');
+    showAlert('Application submitted successfully!');
     closeModal();
   } catch (error) {
     console.error('Error submitting application:', error);
@@ -495,7 +515,7 @@ const submitApplication = async () => {
         errorMessage = error.response.data.message;
       }
     }
-    alert(errorMessage);
+    showAlert(errorMessage);
   } finally {
     isSubmitting.value = false;
   }
