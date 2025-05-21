@@ -13,7 +13,7 @@
             <div v-for="job in jobs" :key="job.id" class="col-md-6 mb-4">
                 <div class="job-card">
                     <div class="job-info">
-                        <img :src="job.employer.logo || '/img/default-logo.png'" alt="Logo" class="job-logo" />
+                        <!-- <img :src="job.employer.logo || '/img/default-logo.png'" alt="Logo" class="job-logo" /> -->
                         <div>
                             <h3>{{ job.position_name }}</h3>
                             <p class="company-name">{{ job.employer.company_name }}</p>
@@ -26,8 +26,8 @@
                     <div class="job-actions">
                         <button class="accept-btn" data-bs-toggle="modal"
                             :data-bs-target="'#acceptModal' + job.id">Accept</button>
-                        <!-- <button class="reject-btn" data-bs-toggle="modal"
-                            :data-bs-target="'#rejectModal' + job.id">Reject</button> -->
+                        <button class="reject-btn" data-bs-toggle="modal"
+                            :data-bs-target="'#rejectModal' + job.id">Reject</button>
                     </div>
                 </div>
 
@@ -155,7 +155,15 @@ export default {
         },
         async rejectJob(id) {
             try {
-                const response = await axios.delete(`/api/jobs/${id}`);
+                const token = localStorage.getItem('authToken');
+                const response = await axios.delete(
+                    `http://localhost:8000/api/jobs/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
 
                 this.jobs = this.jobs.filter(job => job.id !== id);
 

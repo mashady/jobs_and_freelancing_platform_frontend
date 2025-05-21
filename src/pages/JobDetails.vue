@@ -13,9 +13,6 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <!-- <div v-else-if="applicationDn" class="alert alert-danger" role="alert">
-      {{ applicationDn }}
-    </div> -->
     <div v-else-if="error" class="alert alert-danger" role="alert">
       {{ error }}
     </div>
@@ -46,10 +43,6 @@
               <div class="d-flex align-items-center me-4">
                 <i class="bi bi-calendar me-2"></i>
                 <span>{{ formatDate(job.created_at) }}</span>
-              </div>
-              <div class="d-flex align-items-center">
-                <i class="bi bi-eye me-2"></i>
-                <span>3340 Views</span>
               </div>
             </div>
           </div>
@@ -113,7 +106,33 @@
           </div>
         </div>
 
-        <!-- Moved comment section inside the main content column -->
+        <!-- Comments Section -->
+        <div class="mb-4" v-if="comments.length > 0">
+          <h2 class="mb-4">Comments</h2>
+          <div class="card mb-3" v-for="comment in comments" :key="comment.id">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <!-- <img v-if="comment.user.profile_image"
+                  :src="`http://localhost:8000/storage/${comment.user.profile_image}`" class="rounded-circle me-3"
+                  width="50" height="50" alt="User profile">
+                <div class="bg-light text-center p-3 rounded-circle me-3" v-else>
+                  <i class="bi bi-person" style="font-size: 1.5rem;"></i>
+                </div> -->
+                <div>
+                  <h6 class="mb-0">{{ comment.user.name }}</h6>
+                  <small class="text-muted">{{ formatDate(comment.created_at) }}</small>
+                </div>
+              </div>
+              <p class="card-text">{{ comment.content }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4" v-else>
+          <h2 class="mb-4">Comments</h2>
+          <p>No comments yet. Be the first to comment!</p>
+        </div>
+
+        <!-- Comment Form -->
         <div class="mb-4">
           <h2 class="mb-4">Leave a Comment</h2>
           <textarea v-model="commentText" class="form-control mb-3" rows="4"
@@ -133,7 +152,7 @@
             <div class="card-body p-4">
               <h2 class="mb-2 fw-bold" style="font-size: 1.8rem;">${{ formatSalary(job.offered_salary) }}</h2>
               <p class="mb-4">Annual salary</p>
-              <button v-if="job.user_role === 'freelancer'" @click="openApplyModal"
+              <button v-if="loggedUser && loggedUser.role === 'freelancer'" @click="openApplyModal"
                 class="btn btn-success w-100 d-flex align-items-center justify-content-center">
                 <span>Apply Now</span>
                 <i class="bi bi-arrow-up-right ms-2"></i>
@@ -155,9 +174,8 @@
                   </div>
                 </div>
                 <div>
-                  <h6 class="mb-1">{{ job.employer.company_name }}</h6>
+                  <h6 class="mb-1">{{ job.employer.company_name.slice(0, 6) }}</h6>
                   <p class="mb-0 small">{{ job.employer.employees_count }} employees</p>
-
                 </div>
               </div>
 
@@ -186,6 +204,7 @@
       </div>
     </div>
 
+    <!-- Application Modal -->
     <div v-if="showApplyModal" class="modal-backdrop fade show"></div>
 
     <div class="modal fade" :class="{ 'show d-block': showApplyModal }" tabindex="-1" aria-hidden="true">
@@ -234,6 +253,7 @@
       </div>
     </div>
 
+    <!-- Terms Modal -->
     <div v-if="showTermsModal" class="modal-backdrop fade show"></div>
 
     <div class="modal fade" :class="{ 'show d-block': showTermsModal }" tabindex="-1" aria-hidden="true">
@@ -265,6 +285,7 @@
       </div>
     </div>
 
+    <!-- Privacy Modal -->
     <div v-if="showPrivacyModal" class="modal-backdrop fade show"></div>
 
     <div class="modal fade" :class="{ 'show d-block': showPrivacyModal }" tabindex="-1" aria-hidden="true">
@@ -303,46 +324,14 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-
-const commentText = ref('');
-const submitStatus = ref('');
-
-async function submitComment() {
-  if (!commentText.value.trim()) {
-    submitStatus.value = 'Please enter a comment before submitting.';
-    return;
-  }
-
-  try {
-    const token = localStorage.getItem("authToken");
-    const response = await fetch('http://localhost:8000/api/comments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : ''
-      },
-      body: JSON.stringify({
-        content: commentText.value,
-        job_id: job.value.id
-      }),
-    });
-
-    if (!response.ok) throw new Error('Failed to submit comment');
-
-    submitStatus.value = 'Comment submitted successfully!';
-    commentText.value = '';
-  } catch (error) {
-    submitStatus.value = 'Error submitting comment. Please try again later.';
-    console.error(error);
-  }
-}
-
 const route = useRoute();
 const job = ref({});
 const isLoading = ref(true);
 const error = ref(null);
-const applicationDn = ref(null);
-
+const comments = ref([]);
+const commentText = ref('');
+const submitStatus = ref('');
+const loggedUser = ref('');
 
 const showApplyModal = ref(false);
 const showTermsModal = ref(false);
@@ -376,6 +365,51 @@ const fetchJobDetails = async () => {
     console.error('Error fetching job details:', err);
   }
 };
+
+const fetchComments = async () => {
+  try {
+    const token = localStorage.getItem("authToken");
+    const response = await axios.get(`http://localhost:8000/api/comments/${route.params.id}`, {
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : ''
+      }
+    });
+    comments.value = response.data;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+  }
+};
+
+async function submitComment() {
+  if (!commentText.value.trim()) {
+    submitStatus.value = 'Please enter a comment before submitting.';
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("authToken");
+    const response = await fetch('http://localhost:8000/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : ''
+      },
+      body: JSON.stringify({
+        content: commentText.value,
+        job_id: job.value.id
+      }),
+    });
+
+    if (!response.ok) throw new Error('Failed to submit comment');
+
+    submitStatus.value = 'Comment submitted successfully!';
+    commentText.value = '';
+    await fetchComments(); // Refresh comments after submission
+  } catch (error) {
+    submitStatus.value = 'Error submitting comment. Please try again later.';
+    console.error(error);
+  }
+}
 
 const openApplyModal = () => {
   showApplyModal.value = true;
@@ -449,7 +483,6 @@ const submitApplication = async () => {
       }
     });
 
-
     alert('Application submitted successfully!');
     closeModal();
   } catch (error) {
@@ -477,13 +510,16 @@ const formatSalary = (salary) => {
 };
 
 const formatDate = (dateString) => {
-  if (!dateString) return 'Not specified';
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  if (!dateString) return 'Date not available';
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
   return new Date(dateString).toLocaleDateString('en-US', options);
 };
 
 onMounted(() => {
+  const user = localStorage.getItem('user');
+  loggedUser.value = user ? JSON.parse(user) : {};
   fetchJobDetails();
+  fetchComments();
 });
 </script>
 
@@ -678,5 +714,32 @@ h2 {
 
 .btn-close {
   padding: 0.5rem 0.5rem;
+}
+
+/* Comment card styles */
+.card {
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-text {
+  margin-bottom: 0;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
 }
 </style>

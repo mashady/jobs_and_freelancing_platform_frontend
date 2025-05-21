@@ -179,7 +179,7 @@ const menuItems = computed(() => {
   switch (userData.value.role) {
     case 'admin':
       return [
-        { icon: "bi-speedometer2", text: "Admin Dashboard", path: "/admin" },
+        { icon: "bi-speedometer2", text: "Admin Dashboard", path: "/admin/jobs" },
         /* { icon: "bi-people", text: "Manage Users", path: "/admin/users" },
         { icon: "bi-briefcase-fill", text: "Manage Jobs", path: "/admin/jobs" },
         { icon: "bi-gear", text: "Settings", path: "/admin/settings" }, */
