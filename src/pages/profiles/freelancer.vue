@@ -72,9 +72,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex justify-content-end align-items-center">
+                        <!-- <div class="col-md-4 d-flex justify-content-end align-items-center">
                             <button class="btn btn-success me-2" @click="downloadCV">Download CV</button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -245,8 +245,9 @@ const fetchFreelancerData = async () => {
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            timeout: 5000
+            /* timeout: 10000 */
         })
+        console.log(response.data.data)
         freelancerData.value = response.data.data
     } catch (err) {
         console.error('Error fetching freelancer data:', err)

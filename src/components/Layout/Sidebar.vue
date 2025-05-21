@@ -49,7 +49,7 @@ const adminLinks = [
 ]
 const freelancerLinks = [
   { label: 'Dashboard', to: '/freelancer', icon: 'bi-house-door' },
-  { label: 'Propposal', to: '/freelancer/propposal', icon: 'bi-briefcase' },
+  { label: 'Job Applications', to: '/freelancer/job-applications', icon: 'bi-briefcase' },
   /* { label: 'Favorite', to: '/freelancer/favorite', icon: 'bi-heart' }, */
   { label: 'Profile', to: '/freelancer/profile', icon: 'bi-file-earmark-text' },
   /* { label: 'Messages', to: '/freelancer/messages', icon: 'bi-chat-square-text' }, */

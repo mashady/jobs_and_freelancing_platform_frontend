@@ -272,9 +272,10 @@ export default {
             Authorization: `Bearer ${token}`
           }
         })
-        this.jobs = response.data.data
+        console.log(response)
+        /* this.jobs = response.data.data
         this.filteredJobs = [...this.jobs]
-        this.totalPages = Math.ceil(response.data.total / this.itemsPerPage)
+        this.totalPages = Math.ceil(response.data.total / this.itemsPerPage) */
       } catch (error) {
         console.error('Error fetching jobs:', error)
         this.$toast.error('Failed to load jobs. Please try again.')

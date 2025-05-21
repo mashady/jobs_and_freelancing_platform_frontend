@@ -54,7 +54,7 @@ const routes = [
       { path: 'profile', component: () => import('@/pages/freelancer/Profile.vue') },
       { path: 'messages', component: () => import('@/pages/freelancer/Messages.vue') },
       { path: 'password', component: () => import('@/pages/freelancer/ChangePassword.vue') },
-      { path: 'propposal', component: () => import('@/pages/freelancer/Propposal.vue') },
+      { path: 'job-applications', component: () => import('@/pages/freelancer/Propposal.vue') },
     ]
   }
 ]
