@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
 
-                                <div class="employer-name text-success mb-2">
+                                <div class="employer-name text-success mb-2 text-nowrap overflow-hidden text-truncate">
                                     {{ employer.company_name || 'Unknown Company' }}
                                 </div>
                                 <h5 class="employer-title mb-2">
