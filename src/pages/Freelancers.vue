@@ -118,11 +118,12 @@
                                             :src="getProfileImageUrl(freelancer.user.profile_image)" alt="Profile"
                                             class="img-fluid rounded-circle" @error="handleImageError">
                                         <span v-else class="freelancer-initial">{{ getUserInitial(freelancer.user?.name)
-                                            }}</span>
+                                        }}</span>
                                     </div>
                                 </div>
 
-                                <div class="freelancer-name text-success mb-2">
+                                <div
+                                    class="freelancer-name text-success mb-2 text-nowrap overflow-hidden text-truncate">
                                     {{ freelancer.user?.name || 'Unknown Freelancer' }}
                                 </div>
                                 <h5 class="freelancer-title mb-2">

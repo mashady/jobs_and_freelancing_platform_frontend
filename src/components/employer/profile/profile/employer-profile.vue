@@ -1,117 +1,84 @@
 <template>
   <div class="container px-4 mb-3">
-    <div class="p-4 bg-white mb-4 rounded rounded-2">
-      <h2 class="fw-bold">Edit Profile</h2>
-
-      <!-- Error/Success Messages -->
-      <div v-if="submitError" class="alert alert-danger mt-3">
-        Error: {{ submitError }}
-      </div>
-      <div v-if="submitSuccess" class="alert alert-success mt-3">
-        Profile saved successfully!
-      </div>
-
-      <div class="row mt-4">
-        <div class="col">
-          <div class="mb-4">
-            <label for="company_name" class="form-label">Company Name *</label>
-            <input 
-              v-model="formData.company_name" 
-              class="form-control" 
-              type="text" 
-              name="company_name" 
-              id="company_name"
-              required
-            >
-          </div>
-          
-          <div class="mb-4">
-            <label for="location" class="form-label">Location</label>
-            <input 
-              v-model="formData.location" 
-              class="form-control" 
-              type="text" 
-              name="location" 
-              id="location"
-            >
-          </div>
-
-          <div class="mb-4">
-            <label for="category" class="form-label">Category *</label>
-            <select 
-              v-model="formData.category_id" 
-              class="form-select" 
-              id="category"
-              required
-            >
-              <option disabled value="">Select a category</option>
-              <option 
-                v-for="category in fetchedCategories" 
-                :key="category.id" 
-                :value="category.id"
-              >
-                {{ category.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="mb-4">
-            <label for="employees_count" class="form-label">Employees</label>
-            <input 
-              v-model="formData.employees_count" 
-              class="form-control" 
-              type="text" 
-              name="employees_count" 
-              id="employees_count"
-            >
-          </div>
-          
-          <div class="mb-4">
-            <label for="founded_date" class="form-label">Founded At</label>
-            <input 
-              v-model="formData.founded_date" 
-              class="form-control" 
-              type="date" 
-              name="founded_date" 
-              id="founded_date"
-            >
-          </div>
-        </div>
-
-        <div class="form-floating mt-3">
-          <textarea 
-            v-model="formData.company_description" 
-            class="form-control" 
-            placeholder="Company description" 
-            id="company_description" 
-            style="height: 200px"
-          ></textarea>
-          <label for="company_description">Company Description</label>
-        </div>
-
-        <div class="form-floating my-4">
-          <textarea 
-            v-model="formData.about" 
-            class="form-control" 
-            placeholder="About the company" 
-            id="about" 
-            style="height: 200px"
-          ></textarea>
-          <label for="about">About</label>
-        </div>
+    <!-- Loading spinner (same style as freelancer profile) -->
+    <div v-if="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
     </div>
 
-    <button 
-      @click="submitForm" 
-      class="btn greenbtn mt-4" 
-      style="height: 50px; width:175px"
-      :disabled="isLoading"
-    >
-      {{ isLoading ? 'Saving...' : 'Save Profile' }}
-    </button>
+    <template v-else>
+      <div class="p-4 bg-white mb-4 rounded rounded-2">
+        <h2 class="fw-bold">Edit Profile</h2>
+
+        <!-- Error/Success Messages -->
+        <div v-if="submitError" class="alert alert-danger mt-3">
+          Error: {{ submitError }}
+        </div>
+        <div v-if="submitSuccess" class="alert alert-success mt-3">
+          Profile saved successfully!
+        </div>
+
+        <div class="row mt-4">
+          <div class="col">
+            <div class="mb-4">
+              <label for="company_name" class="form-label">Company Name *</label>
+              <input v-model="formData.company_name" class="form-control" type="text" name="company_name"
+                id="company_name" required>
+            </div>
+
+            <div class="mb-4">
+              <label for="location" class="form-label">Location</label>
+              <input v-model="formData.location" class="form-control" type="text" name="location" id="location">
+            </div>
+
+            <div class="mb-4">
+              <label for="category" class="form-label">Category *</label>
+              <select v-model="formData.category_id" class="form-select" id="category" required>
+                <option disabled value="">Select a category</option>
+                <option v-for="category in fetchedCategories" :key="category.id" :value="category.id">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="mb-4">
+              <label for="employees_count" class="form-label">Employees</label>
+              <input v-model="formData.employees_count" class="form-control" type="text" name="employees_count"
+                id="employees_count">
+            </div>
+
+            <div class="mb-4">
+              <label for="founded_date" class="form-label">Founded At</label>
+              <input v-model="formData.founded_date" class="form-control" type="date" name="founded_date"
+                id="founded_date">
+            </div>
+          </div>
+
+          <div class="form-floating mt-3">
+            <textarea v-model="formData.company_description" class="form-control" placeholder="Company description"
+              id="company_description" style="height: 200px"></textarea>
+            <label for="company_description">Company Description</label>
+          </div>
+
+          <div class="form-floating my-4">
+            <textarea v-model="formData.about" class="form-control" placeholder="About the company" id="about"
+              style="height: 200px"></textarea>
+            <label for="about">About</label>
+          </div>
+        </div>
+      </div>
+
+      <button @click="submitForm" class="btn greenbtn mt-4" style="height: 50px; width:175px" :disabled="isSaving">
+        <span v-if="!isSaving">Save Profile</span>
+        <span v-else>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Saving...
+        </span>
+      </button>
+    </template>
   </div>
 </template>
 
@@ -121,7 +88,8 @@ import { ref, onMounted } from 'vue';
 const fetchedCategories = ref([]);
 const submitError = ref(null);
 const submitSuccess = ref(false);
-const isLoading = ref(false);
+const isSaving = ref(false);
+const isLoading = ref(true); // Added for initial loading
 const user_id = JSON.parse(localStorage.getItem('user')).id;
 const isUpdate = ref(false); // Flag to track if it's an update
 
@@ -198,7 +166,7 @@ const submitForm = async () => {
 
   submitError.value = null;
   submitSuccess.value = false;
-  isLoading.value = true;
+  isSaving.value = true;
 
   try {
     const token = localStorage.getItem('authToken');
@@ -248,46 +216,74 @@ const submitForm = async () => {
     console.error('Submission error:', error);
     submitError.value = error.message;
   } finally {
-    isLoading.value = false;
+    isSaving.value = false;
   }
 };
 
-onMounted(fetchCategories);
-onMounted(getUser);
+onMounted(async () => {
+  try {
+    await Promise.all([fetchCategories(), getUser()]);
+  } catch (error) {
+    console.error('Initialization error:', error);
+    submitError.value = 'Error loading data. Please refresh the page.';
+  } finally {
+    isLoading.value = false;
+  }
+});
 </script>
 
-
-
 <style scoped>
-  .greenbtn {
-    border: 1px solid transparent;
-    background-color: #5bbb7b;
-    color: white;
-    transition: all 0.3s ease;
-  }
-  .greenbtn:hover {
-    border: 1px #5bbb7b solid;
-    background-color: white;
-    color: #5bbb7b;
-  }
-  .greenbtn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
+.greenbtn {
+  border: 1px solid transparent;
+  background-color: #5bbb7b;
+  color: white;
+  transition: all 0.3s ease;
+}
 
-  .alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 0.25rem;
-  }
-  .alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
-  }
-  .alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-  }
+.greenbtn:hover {
+  border: 1px #5bbb7b solid;
+  background-color: white;
+  color: #5bbb7b;
+}
+
+.greenbtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+/* Loading spinner styles (same as freelancer profile) */
+.text-center.py-5 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
+.spinner-border.text-primary {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}
 </style>
