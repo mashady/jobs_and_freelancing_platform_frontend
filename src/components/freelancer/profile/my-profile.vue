@@ -344,7 +344,6 @@ const validateField = (field) => {
       } else if (value.length > 255) {
         errorMessage = 'The email must not be greater than 255 characters.';
       }
-      // Note: Unique email check is backend-only.
       break;
     case 'bio':
       if (value && value.length > 1000) {
@@ -362,7 +361,7 @@ const validateField = (field) => {
         const birthDate = new Date(value);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        if (birthDate >= today) { // Laravel is 'before:today' so strictly before
+        if (birthDate >= today) {
           errorMessage = 'The birth date must be a date before today.';
         }
       }
@@ -382,7 +381,6 @@ const validateField = (field) => {
         if (numValue < 0) {
           errorMessage = 'The minimum hourly rate must be at least 0.';
         }
-        // max_hourly_rate 'gte' validation handled below for combined check
       }
       break;
     case 'max_hourly_rate':
@@ -391,7 +389,7 @@ const validateField = (field) => {
       } else {
         const numValue = parseFloat(value);
         const minRate = parseFloat(props.modelValue.min_hourly_rate);
-        if (numValue < 0) { // Though already handled by min_hourly_rate, keep for consistency
+        if (numValue < 0) { 
           errorMessage = 'The maximum hourly rate must be at least 0.';
         } else if (!isNaN(minRate) && numValue < minRate) {
           errorMessage = 'The maximum hourly rate must be greater than or equal to the minimum hourly rate.';
@@ -402,7 +400,7 @@ const validateField = (field) => {
       if (value === null || value === undefined || value === '') {
         errorMessage = 'The category is required.';
       }
-      // exists:categories,id is implicitly handled by selecting from a valid list (categories prop)
+
       break;
     case 'english_level':
       const validLevels = ['beginner', 'intermediate', 'advanced', 'fluent', 'native'];
@@ -413,7 +411,7 @@ const validateField = (field) => {
       }
       break;
     case 'payment_method':
-      const validPayments = ['paypal', 'bank_transfer', 'crypto', 'other']; // Adjusted to match backend
+      const validPayments = ['paypal', 'bank_transfer', 'crypto', 'other'];
       if (!value) {
         errorMessage = 'The payment method is required.';
       } else if (!validPayments.includes(value)) {
@@ -431,7 +429,7 @@ const validateField = (field) => {
 
 const validateAll = () => {
   let isValid = true;
-  errors.value = {}; // Clear all previous errors
+  errors.value = {}; 
 
   const fieldsToValidate = [
     'user.name', 'city', 'address', 'email', 'bio', 'gender',
@@ -445,8 +443,7 @@ const validateAll = () => {
     }
   }
 
-  // Special case for max_hourly_rate and min_hourly_rate cross-validation
-  // Re-validate max_hourly_rate after min_hourly_rate in case min_hourly_rate changed
+
   if (validateField('min_hourly_rate') && !validateField('max_hourly_rate')) {
       isValid = false;
   }
@@ -460,18 +457,12 @@ defineExpose({
   validateAll,
 });
 
-// Watch modelValue changes to re-run validation for relevant fields
 watch(() => props.modelValue, (newVal, oldVal) => {
-    // Only re-validate relevant fields, not the whole form on every change
-    // This is a more performant deep watch, but for simpler forms validateAll on change is okay
-    // For this component, we'll let individual field watches handle real-time,
-    // and `validateAll` for the final submission check.
-    // However, for cross-field dependencies (like min/max rate),
-    // we should ensure re-validation if either changes.
-    if (newVal.min_hourly_rate !== oldVal.min_hourly_rate || newVal.max_hourly_rate !== oldVal.max_hourly_rate) {
-        validateField('min_hourly_rate');
-        validateField('max_hourly_rate');
-    }
+
+  if (newVal.min_hourly_rate !== oldVal.min_hourly_rate || newVal.max_hourly_rate !== oldVal.max_hourly_rate) {
+      validateField('min_hourly_rate');
+      validateField('max_hourly_rate');
+  }
 }, { deep: true });
 </script>
 
