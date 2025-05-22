@@ -150,8 +150,16 @@
           <h2 class="mb-4">Leave a Comment</h2>
           <textarea v-model="commentText" class="form-control mb-3" rows="4"
             placeholder="Write your comment here..."></textarea>
-          <button @click="submitComment" class="btn btn-success">Submit Comment</button>
-          <p v-if="submitStatus" class="mt-3">{{ submitStatus }}</p>
+          <button v-if="loggedUser && loggedUser.id" @click="submitComment" class="btn btn-success">
+            Submit Comment
+          </button>
+          <div v-else class="alert alert-warning mt-2">
+            Please <router-link to="/login">log in</router-link> to comment.
+          </div>
+          <div v-if="submitStatus" class="mt-3 alert"
+            :class="submitStatus.includes('success') ? 'alert-success' : 'alert-danger'">
+            {{ submitStatus }}
+          </div>
         </div>
 
       </div>
@@ -423,6 +431,9 @@ async function submitComment() {
     if (!response.ok) throw new Error('Failed to submit comment');
 
     submitStatus.value = 'Comment submitted successfully!';
+    setTimeout(() => {
+      submitStatus.value = '';
+    }, 2000);
     commentText.value = '';
     await fetchComments(); // Refresh comments after submission
   } catch (error) {
