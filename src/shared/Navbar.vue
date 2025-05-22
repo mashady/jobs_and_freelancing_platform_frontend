@@ -1,6 +1,7 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg" :class="[navbarClass, isDashboard ? 'position-fixed top-0 w-100' : '']">
+    <nav class="navbar navbar-expand-lg" style="z-index: 999999999999;"
+      :class="[navbarClass, isDashboard ? 'position-fixed top-0 w-100' : '']">
       <div class="container-fluid">
         <div class="d-flex align-items-center">
           <a class="navbar-brand d-flex align-items-center" href="/" style="margin-right: 0px;">
@@ -60,7 +61,7 @@
                 <div class="position-relative" ref="userDropdownRef">
                   <div class="d-flex align-items-center cursor-pointer" @click="toggleUserDropdown">
                     <img :src="'http://localhost:8000/storage/' + userData?.profile_image || profileImage" alt="Profile"
-                      class="rounded-circle me-2" width="40" height="40" />
+                      class="rounded-circle me-2 object-fit-cover" width="40" height="40" />
                     <div class="user-info" :class="textColorClass">
                       <div style="font-size: 0.9rem; font-weight: 500;">{{ userData?.name.slice(0, 15) || 'User' }}
                       </div>
@@ -135,8 +136,8 @@
           <template v-else>
             <li class="nav-item border-top">
               <div class="d-flex align-items-center p-3">
-                <img :src="userData?.profile_image || profileImage" alt="Profile" class="rounded-circle me-2" width="40"
-                  height="40" />
+                <img :src="userData?.profile_image || profileImage" alt="Profile"
+                  class="rounded-circle me-2 object-fit-cover" width="40" height="40" />
                 <div>
                   <div class="fw-bold">{{ userData?.name || 'User' }}</div>
                   <div class="text-muted small mb-1">{{ userData?.email || '' }}</div>

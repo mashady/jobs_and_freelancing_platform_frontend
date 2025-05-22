@@ -13,24 +13,6 @@
             </button>
         </div>
 
-        <template v-if="loading">
-            <div class="container skeleton-loading p-4">
-                <div class="skeleton-breadcrumb mb-4"></div>
-                <div class="d-flex skeleton-header mb-5">
-                    <div class="skeleton-avatar me-4"></div>
-                    <div class="skeleton-info flex-grow-1"></div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-3" v-for="n in 4" :key="n">
-                        <div class="skeleton-stat"></div>
-                    </div>
-                </div>
-                <div class="skeleton-section mb-4"></div>
-                <div class="skeleton-section mb-4" style="height: 200px;"></div>
-                <div class="skeleton-section mb-4" style="height: 200px;"></div>
-            </div>
-        </template>
-
         <template v-if="!loading && !error">
             <div class="container-fluid py-3 bg-white my-4">
                 <div class="container">
@@ -53,7 +35,8 @@
                             <div class="d-flex">
                                 <div class="position-relative me-4">
                                     <img :src="'http://localhost:8000/storage/' + freelancerData.user?.profile_image || defaultAvatar"
-                                        class="rounded-circle" alt="Profile Picture" width="100" height="100">
+                                        class="rounded-circle object-fit-cover" alt="Profile Picture" width="100"
+                                        height="100">
                                 </div>
                                 <div>
                                     <h3 class="mb-1">{{ freelancerData.user?.name }}</h3>
@@ -271,17 +254,17 @@ const getInitials = (name) => {
 const stats = computed(() => [
     {
         title: 'Project Success',
-        value: freelancerData.value.work_experiences?.length || 0,
+        value: 0,
         icon: 'bi bi-bullseye text-success fs-4'
     },
     {
         title: 'Total Service',
-        value: 1,
+        value: 0,
         icon: 'bi bi-bar-chart text-success fs-4'
     },
     {
         title: 'Completed Service',
-        value: 1,
+        value: 0,
         icon: 'bi bi-check-circle text-success fs-4'
     },
     {
@@ -398,6 +381,8 @@ onMounted(() => {
 .freelancer-profile {
     font-family: 'Poppins', sans-serif;
     color: #333;
+    position: relative;
+    min-height: 200px;
 }
 
 .breadcrumb {
@@ -426,7 +411,7 @@ onMounted(() => {
 
 .loading-overlay {
     position: fixed;
-    top: 90px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -435,66 +420,6 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.skeleton-loading .skeleton-breadcrumb,
-.skeleton-loading .skeleton-header,
-.skeleton-loading .skeleton-avatar,
-.skeleton-loading .skeleton-info,
-.skeleton-loading .skeleton-stat,
-.skeleton-loading .skeleton-section {
-    background: #f0f0f0;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-}
-
-.skeleton-loading .skeleton-breadcrumb {
-    height: 20px;
-    width: 300px;
-    margin-bottom: 30px;
-}
-
-.skeleton-loading .skeleton-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-.skeleton-loading .skeleton-info {
-    height: 100px;
-    flex-grow: 1;
-}
-
-.skeleton-loading .skeleton-stat {
-    height: 80px;
-    margin-bottom: 15px;
-}
-
-.skeleton-loading .skeleton-section {
-    height: 150px;
-    margin-bottom: 30px;
-}
-
-@keyframes shimmer {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-.skeleton-loading>*::after {
-    content: '';
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    animation: shimmer 1.5s infinite;
 }
 
 @media (max-width: 768px) {

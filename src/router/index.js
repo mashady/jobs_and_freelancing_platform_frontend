@@ -6,6 +6,22 @@ import { useAuthStore } from '@/stores/authStore'
 
 const routes = [
   { path: '/', name: 'Home', component: () => import('@/pages/Home.vue') },
+    {
+  path: '/payment',
+  name: 'payment',
+  component: () => import('@/pages/payment.vue'),
+  props: (route) => ({
+    applicationId: route.query.application_id,
+    amount: route.query.amount,
+    jobTitle: route.query.job_title
+  })
+},
+{
+  path: '/update-application',
+  name: 'UpdateApplication',
+  component: () => import('@/pages/paySucc.vue'),
+},
+
   { path: '/jobs', name: 'Jobs', component: () => import('@/pages/JobsList.vue') },
   { path: '/projects', name: 'Projects', component: () => import('@/pages/Projects.vue') },
   { path: '/list-freelancers', name: 'Freelancers', component: () => import('@/pages/Freelancers.vue') },
