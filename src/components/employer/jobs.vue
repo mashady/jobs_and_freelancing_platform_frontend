@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div v-else class="border rounded p-4">
+    <div v-else class="border rounded p-4" style="background-color: #FFF;">
       <div class="row mb-4 align-items-center">
         <div class="col-md-4">
           <div class="input-group">
@@ -27,7 +27,10 @@
             <option value="oldest">Oldest</option>
           </select>
         </div>
-        <div class="col-md-2 text-end"> <button class="btn btn-primary" @click="openCreateJobModal"> Add Job
+        <div class="col-md-2 text-end"> <button class="btn" style="
+                      background-color: #5BBB7B;
+                      color: #FFF;
+                    " @click="openCreateJobModal"> Add Job
           </button>
         </div>
       </div>
@@ -37,7 +40,8 @@
       </div>
 
       <div v-else>
-        <div class="row fw-bold border-bottom py-2 d-none d-md-flex"> <div class="col-md-4">Title</div>
+        <div class="row fw-bold border-bottom py-2 d-none d-md-flex">
+          <div class="col-md-4">Title</div>
           <div class="col-md-2">Type</div>
           <div class="col-md-2">Salary</div>
           <div class="col-md-2">Status</div>
@@ -59,18 +63,30 @@
             <span class="badge" :class="statusClass(job.status)">
               {{ formatStatus(job.status) }}
             </span>
-            <br v-if="!job.is_active" class="d-md-none"> <span v-if="!job.is_active" class="badge bg-warning ms-md-2 mt-1 mt-md-0">Inactive</span>
+            <br v-if="!job.is_active" class="d-md-none"> <span v-if="!job.is_active" class="badge  ms-md-2 mt-1 mt-md-0"
+              style="
+        background: #F1FAFF !important;
+    color: #00A3FF !important;
+              ">Inactive</span>
             <span v-else class="badge bg-success ms-md-2 mt-1 mt-md-0">Active</span>
           </div>
           <div class="col-6 col-md-2 text-center">
             <div class="d-flex flex-column flex-md-row justify-content-center gap-2">
-              <button class="btn btn-sm btn-info text-white" @click="editJob(job)" title="Edit Job">
-                <i class="bi bi-pencil"></i> <span class="d-md-none">Edit</span>
+              <button class="btn text-white" style="
+                  background-color: #FFEDE8;
+                " @click="editJob(job)" title="Edit Job">
+                <i class="bi bi-pencil" style="
+                  color:#1F4B3F;
+                "></i> <span class="d-md-none">Edit</span>
               </button>
-              <button class="btn btn-sm btn-danger" @click="confirmDelete(job)" title="Delete Job">
-                <i class="bi bi-trash"></i> <span class="d-md-none">Delete</span>
+              <button class="btn " style="
+                  background-color: #FFEDE8;
+                " @click="confirmDelete(job)" title="Delete Job">
+                <i class="bi bi-trash" style="
+                  color:#1F4B3F;
+                "></i> <span class="d-md-none">Delete</span>
               </button>
-             
+
             </div>
           </div>
         </div>
@@ -92,8 +108,10 @@
       </nav>
     </div>
 
-    <div class="modal fade" id="createJobModal" tabindex="-1" aria-hidden="true" ref="createJobModal">
-      <div class="modal-dialog modal-lg">
+    <div style="
+      margin-top: 70px;
+    " class="modal fade" id="createJobModal" tabindex="-1" aria-hidden="true" ref="createJobModal">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">{{ editingJob ? 'Edit Job' : 'Create New Job' }}</h5>
@@ -171,7 +189,10 @@
                   <div class="input-group">
                     <input type="text" class="form-control" v-model="newSkill" placeholder="Add skill"
                       @keydown.enter.prevent="addSkill">
-                    <button class="btn btn-outline-secondary" type="button" @click="addSkill">
+                    <button class="btn" style="
+                      background-color: #5BBB7B;
+                      color: #FFF;
+                    " type="button" @click="addSkill">
                       Add
                     </button>
                   </div>
@@ -182,7 +203,10 @@
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                   Cancel
                 </button>
-                <button type="submit" class="btn btn-primary" :disabled="submitting">
+                <button type="submit" class="btn" style="
+                      background-color: #5BBB7B;
+                      color: #FFF;
+                    " :disabled="submitting">
                   <span v-if="submitting" class="spinner-border spinner-border-sm" role="status"></span>
                   {{ editingJob ? 'Update Job' : 'Create Job' }}
                 </button>
@@ -322,38 +346,38 @@ export default {
     })
   },
   methods: {
-async fetchJobs() {
-  try {
-    this.loading = true;
-    const token = localStorage.getItem('authToken');
+    async fetchJobs() {
+      try {
+        this.loading = true;
+        const token = localStorage.getItem('authToken');
 
-    if (!token) {
-      this.toast.error('Authentication token not found. Please log in.');
-      this.loading = false;
-      return;
-    }
+        if (!token) {
+          this.toast.error('Authentication token not found. Please log in.');
+          this.loading = false;
+          return;
+        }
 
-    const response = await axios.get('http://127.0.0.1:8000/api/myJobs', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        Accept: "application/json"
+        const response = await axios.get('http://127.0.0.1:8000/api/myJobs', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          }
+        });
+
+        // --- ADD THIS LOG ---
+        console.log('API Response for myJobs:', response.data);
+        console.log('Raw Jobs fetched:', response.data.data);
+        // --------------------
+
+        this.jobs = response.data.data;
+        this.filterAndSortJobs(); // Apply initial filter and sort
+      } catch (error) {
+        // ... (your existing error handling)
+      } finally {
+        this.loading = false;
       }
-    });
-
-    // --- ADD THIS LOG ---
-    console.log('API Response for myJobs:', response.data);
-    console.log('Raw Jobs fetched:', response.data.data);
-    // --------------------
-
-    this.jobs = response.data.data;
-    this.filterAndSortJobs(); // Apply initial filter and sort
-  } catch (error) {
-    // ... (your existing error handling)
-  } finally {
-    this.loading = false;
-  }
-}, 
+    },
 
     async fetchCategories() {
       try {
@@ -374,41 +398,41 @@ async fetchJobs() {
     },
 
     // Centralized function to apply all filters and sorts
-filterAndSortJobs() {
-  let tempJobs = [...this.jobs]; // Start with a copy of all jobs
+    filterAndSortJobs() {
+      let tempJobs = [...this.jobs]; // Start with a copy of all jobs
 
-  // --- ADD THIS LOG ---
-  console.log('Jobs before filtering:', tempJobs.length);
-  // --------------------
+      // --- ADD THIS LOG ---
+      console.log('Jobs before filtering:', tempJobs.length);
+      // --------------------
 
-  // Apply search filter
-  if (this.searchQuery) {
-    const query = this.searchQuery.toLowerCase();
-    tempJobs = tempJobs.filter(job =>
-      job.position_name.toLowerCase().includes(query) ||
-      job.location.toLowerCase().includes(query) ||
-      (job.skills && job.skills.some(skill => skill.name.toLowerCase().includes(query)))
-    );
-  }
+      // Apply search filter
+      if (this.searchQuery) {
+        const query = this.searchQuery.toLowerCase();
+        tempJobs = tempJobs.filter(job =>
+          job.position_name.toLowerCase().includes(query) ||
+          job.location.toLowerCase().includes(query) ||
+          (job.skills && job.skills.some(skill => skill.name.toLowerCase().includes(query)))
+        );
+      }
 
-  // --- ADD THIS LOG ---
-  console.log('Jobs after search filter (query:', this.searchQuery, '):', tempJobs.length);
-  // --------------------
+      // --- ADD THIS LOG ---
+      console.log('Jobs after search filter (query:', this.searchQuery, '):', tempJobs.length);
+      // --------------------
 
-  // Apply sorting
-  if (this.sortOption === 'newest') {
-    tempJobs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-  } else if (this.sortOption === 'oldest') {
-    tempJobs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-  }
+      // Apply sorting
+      if (this.sortOption === 'newest') {
+        tempJobs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      } else if (this.sortOption === 'oldest') {
+        tempJobs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      }
 
-  this.filteredJobs = tempJobs;
-  // --- ADD THIS LOG ---
-  console.log('Jobs after sorting (option:', this.sortOption, '):', this.filteredJobs.length);
-  console.log('filteredJobs array content:', this.filteredJobs);
-  // --------------------
-  this.currentPage = 1; // Reset to first page after filtering/sorting
-},
+      this.filteredJobs = tempJobs;
+      // --- ADD THIS LOG ---
+      console.log('Jobs after sorting (option:', this.sortOption, '):', this.filteredJobs.length);
+      console.log('filteredJobs array content:', this.filteredJobs);
+      // --------------------
+      this.currentPage = 1; // Reset to first page after filtering/sorting
+    },
     filterJobs() {
       this.filterAndSortJobs();
     },
@@ -559,6 +583,8 @@ filterAndSortJobs() {
 
 <style scoped>
 /* Your existing styles */
+
+
 .table {
   background-color: white;
 }
@@ -638,15 +664,18 @@ textarea.form-control {
   .job-item .d-flex.flex-column.flex-md-row {
     flex-direction: row !important;
     flex-wrap: wrap;
-    gap: 5px; /* Adjust gap for mobile buttons */
+    gap: 5px;
+    /* Adjust gap for mobile buttons */
   }
 
   .job-item .btn-sm span.d-md-none {
-    display: inline; /* Show button text on small screens */
+    display: inline;
+    /* Show button text on small screens */
   }
 
   .row.fw-bold.border-bottom.py-2.d-none.d-md-flex {
-    display: none !important; /* Hide header row on small screens */
+    display: none !important;
+    /* Hide header row on small screens */
   }
 }
 </style>

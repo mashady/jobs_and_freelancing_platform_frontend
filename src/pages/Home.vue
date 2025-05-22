@@ -35,7 +35,7 @@
     <FreelancerServicesSection />
     <MarketPlace />
     <FindTalentSection />
-    <Footer />
+    <!-- <Footer /> -->
   </div>
 
 </template>

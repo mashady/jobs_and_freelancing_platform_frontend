@@ -23,10 +23,11 @@
             </div>
 
             <div class="row fw-bold border-bottom py-2">
-                <div class="col-5">Job Details</div>
+                <div class="col-3">Job Details</div>
                 <div class="col-3">{{ userRole === 'freelancer' ? 'Employer' : 'Freelancer' }}</div>
                 <div class="col-2">Applied On</div>
                 <div class="col-2">Status</div>
+                <div class="col-1">Resume</div>
             </div>
 
             <div v-if="loading" class="text-center py-5">
@@ -46,7 +47,7 @@
             <div v-else>
                 <div v-for="application in filteredApplications" :key="application.id" class="border-bottom py-3">
                     <div class="row align-items-center">
-                        <div class="col-5">
+                        <div class="col-3">
                             <div v-if="userRole === 'freelancer'">
                                 <h6 class="mb-1">{{ application.job?.position_name }}</h6>
                                 <p class="text-muted mb-1 small">
@@ -98,6 +99,18 @@
                                 <option value="accepted">Approved</option>
                                 <option value="rejected">Rejected</option>
                             </select>
+                        </div>
+                        <div class="col-1 text-center">
+                            <button v-if="application.resume_path" class="btn  btn-sm">
+                                <!-- <i class="bi bi-download"></i> -->
+                                <a :href="'http://127.0.0.1:8000/storage/' + application.resume_path"
+                                    class="resumeDownload" target="_blank" rel="noopener">
+                                    view
+                                </a>
+
+                                <!-- {{ application.resume_path }} -->
+                            </button>
+                            <span v-else class="text-muted small">N/A</span>
                         </div>
                     </div>
 
