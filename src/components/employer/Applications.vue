@@ -1,8 +1,8 @@
 <template>
     <div class="container my-5">
-        <h1 class="mb-4">My Job Applications</h1>
 
         <div class="border rounded p-4">
+        <h2 class="mb-4 fw-bold">My Job Applications</h2>
             <div class="row mb-4 align-items-center">
                 <div class="col-md-6">
                     <div class="input-group">
