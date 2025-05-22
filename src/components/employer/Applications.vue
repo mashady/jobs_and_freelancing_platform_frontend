@@ -64,9 +64,6 @@
                                     <i class="bi bi-briefcase me-1"></i>
                                     {{ application.user?.freelancer_profile?.job_title || 'Freelancer' }}
                                 </p>
-                                <!-- <p class="text-muted mb-0 small">
-                                    <i class="bi bi-envelope me-1"></i>{{ application.user?.email }}
-                                </p> -->
                             </div>
                         </div>
 
@@ -101,23 +98,14 @@
                             </select>
                         </div>
                         <div class="col-1 text-center">
-                            <button v-if="application.resume_path" class="btn  btn-sm">
-                                <!-- <i class="bi bi-download"></i> -->
+                            <button v-if="application.resume_path" class="btn btn-sm">
                                 <a :href="'http://127.0.0.1:8000/storage/' + application.resume_path"
                                     class="resumeDownload" target="_blank" rel="noopener">
                                     view
                                 </a>
-
-                                <!-- {{ application.resume_path }} -->
                             </button>
                             <span v-else class="text-muted small">N/A</span>
                         </div>
-                    </div>
-
-                    <div class="mt-3">
-                        <!-- <button class="btn btn-sm btn-primary" @click="viewApplication(application.id)">
-                            <i class="bi bi-eye"></i> View
-                        </button> -->
                     </div>
                 </div>
             </div>
@@ -127,6 +115,7 @@
 
 <script>
 import axios from 'axios';
+import { useToast } from 'vue-toastification';
 
 export default {
     data() {
@@ -138,6 +127,10 @@ export default {
             sortOption: 'newest',
             userRole: 'employer'
         };
+    },
+    setup() {
+        const toast = useToast();
+        return { toast };
     },
     computed: {
         filteredApplications() {
@@ -179,7 +172,6 @@ export default {
     },
     async mounted() {
         await this.fetchApplications();
-
     },
     methods: {
         async fetchApplications() {
@@ -201,6 +193,7 @@ export default {
             }
         },
         searchApplications() {
+            // Search functionality is handled by the computed property
         },
         formatDate(dateString) {
             if (!dateString) return '';
@@ -217,6 +210,20 @@ export default {
         },
         async updateApplicationStatus(applicationId, status) {
             try {
+                // If status is being set to 'accepted', navigate to payment first and return
+                if (status === 'accepted') {
+                    const application = this.applications.find(app => app.id === applicationId);
+                    this.$router.push({
+                        name: 'payment', // Make sure your router has this route
+                        query: {
+                            application_id: applicationId,
+                            amount: application.job?.offered_salary,
+                            job_title: application.job?.position_name
+                        }
+                    });
+                    return; // Do not update status until payment is completed
+                }
+
                 const token = localStorage.getItem('authToken');
                 await axios.patch(
                     `http://127.0.0.1:8000/api/application-status/${applicationId}`,
@@ -233,19 +240,17 @@ export default {
                     this.applications[index].status = status;
                 }
 
-                this.$toast.success(`Application status updated to ${status}`);
+                this.toast.success(`Application status updated to ${status}`);
             } catch (error) {
                 console.error('Error updating application status:', error);
-                this.$toast.error(`Failed to update status: ${error.response?.data?.message || error.message}`);
+                this.toast.error(`Failed to update status: ${error.response?.data?.message || error.message}`);
 
                 const index = this.applications.findIndex(app => app.id === applicationId);
                 if (index !== -1) {
+                    // Revert the status change in UI if API call fails
                     this.applications[index].status = this.applications[index]._originalStatus;
                 }
             }
-        },
-        viewApplication(applicationId) {
-            this.$router.push(`/applications/${applicationId}`);
         }
     }
 };
@@ -265,5 +270,14 @@ export default {
 .btn-sm {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
+}
+
+.resumeDownload {
+    color: inherit;
+    text-decoration: none;
+}
+
+.resumeDownload:hover {
+    text-decoration: underline;
 }
 </style>
