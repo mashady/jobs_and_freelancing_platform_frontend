@@ -1,72 +1,75 @@
 <template>
-    <div class="row gap-5">
-        <!-- Posted Services Card -->
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body text-start">
-            <div class="service-card">
-              <div class="card-content">
-                <div class="card-title">Posted Services</div>
-                <div class="card-value">2</div>
-              </div>
-              <div class="card-icon">
-                <i class="bi bi-1-square"></i>
-              </div>
-            </div>
+  <div class="row gap-5 justify-content-start">
+    <div class="card p-2" style="width: 16rem;">
+      <div class="card-body text-start">
+        <div class="service-card">
+          <div class="card-content">
+            <div class="card-title">Total Job Postings</div>
+            <div class="card-value">{{ totalJobPostings }}</div>
           </div>
+          <div class="card-icon">
+            <i class="bi bi-briefcase-fill"></i> </div>
         </div>
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body text-start">
-            <div class="service-card">
-              <div class="card-content">
-                <div class="card-title">Completed Services</div>
-                <div class="card-value">2</div>
-              </div>
-              <div class="card-icon">
-                <i class="bi bi-check-circle-fill"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card p-2" style="width: 16rem;">
-          <div class="card-body text-start">
-            <div class="service-card">
-              <div class="card-content">
-                <div class="card-title">In Queue Services</div>
-                <div class="card-value">5</div>
-              </div>
-              <div class="card-icon">
-                <i class="bi bi-hourglass"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card col-lg-2 p-2" style="width: 16rem;">
-          <div class="card-body text-start">
-            <div class="service-card">
-              <div class="card-content">
-                <div class="card-title">Reviews</div>
-                <div class="card-value">1</div>
-              </div>
-              <div class="card-icon">
-                <i class="bi bi-chat-left-dots"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        
-        
-        <!-- Add more cards as needed -->
       </div>
+    </div>
+
+    <div class="card p-2" style="width: 16rem;">
+      <div class="card-body text-start">
+        <div class="service-card">
+          <div class="card-content">
+            <div class="card-title">Active Postings</div>
+            <div class="card-value">{{ activeJobPostings }}</div>
+          </div>
+          <div class="card-icon">
+            <i class="bi bi-journal-check"></i> </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-2" style="width: 16rem;">
+      <div class="card-body text-start">
+        <div class="service-card">
+          <div class="card-content">
+            <div class="card-title">Inactive Postings</div>
+            <div class="card-value">{{ inactiveJobPostings }}</div>
+          </div>
+          <div class="card-icon">
+            <i class="bi bi-journal-x"></i> </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
 </template>
 
 <script setup>
+import { computed, defineProps } from 'vue';
+
+const props = defineProps({
+  jobs: [],
+});
+
+const totalJobPostings = computed(() => {
+  return props.jobs.length;
+});
+
+const activeJobPostings = computed(() => {
+  return props.jobs.filter(job => job.is_active).length;
+
+});
+
+const inactiveJobPostings = computed(() => {
+  return props.jobs.filter(job => !job.is_active).length;
+
+});
+
+
 
 </script>
 
-<style>
-
-  .service-card {
+<style scoped>
+.service-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -81,11 +84,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4CAF50; /* Icon color */
-  font-size: 1.2rem; /* Icon size */
+  color: #4CAF50; 
+  font-size: 1.2rem; 
 }
 
-/* For SVG icons (npm package) */
 .card-icon svg {
   width: 1em;
   height: 1em;
@@ -106,5 +108,4 @@
   font-weight: bolder;
   color: #2E7D32;
 }
-  
 </style>
