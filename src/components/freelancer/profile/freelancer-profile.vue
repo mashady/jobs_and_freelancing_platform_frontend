@@ -1,6 +1,6 @@
 <template>
   <div class="container px-4 mb-3">
-    <!-- Loading spinner (same style as job applications page) -->
+
     <div v-if="isLoading" class="text-center py-5">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -214,7 +214,7 @@ const postProfile = async () => {
       work_experiences: freelancerProfile.value.work_experiences,
       educations: freelancerProfile.value.educations,
     };
-
+    console.log(payload);
     delete payload.user;
 
     let url = 'http://127.0.0.1:8000/api/freelancer-profiles';

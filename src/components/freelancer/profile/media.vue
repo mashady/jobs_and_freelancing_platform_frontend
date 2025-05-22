@@ -42,23 +42,23 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'validation-change']);
 
-const errors = ref({}); // Stores errors for this component
+const errors = ref({}); 
 
 const updateResumeAndValidate = (value) => {
   emit('update:modelValue', { ...props.modelValue, resume: value });
-  validateField('resume'); // Validate immediately on input
+  validateField('resume'); 
 };
 
 const validateField = (field) => {
   const value = props.modelValue[field];
   let errorMessage = '';
 
-  errors.value[field] = ''; // Clear previous error
+  errors.value[field] = '';
 
   if (field === 'resume') {
-    if (value && !isValidUrl(value)) { // 'nullable' means not required if empty, but if present, must be URL
+    if (value && !isValidUrl(value)) {
       errorMessage = 'The resume must be a valid URL.';
-    } else if (value && value.length > 2048) { // Assuming length check for URL string
+    } else if (value && value.length > 2048) { 
         errorMessage = 'The resume URL must not be greater than 2048 characters.';
     }
   }
@@ -81,7 +81,7 @@ const isValidUrl = (string) => {
 
 const validateAll = () => {
   let isValid = true;
-  errors.value = {}; // Clear all previous errors
+  errors.value = {}; 
 
   if (!validateField('resume')) {
     isValid = false;
@@ -95,7 +95,7 @@ defineExpose({
   validateAll,
 });
 
-// Watch for external changes to modelValue (e.g., parent loading data)
+
 watch(() => props.modelValue.resume, () => {
     validateAll();
 });
