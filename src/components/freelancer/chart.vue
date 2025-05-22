@@ -1,14 +1,14 @@
 <template>
-    <div class="p-2 rounded-2" style="background-color: white">
-      <Line
-        id="chartId"
-        :options="chartOptions"
-        :data="chartData"
-      />
-    </div>
-  </template>
+  <div class="p-2 rounded-2" style="background-color: white">
+    <Line
+      id="chartId"
+      :options="chartOptions"
+      :data="chartData"
+    />
+  </div>
+</template>
   
-  <script setup>
+<script setup>
   import { Line } from 'vue-chartjs'
   import { 
     Chart as ChartJS, 
@@ -86,4 +86,4 @@
       }
     }
   }
-  </script>
+</script>

@@ -1,6 +1,6 @@
 <template>
-  <div class="container my-5">
-    <h1 class="mb-4">My Jobs</h1>
+  <div class="container">
+    <h2 class="title text-start mt-3 ms-2 pb-4 fw-bolder">My Jobs</h2>
 
     <div v-if="loading" class="text-center">
       <div class="spinner-border text-primary" role="status">
