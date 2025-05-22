@@ -20,7 +20,7 @@
                             <p class="job-details">
                                 ${{ job.offered_salary }} | {{ job.category_id }} | {{ job.type }} | {{ job.location }}
                             </p>
-                            <p>{{ job.job_description }}</p>
+                            <!--  <p>{{ job.job_description }}</p> -->
                         </div>
                     </div>
                     <div class="job-actions">
@@ -33,7 +33,9 @@
 
                 <div :id="'acceptModal' + job.id" class="modal fade" tabindex="-1" aria-labelledby="acceptModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog" style="
+                        margin-top:100px
+                    ">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="acceptModalLabel">Accept Job</h5>
@@ -54,7 +56,9 @@
 
                 <div :id="'rejectModal' + job.id" class="modal fade" tabindex="-1" aria-labelledby="rejectModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog" style="
+                        margin-top:100px
+                    ">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="rejectModalLabel">Reject Job</h5>
@@ -78,7 +82,9 @@
         <!-- Success Modal -->
         <div v-if="showSuccessModal" class="modal fade show" tabindex="-1"
             style="display: block; background-color: rgba(0,0,0,0.5);">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="
+                        margin-top:100px
+                    ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Success</h5>
@@ -97,7 +103,9 @@
         <!-- Error Modal -->
         <div v-if="showErrorModal" class="modal fade show" tabindex="-1"
             style="display: block; background-color: rgba(0,0,0,0.5);">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="
+                        margin-top:100px
+                    ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Error</h5>
