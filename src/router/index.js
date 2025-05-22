@@ -21,6 +21,11 @@ const routes = [
   name: 'UpdateApplication',
   component: () => import('@/pages/paySucc.vue'),
 },
+{
+  path: '/:pathMatch(.*)*',
+  name: 'NotFound',
+  component: () => import('@/components/NotFound.vue')
+},
 
   { path: '/jobs', name: 'Jobs', component: () => import('@/pages/JobsList.vue') },
   { path: '/projects', name: 'Projects', component: () => import('@/pages/Projects.vue') },

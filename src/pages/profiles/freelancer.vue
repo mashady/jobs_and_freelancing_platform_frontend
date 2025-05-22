@@ -45,7 +45,7 @@
                                         <div class="me-3">
                                             <i class="bi bi-geo-alt"></i>
                                             <span class="ms-1">{{ freelancerData.city }}, {{ freelancerData.address
-                                            }}</span>
+                                                }}</span>
                                         </div>
                                         <div>
                                             <i class="bi bi-calendar"></i>
@@ -58,6 +58,12 @@
                         <!-- <div class="col-md-4 d-flex justify-content-end align-items-center">
                             <button class="btn btn-success me-2" @click="downloadCV">Download CV</button>
                         </div> -->
+                        <button class="btn btn-success me-2" @click="downloadCV">
+                            <a href="http://localhost:8000/storage/{{ freelancerData.resume }}" target="_blank"
+                                style="text-decoration: none; color: #fff;">
+                                Get Resume </a>
+                        </button>
+
                     </div>
                 </div>
             </div>
@@ -99,7 +105,7 @@
                                             <div
                                                 class="rounded-circle bg-light d-flex align-items-center justify-content-center edu-icon">
                                                 <span class="text-success fw-bold">{{ getInitials(edu.institution)
-                                                }}</span>
+                                                    }}</span>
                                             </div>
                                             <div class="position-absolute timeline-connector"
                                                 v-if="index < freelancerData.educations.length - 1"></div>
@@ -131,7 +137,7 @@
                                             <div
                                                 class="rounded-circle bg-light d-flex align-items-center justify-content-center exp-icon">
                                                 <span class="text-success fw-bold">{{ getInitials(exp.company_name)
-                                                }}</span>
+                                                    }}</span>
                                             </div>
                                             <div class="position-absolute timeline-connector"
                                                 v-if="index < freelancerData.work_experiences.length - 1"></div>
@@ -365,11 +371,11 @@ onMounted(() => {
     font-size: 13px;
 }
 
-.btn-success:hover {
+/* .btn-success:hover {
     background-color: #FFF;
     border-color: var(--theme-color);
-    color: var(--theme-color);
-}
+    color: var(--theme-color) !important;
+} */
 
 .timeline-connector {
     height: 100%;
