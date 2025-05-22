@@ -2,7 +2,7 @@
     <div class="container my-5">
 
         <div class="border rounded p-4">
-        <h2 class="mb-4 fw-bold">My Job Applications</h2>
+            <h2 class="mb-4 fw-bold">My Job Applications</h2>
             <div class="row mb-4 align-items-center">
                 <div class="col-md-6">
                     <div class="input-group">
@@ -23,8 +23,8 @@
             </div>
 
             <div class="row fw-bold border-bottom py-2">
-                <div class="col-3">Job Details</div>
-                <div class="col-3">{{ userRole === 'freelancer' ? 'Employer' : 'Freelancer' }}</div>
+                <div class="col-3">Details</div>
+                <div class="col-3">{{ userRole === 'freelancer' ? 'Employer' : 'Position' }}</div>
                 <div class="col-2">Applied On</div>
                 <div class="col-2">Status</div>
                 <div class="col-1">Resume</div>
