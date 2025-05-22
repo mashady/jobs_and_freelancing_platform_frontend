@@ -271,7 +271,7 @@ const props = defineProps({
       max_hourly_rate: null,
       english_level: '',
       payment_method: '',
-      resume: '', // Although resume is in media.vue, it's also part of the main profile object
+      resume: '', 
       user: {
         name: '',
       },
@@ -285,9 +285,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'validation-change']);
 
-const errors = ref({}); // Stores errors for this component
+const errors = ref({});
 
-// Helper to update nested properties in modelValue
 const updateField = (path, value) => {
   const newModelValue = { ...props.modelValue };
   const parts = path.split('.');
@@ -302,7 +301,7 @@ const updateField = (path, value) => {
   current[parts[parts.length - 1]] = value;
 
   emit('update:modelValue', newModelValue);
-  validateField(path); // Validate immediately on input
+  validateField(path); 
 };
 
 const validateField = (field) => {
@@ -314,7 +313,7 @@ const validateField = (field) => {
   }
 
   let errorMessage = '';
-  errors.value[field] = ''; // Clear previous error for this field
+  errors.value[field] = '';
 
   switch (field) {
     case 'user.name':
@@ -411,7 +410,7 @@ const validateField = (field) => {
       }
       break;
     case 'payment_method':
-      const validPayments = ['paypal', 'bank_transfer', 'crypto', 'other'];
+      const validPayments = ['paypal', 'bank_transfer', 'crypto', 'other','stripe'];
       if (!value) {
         errorMessage = 'The payment method is required.';
       } else if (!validPayments.includes(value)) {

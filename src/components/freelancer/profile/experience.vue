@@ -149,7 +149,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, nextTick, defineExpose } from 'vue'; // Removed 'watch'
+import { ref, defineProps, defineEmits, nextTick, defineExpose } from 'vue'; 
 
 const props = defineProps({
   modelValue: {
@@ -161,20 +161,18 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'validation-change']);
 
 const editingExperienceId = ref(null);
-const errors = ref({}); // Stores errors for each experience item, keyed by its ID
-const noExperienceError = ref(''); // For the 'work_experiences' => ['required'] rule
+const errors = ref({}); 
+const noExperienceError = ref(''); 
 
 const isEditing = (experienceItem) => editingExperienceId.value === experienceItem.id;
 
 const toggleEdit = (experienceItem) => {
-  // Clear errors for the item when collapsing it, or when opening it to give a fresh start.
-  // This helps prevent old errors from lingering if user fixes something and collapses.
-  if (isEditing(experienceItem)) { // If it's currently open and we're closing it
-    // Optionally validate before closing if you want to force valid before collapse
-    // but typically validation on blur/save is sufficient.
-  } else { // If we're opening it
+
+  if (isEditing(experienceItem)) { 
+
+  } else { 
     if (errors.value[experienceItem.id]) {
-      // Clear errors for this specific item when opening its accordion
+
       errors.value[experienceItem.id] = {};
     }
   }
@@ -189,8 +187,8 @@ const addExperience = () => {
     newExp,
   ]);
   editingExperienceId.value = newId;
-  noExperienceError.value = ''; // Clear array required error when adding an item
-  // Initialize errors for the new item as empty
+  noExperienceError.value = ''; 
+
   errors.value[newId] = {};
   nextTick(() => {
     document.getElementById(`position-${newId}`).focus();
@@ -203,24 +201,23 @@ const saveExperience = (index, experienceItem) => {
   if (isValidItem) {
     const newValue = [...props.modelValue];
     newValue[index] = { ...experienceItem };
-    editingExperienceId.value = null; // Collapse the accordion on save
+    editingExperienceId.value = null; 
     emit('update:modelValue', newValue);
-    // Don't call validateAll() here, let the parent trigger it on final submission.
-    // This is important to avoid immediate form invalidation.
+    
   } else {
-    editingExperienceId.value = experienceItem.id; // Keep accordion open if invalid
+    editingExperienceId.value = experienceItem.id; 
   }
 };
 
 const removeExperience = (index) => {
   const idToRemove = props.modelValue[index].id;
   const newValue = props.modelValue.filter((_, i) => i !== index);
-  emit('update:modelValue', newValue); // This correctly updates the parent's modelValue
+  emit('update:modelValue', newValue); 
   delete errors.value[idToRemove];
   if (editingExperienceId.value === idToRemove) {
     editingExperienceId.value = null;
   }
-  validateAll(); // This also triggers validation
+  validateAll();
 };
 
 const validateField = (itemId, field) => {
@@ -233,7 +230,7 @@ const validateField = (itemId, field) => {
   if (!errors.value[itemId]) {
     errors.value[itemId] = {};
   }
-  // Clear previous error for this specific field
+
   errors.value[itemId][field] = '';
 
   switch (field) {
@@ -246,8 +243,8 @@ const validateField = (itemId, field) => {
       }
       break;
     case 'description':
-      // Backend: ['nullable', 'string', 'max:1000']
-      if (value && value.length > 1000) {
+
+    if (value && value.length > 1000) {
         errorMessage = `The ${field} must not be greater than 1000 characters.`;
       }
       break;
@@ -257,15 +254,15 @@ const validateField = (itemId, field) => {
       } else {
         const startDate = new Date(value);
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Normalize to start of day
+        today.setHours(0, 0, 0, 0); 
         if (startDate > today) {
           errorMessage = 'The start date must be a date before or equal to today.';
         }
       }
       break;
     case 'end_date':
-      // Backend: ['nullable', 'date', 'after_or_equal:start_date']
-      if (value) { // Only validate if a value is provided for end_date
+
+    if (value) { 
         const endDate = new Date(value);
         const startDate = item.start_date ? new Date(item.start_date) : null;
 
@@ -283,7 +280,7 @@ const validateField = (itemId, field) => {
   return true;
 };
 
-// This function validates all fields of a *single* experience item
+
 const validateAllFieldsForExperienceItem = (itemId) => {
   const item = props.modelValue.find(exp => exp.id === itemId);
   if (!item) return true;
@@ -298,25 +295,23 @@ const validateAllFieldsForExperienceItem = (itemId) => {
   return isValid;
 };
 
-// This function is exposed and called by the parent component on form submission
+
 const validateAll = () => {
   let isValid = true;
-  // Clear general array error message first
+
   noExperienceError.value = '';
 
-  // Case 1: Check if any experience entries are required
-  // If your backend requires at least one experience:
+
   if (props.modelValue.length === 0) {
     noExperienceError.value = 'At least one work experience entry is required.';
     isValid = false;
   } else {
-    // If there are entries, clear the general array error
+
     noExperienceError.value = '';
-    // Then validate each individual experience item
+
     for (const exp of props.modelValue) {
-      // Validate all fields for each item and update its specific errors
       if (!validateAllFieldsForExperienceItem(exp.id)) {
-        isValid = false; // If any item is invalid, the overall form is invalid
+        isValid = false;
       }
     }
   }
@@ -328,18 +323,12 @@ const hasErrorsForExperience = (itemId) => {
   return errors.value[itemId] && Object.values(errors.value[itemId]).some(error => error !== '');
 };
 
-// Expose validateAll so the parent can call it
 defineExpose({
   validateAll,
-  // Expose errors and noExperienceError so parent can inject backend errors
   errors,
   noExperienceError
 });
 
-// REMOVED THE WATCH EFFECT HERE:
-// watch(() => props.modelValue, () => {
-//     validateAll();
-// }, { deep: true });
 </script>
 
 <style scoped>
