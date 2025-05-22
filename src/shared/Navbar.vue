@@ -26,7 +26,7 @@
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Browse Jobs
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu z-5">
                 <li><a class="dropdown-item" href="/projects">Projects</a></li>
                 <li><a class="dropdown-item" href="/jobs">Jobs</a></li>
               </ul>

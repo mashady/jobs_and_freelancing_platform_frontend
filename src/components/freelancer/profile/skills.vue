@@ -44,21 +44,21 @@ import { ref, defineProps, defineEmits, defineExpose } from 'vue'; // Removed 'w
 const props = defineProps({
   modelValue: {
     type: Array,
-    default: () => [], // Expects an array of strings
+    default: () => [], 
   },
 });
 
 const emit = defineEmits(['update:modelValue', 'validation-change']);
 
 const newSkillName = ref('');
-const newSkillError = ref(''); // Error for the input field itself (e.g., empty, duplicate)
-const skillsArrayError = ref(''); // Error for the overall skills array (e.g., required, invalid individual skill)
+const newSkillError = ref(''); 
+const skillsArrayError = ref(''); 
 
 const clearNewSkillError = () => {
   newSkillError.value = '';
 };
 
-// Added a function to validate the individual input field
+
 const validateNewSkillInput = () => {
   newSkillError.value = '';
   const trimmedSkill = newSkillName.value.trim();
@@ -67,7 +67,7 @@ const validateNewSkillInput = () => {
     newSkillError.value = 'Skill name cannot be empty.';
     return false;
   }
-  if (trimmedSkill.length < 2 || trimmedSkill.length > 50) { // Example client-side length validation
+  if (trimmedSkill.length < 2 || trimmedSkill.length > 50) { 
       newSkillError.value = 'Skill must be between 2 and 50 characters.';
       return false;
   }
@@ -80,41 +80,39 @@ const validateNewSkillInput = () => {
 
 
 const addSkill = () => {
-  if (!validateNewSkillInput()) { // Use the new validation function
-    return; // Don't add if input is invalid
+  if (!validateNewSkillInput()) { 
+    return; 
   }
 
   const trimmedSkill = newSkillName.value.trim();
 
-  // Emit an updated array including the new skill
+  
   emit('update:modelValue', [...props.modelValue, trimmedSkill]);
-  newSkillName.value = ''; // Clear the input
-  validateAll(); // Re-validate the array after adding to update parent's validity
+  newSkillName.value = ''; 
+  validateAll(); 
 };
 
 const removeSkill = (index) => {
-  // Emit an updated array excluding the skill at the given index
   const updatedSkills = props.modelValue.filter((_, i) => i !== index);
   emit('update:modelValue', updatedSkills);
-  validateAll(); // Re-validate the array after removing
+  validateAll(); 
 };
 
 const validateAll = () => {
   let isValid = true;
-  skillsArrayError.value = ''; // Clear previous array error
+  skillsArrayError.value = ''; 
 
   if (props.modelValue.length === 0) {
     skillsArrayError.value = 'At least one skill is required.';
     isValid = false;
   } else {
-    // Crucial: Validate each individual skill in the array
     for (const skill of props.modelValue) {
       if (!skill || skill.trim() === '') {
         skillsArrayError.value = 'Skills cannot be empty.';
         isValid = false;
         break;
       }
-      if (skill.trim().length < 2 || skill.trim().length > 50) { // Example: Match backend length rules
+      if (skill.trim().length < 2 || skill.trim().length > 50) { 
         skillsArrayError.value = 'Each skill must be between 2 and 50 characters.';
         isValid = false;
         break;
@@ -135,16 +133,15 @@ defineExpose({
 </script>
 
 <style scoped>
-/* Your component-specific styles */
 .badge {
   padding: 0.6em 0.8em;
   font-size: 0.9em;
   border-radius: 0.375rem;
-  background-color: #0d6efd !important; /* Bootstrap primary color, matches default badge */
+  background-color: #0d6efd !important; 
 }
 
 .btn-close-white {
-  filter: invert(1) grayscale(100%) brightness(200%); /* Makes it visible on dark background */
+  filter: invert(1) grayscale(100%) brightness(200%); 
   font-size: 0.6em;
 }
 
@@ -165,8 +162,7 @@ defineExpose({
   box-shadow: none;
 }
 
-/* For invalid-feedback to always show when needed, particularly outside input-group */
 .input-group .invalid-feedback {
-    display: block; /* Overrides default .invalid-feedback for input-group */
+    display: block;
 }
 </style>

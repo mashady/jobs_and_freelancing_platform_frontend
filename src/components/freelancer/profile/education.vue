@@ -83,15 +83,14 @@
 
                 <div class="mb-3">
                   <label :for="'description-' + edu.id" class="form-label">Description</label>
-                  <input
-                    type="text"
+                  <textarea
                     :id="'description-' + edu.id"
                     class="form-control"
                     :class="{ 'is-invalid': errors[edu.id]?.description }"
                     v-model="edu.description"
                     @input="validateField(edu.id, 'description')"
                     @blur="validateField(edu.id, 'description')"
-                  >
+                    rows="3" ></textarea>
                   <div v-if="errors[edu.id]?.description" class="invalid-feedback">
                     {{ errors[edu.id].description }}
                   </div>
@@ -179,15 +178,14 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'validation-change']);
 
 const editingEducationId = ref(null);
-const errors = ref({}); // Stores errors for each education item, keyed by its ID
-const noEducationError = ref(''); // For the 'educations' => ['required'] rule
+const errors = ref({}); 
+const noEducationError = ref(''); 
 
 const isEditing = (educationItem) => editingEducationId.value === educationItem.id;
 
 const toggleEdit = (educationItem) => {
   editingEducationId.value = isEditing(educationItem) ? null : educationItem.id;
   if (editingEducationId.value) {
-    // When expanding, clear errors for this item if any were there
     if (errors.value[educationItem.id]) {
       errors.value[educationItem.id] = {};
     }
@@ -195,33 +193,33 @@ const toggleEdit = (educationItem) => {
 };
 
 const addEducation = () => {
-  const newId = Date.now(); // Unique ID for new entries
+  const newId = Date.now();
   const newEdu = { id: newId, institution: '', degree: '', field_of_study: '', description:'', start_date: '', end_date: '' };
   emit('update:modelValue', [
     ...props.modelValue,
     newEdu,
   ]);
   editingEducationId.value = newId;
-  noEducationError.value = ''; // Clear array required error when adding an item
-  // After DOM updates, focus on the new input
+  noEducationError.value = ''; 
+  
   nextTick(() => {
     document.getElementById(`institution-${newId}`).focus();
   });
 };
 
 const saveEducation = (index, educationItem) => {
-  // Validate all fields for the current item before saving
+  
   const isValidItem = validateAllFieldsForEducationItem(educationItem.id);
 
   if (isValidItem) {
     const newValue = [...props.modelValue];
     newValue[index] = { ...educationItem };
-    editingEducationId.value = null; // Collapse after saving
+    editingEducationId.value = null; 
     emit('update:modelValue', newValue);
-    // After saving, re-validate the entire list to update parent
+    
     validateAll();
   } else {
-    // If invalid, keep it open and visible
+    
     editingEducationId.value = educationItem.id;
   }
 };
@@ -230,12 +228,12 @@ const removeEducation = (index) => {
   const idToRemove = props.modelValue[index].id;
   const newValue = props.modelValue.filter((_, i) => i !== index);
   emit('update:modelValue', newValue);
-  // Remove errors associated with the deleted item
+  
   delete errors.value[idToRemove];
   if (editingEducationId.value === idToRemove) {
     editingEducationId.value = null;
   }
-  // After removal, re-validate the entire list to update parent
+  
   validateAll();
 };
 
@@ -246,7 +244,7 @@ const validateField = (itemId, field) => {
   const value = item[field];
   let errorMessage = '';
 
-  // Clear previous error for this field
+  
   if (!errors.value[itemId]) {
     errors.value[itemId] = {};
   }
@@ -262,14 +260,14 @@ const validateField = (itemId, field) => {
       }
       break;
     case 'description':
-      if (!value) { // Based on Laravel's 'required' for description in store, though update is nullable
+      if (!value) { 
         errorMessage = `The ${field} is required.`;
-      } else if (value.length > 255) { // Max 255 as per Laravel store rules
+      } else if (value.length > 255) { 
         errorMessage = `The ${field} must not be greater than 255 characters.`;
       }
       break;
     case 'field_of_study':
-      if (value && value.length > 1000) { // Nullable, max 1000
+      if (value && value.length > 1000) { 
         errorMessage = `The ${field} must not be greater than 1000 characters.`;
       }
       break;
@@ -279,7 +277,7 @@ const validateField = (itemId, field) => {
       } else {
         const startDate = new Date(value);
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Normalize today for comparison
+        today.setHours(0, 0, 0, 0); 
         if (startDate > today) {
           errorMessage = 'The start date must be a date before or equal to today.';
         }
@@ -304,10 +302,9 @@ const validateField = (itemId, field) => {
   return true;
 };
 
-// Validates all fields for a single education item
 const validateAllFieldsForEducationItem = (itemId) => {
   const item = props.modelValue.find(edu => edu.id === itemId);
-  if (!item) return true; // Should not happen
+  if (!item) return true; 
 
   let isValid = true;
   const fields = ['institution', 'degree', 'field_of_study', 'description', 'start_date', 'end_date'];
@@ -319,10 +316,9 @@ const validateAllFieldsForEducationItem = (itemId) => {
   return isValid;
 };
 
-// Validates the entire education array
 const validateAll = () => {
   let isValid = true;
-  errors.value = {}; // Clear all previous errors
+  errors.value = {}; 
 
   if (props.modelValue.length === 0) {
     noEducationError.value = 'At least one education entry is required.';
@@ -339,26 +335,26 @@ const validateAll = () => {
   return isValid;
 };
 
-// Helper to check if any errors exist for a specific education item
+
 const hasErrorsForEducation = (itemId) => {
   return errors.value[itemId] && Object.values(errors.value[itemId]).some(error => error !== '');
 };
 
-// Expose validateAll to the parent component
+
 defineExpose({
   validateAll,
-  // You might also expose `errors` if the parent needs to directly access them for display purposes
-  // errors: errors
+  
+  
 });
 
-// Watch modelValue changes to re-run validation if necessary (e.g., when an item is added or removed)
+
 watch(() => props.modelValue, () => {
-    validateAll(); // Re-validate the entire array when items are added/removed
-}, { deep: true }); // Use deep watch to detect changes within array objects
+    validateAll(); 
+}, { deep: true }); 
 </script>
 
 <style scoped>
-/* Your component-specific styles */
+
 .accordion-button:not(.collapsed) {
   background-color: #f8f9fa;
 }
